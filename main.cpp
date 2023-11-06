@@ -1,23 +1,34 @@
 #include <SFML/Graphics.hpp>
+#include "GameWindow.h"
+#include "GameObject.h"
+
+using namespace sf;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    GameWindow window;
+    GameObject ball('c');
+    GameObject brick('r');
 
-    while (window.isOpen())
+    brick.setSize(500, 200);
+    brick.setPos(500.f, 200.f);
+
+    ball.setSize(100, 100);
+    
+
+    while (window.w_window->isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
+        Event event;
+        while (window.w_window->pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
+            if (event.type == Event::Closed)
+                window.w_window->close();
         }
 
-        window.clear();
-        window.draw(shape);
-        window.display();
+        window.w_window->clear();
+        window.DrawObject(&ball);
+        window.DrawObject(&brick);
+        window.w_window->display();
     }
 
     return 0;
