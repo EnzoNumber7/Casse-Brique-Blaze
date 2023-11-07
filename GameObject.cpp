@@ -1,29 +1,94 @@
 #include "GameObject.h"
+#include "GameWindow.h"
 #include <SFML/Graphics.hpp>
+#include <cmath>
+#include <iostream>
 
 using namespace sf;
+using namespace std;
 
 GameObject::GameObject(char shape) {
 	o_height = 0;
 	o_width = 0;
 	o_posX = 0.f;
 	o_posY = 0.f;
+	o_directionX = 0.f;
+	o_directionY = 0.f;
 	
 	if (shape == 'c') {
-		o_shape = new CircleShape(20.f);
+		o_shape = new CircleShape(1.f);
 	}
 	else if (shape == 'r') {
-		o_shape = new RectangleShape(Vector2f(120.f, 50.f));
+		o_shape = new RectangleShape(Vector2f(1.f, 1.f));
 	}
 }
 
-void GameObject::setPos(float posX, float posY) {
+void GameObject::SetPos(float posX, float posY) {
 	o_posX = posX;
 	o_posY = posY;
 	o_shape->setPosition(posX, posY);
 }
 
-void GameObject::setSize(int width, int height) {
+void GameObject::SetSize(int width, int height) {
 	o_width = width;
 	o_height = height;
+	o_shape->setScale(width, height);
+}
+
+void GameObject::SetColor(int r, int g, int b) {
+	o_shape->setFillColor(Color(r, g, b));
+}
+
+void GameObject::Move(float deltaTime) {
+	o_posX += o_directionX * deltaTime * 100.0f;
+	o_posY += o_directionY * deltaTime * 100.0f;
+	o_shape->setPosition(o_posX, o_posY);
+}
+
+void GameObject::SetOrigin(float x, float y){
+	o_shape->setOrigin(x, y);
+}
+
+void GameObject::SetOrientation(int x, int y)
+{
+	float	orientation;
+
+	orientation = -atan2(x - o_posX, y - o_posY) * 180 / 3.14159;
+	o_shape->setRotation(orientation);
+}
+
+/*
+void GameObject::SetOrientation(GameWindow* window){
+	float	orientation;
+
+	orientation = -atan2(Mouse::getPosition(*window->w_window).x - o_posX, Mouse::getPosition(*window->w_window).y - o_posY) * 180 / 3.14159;
+	o_shape->setRotation(orientation);
+}
+*/
+
+void GameObject::SetDirection(float dirX, float dirY) {
+	o_directionX = dirX / sqrt(pow(dirX,2)+pow(dirY,2));
+	o_directionY = dirY / sqrt(pow(dirX, 2) + pow(dirY, 2));
+
+}
+
+char GameObject::IsColliding(GameObject* Object) {
+	if (o_posX+o_width <= Object->o_posX and (Object->o_posY <= o_posY+o_height or Object->o_posY+Object->o_height >= o_posY)) {
+		cout << "SUUUUUUUUUUUUUUI" << endl;
+		return 'r';
+	}
+	else if (o_posX <= Object->o_posX + Object->o_width and (Object->o_posY <= o_posY + o_height or Object->o_posY + Object->o_height >= o_posY)) {
+		cout << "WOUHOU" << endl;
+		return 'l';
+	}
+	else if (o_posY <= Object->o_posY + Object->o_height and (Object->o_posX <= o_posX + o_width or Object->o_posX + Object->o_width >= o_posX)) {
+		cout << "NICE" << endl;
+		return 'u';
+	}
+	else if (o_posY+o_height <= Object->o_posY and (Object->o_posX <= o_posX + o_width or Object->o_posX + Object->o_width >= o_posX)) {
+		cout << "STONKS" << endl;
+		return 'd';
+	}
+	else return 'n'; 
+
 }

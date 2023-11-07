@@ -6,15 +6,19 @@ using namespace sf;
 
 class GameWindow
 {
-	int					w_width;
-	int					w_height;
+private:
+	float				w_width;
+	float				w_height;
 	const char*			w_name;
 
 public:
 	RenderWindow		*w_window;
+	GameObject*			w_borders;
 
 	void				DrawObject(GameObject *gameObject);
 	void				RefreshScreen();
+	float				GetWidth();
+	float				GetHeight();
 
 	GameWindow();
 };

@@ -5,17 +5,25 @@
 using namespace sf;
 
 GameWindow::GameWindow(){
-	this->w_width = 800;
-	this->w_height = 600;
-	this->w_name = "SFML Brick Breaker";
+	w_width = 800.f;
+	w_height = 600.f;
+	w_name = "SFML Brick Breaker";
 
-	this->w_window = new sf::RenderWindow(sf::VideoMode(this->w_width, this->w_height), this->w_name);
+	w_window = new sf::RenderWindow(sf::VideoMode(w_width, w_height), w_name);
 }
 
 void	GameWindow::DrawObject(GameObject *gameObject){
-	this->w_window->draw(*gameObject->o_shape);
+	w_window->draw(*gameObject->o_shape);
 }
 
 void	GameWindow::RefreshScreen(){
-	this->w_window->clear();
+	w_window->clear();
+}
+
+float GameWindow::GetWidth() {
+	return w_width;
+}
+
+float GameWindow::GetHeight() {
+	return w_height;
 }
