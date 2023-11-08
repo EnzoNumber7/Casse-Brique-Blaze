@@ -73,22 +73,20 @@ void GameObject::SetDirection(float dirX, float dirY) {
 }
 
 char GameObject::IsColliding(GameObject* Object) {
-	if (o_posX+o_width <= Object->o_posX and (Object->o_posY <= o_posY+o_height or Object->o_posY+Object->o_height >= o_posY)) {
-		cout << "SUUUUUUUUUUUUUUI" << endl;
-		return 'r';
-	}
-	else if (o_posX <= Object->o_posX + Object->o_width and (Object->o_posY <= o_posY + o_height or Object->o_posY + Object->o_height >= o_posY)) {
-		cout << "WOUHOU" << endl;
-		return 'l';
-	}
-	else if (o_posY <= Object->o_posY + Object->o_height and (Object->o_posX <= o_posX + o_width or Object->o_posX + Object->o_width >= o_posX)) {
-		cout << "NICE" << endl;
+	if (o_posY+o_height/2 >= Object->o_posY-Object->o_height/2 and o_posY-o_height / 2 <= Object->o_posY+Object->o_height/2 and o_posX+o_width/2 >=Object->o_posX-Object->o_width/2 and o_posX-o_width/2 <= Object->o_posX+Object->o_width/2) {
+		if (o_posX + o_width / 2 >= Object->o_posX - Object->o_width / 2 and o_posX <= Object->o_posX) {
+			cout << "left" << endl;
+			return 'l';
+		}
+		else if (o_posX - o_width / 2 <= Object->o_posX + Object->o_width / 2 and o_posX >= Object->o_posX) {
+			cout << "right" << endl;
+			return 'r';
+		}
+		else if (o_posY + o_height / 2 >= Object->o_posY - Object->o_height / 2 and o_posY <= Object->o_posY) {
+			cout << "bas" << endl;
+			return 'd';
+		}
 		return 'u';
 	}
-	else if (o_posY+o_height <= Object->o_posY and (Object->o_posX <= o_posX + o_width or Object->o_posX + Object->o_width >= o_posX)) {
-		cout << "STONKS" << endl;
-		return 'd';
-	}
-	else return 'n'; 
 
 }

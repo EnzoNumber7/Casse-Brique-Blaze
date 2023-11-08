@@ -23,15 +23,15 @@ int main()
     brick.SetOrigin(0.5f,0.f);
 
     rect1.SetSize(50, 50);
+    rect1.SetPos(100, 100);
+    rect1.SetOrigin(0.5f, 0.5f);
     rect1.SetDirection(0, 1);
 
     rect2.SetSize(50, 50);
-    rect2.SetPos(0, 500);
+    rect2.SetPos(100,400);
+    rect2.SetOrigin(0.5f, 0.5f);
 
-
-
-    
-
+    window.GenerateBorders();
     while (window.w_window->isOpen())
     {
         Event event;
