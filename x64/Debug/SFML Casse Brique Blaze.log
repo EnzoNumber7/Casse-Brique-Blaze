@@ -1,5 +1,12 @@
 ﻿  Game.cpp
+  GameObject.cpp
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\GameObject.cpp(56,53): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\GameObject.cpp(61,22): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\GameObject.cpp(62,22): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+  GameWindow.cpp
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\GameWindow.cpp(12,57): warning C4244: 'argument' : conversion de 'float' en 'unsigned int', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\GameWindow.cpp(12,48): warning C4244: 'argument' : conversion de 'float' en 'unsigned int', perte possible de données
   main.cpp
   Génération de code en cours...
-C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(49): warning C4715: 'Game::NewBall' : les chemins de contrôle ne retournent pas tous une valeur
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(55): warning C4715: 'Game::NewBall' : les chemins de contrôle ne retournent pas tous une valeur
   SFML Casse Brique Blaze.vcxproj -> C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe

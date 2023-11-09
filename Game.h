@@ -13,13 +13,15 @@ public:
 	float						g_deltaTime;
 	GameObject*					g_currentBall;
 	std::vector<GameObject*>	g_remainingBalls;
+	std::vector<GameObject*>	g_bricks;
 	int							g_ballNum;
 
 	Game();
 
-	void			CloseWindow();
-	void			HandleEvents();
-	int				NewBall();
-	void			RefreshWindow();
+	void						CloseWindow();
+	void						HandleEvents();
+	int							NewBall();
+	void						DestroyBall();
+	void						RefreshWindow();
 };
 

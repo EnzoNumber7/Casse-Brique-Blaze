@@ -18,7 +18,7 @@ public:
 	GameObject			*w_borders[4];
 
 	void				DrawObject(GameObject *gameObject);
-	void				RefreshScreen();
+	void				RefreshScreen();   
 	float				GetWidth();
 	float				GetHeight();
 	void				GenerateBorders();

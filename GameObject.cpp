@@ -67,30 +67,34 @@ char GameObject::IsColliding(GameObject* Object) {
 	if (o_posY+o_height/2 >= Object->o_posY-Object->o_height/2 and o_posY-o_height / 2 <= Object->o_posY+Object->o_height/2 and o_posX+o_width/2 >=Object->o_posX-Object->o_width/2 and o_posX-o_width/2 <= Object->o_posX+Object->o_width/2) {
 		float overlapLR = min(o_posY + o_height / 2, Object->o_posY + Object->o_height / 2) - max(o_posY - o_height / 2, Object->o_posY - Object->o_height / 2);
 		float overlapUD = min(o_posX + o_width / 2, Object->o_posX + Object->o_width / 2) - max(o_posX - o_width / 2, Object->o_posX - Object->o_width / 2);
-		//cout << overlapLR << "  ud:" << overlapUD << endl;
 		if (overlapLR > overlapUD) {
 			if (o_posX + o_width / 2 >= Object->o_posX - Object->o_width / 2 and o_posX <= Object->o_posX) {
-				cout << "left" << endl;
 				return 'l';
 			}
 			else {
-				cout << "right" << endl;
 				return 'r';
 			}
 		}
 		else if (overlapLR < overlapUD) {
 			if (o_posY + o_height / 2 >= Object->o_posY - Object->o_height / 2 and o_posY <= Object->o_posY) {
-				cout << "UP"<<endl;
 				return 'u';
 			}
 			else {
-				cout << "down" << endl;
 				return 'd';
 			}
 		}
-		
-		
-		return 'u';
-	}
 
+	}
+	return 'n';
+}
+
+void GameObject::Rebound(char direction, float deltaTime) {
+	if (direction == 'l' or direction == 'r') {
+		o_directionX = -o_directionX;
+		Move(deltaTime);
+	}
+	else if (direction == 'u' or direction == 'd') {
+		o_directionY = -o_directionY;
+		Move(deltaTime);
+	}
 }
