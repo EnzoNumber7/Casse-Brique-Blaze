@@ -83,6 +83,7 @@ char GameObject::IsColliding(GameObject* Object) {
 				return 'd';
 			}
 		}
+		else return 'c';
 
 	}
 	return 'n';
@@ -95,6 +96,11 @@ void GameObject::Rebound(char direction, float deltaTime) {
 	}
 	else if (direction == 'u' or direction == 'd') {
 		o_directionY = -o_directionY;
+		Move(deltaTime);
+	}
+	else if (direction == 'c') {
+		o_directionY = -o_directionY;
+		o_directionX = -o_directionX;
 		Move(deltaTime);
 	}
 }

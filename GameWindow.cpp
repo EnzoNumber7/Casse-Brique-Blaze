@@ -15,7 +15,7 @@ GameWindow::GameWindow(){
 void	GameWindow::DrawObject(GameObject *gameObject){
 	w_window->draw(*gameObject->o_shape);
 }
-
+/*
 void	GameWindow::SetBorder(GameObject *border, char id){
 	switch(id){
 	case('l'):
@@ -57,7 +57,7 @@ void	GameWindow::GenerateBorders() {
 	w_borders[2] = rightWall;	
 	w_borders[3] = downWall;
 }
-
+*/
 void	GameWindow::RefreshScreen(){
 	w_window->clear();
 }

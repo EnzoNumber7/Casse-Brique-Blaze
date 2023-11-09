@@ -7,13 +7,12 @@ using namespace sf;
 class GameWindow
 {
 private:
-	float				w_width;
-	float				w_height;
 	const char*			w_name;
 
-	void				SetBorder(GameObject* border, char id);
-
 public:
+
+	float				w_width;
+	float				w_height;
 	RenderWindow		*w_window;
 	GameObject			*w_borders[4];
 
