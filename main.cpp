@@ -19,6 +19,7 @@ int main()
     game.GenerateBorders();
     while (game.g_isRunning)
     {
+
         game.HandleEvents();
         game.g_canon->SetOrientation(Mouse::getPosition(*game.g_window->w_window).x, Mouse::getPosition(*game.g_window->w_window).y);
         
@@ -28,7 +29,7 @@ int main()
             if (game.g_currentBall->IsColliding(game.g_bricks.at(i)) == 'n') {
                 game.g_currentBall->Move(game.g_deltaTime);
             }
-            else game.g_currentBall->Rebound();
+            else game.g_currentBall->Rebound('c', game.g_deltaTime);
         }
 
         game.RefreshWindow();

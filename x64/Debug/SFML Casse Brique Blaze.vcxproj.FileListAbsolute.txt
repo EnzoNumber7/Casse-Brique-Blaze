@@ -1,2 +1,3 @@
 C:\Users\Julie\source\repos\SFML Casse Brique Blaze\x64\Debug\SFML Casse Brique Blaze.exe
 C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe
+C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe

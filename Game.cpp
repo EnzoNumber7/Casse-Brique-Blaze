@@ -6,7 +6,6 @@
 
 Game::Game(){
 	g_window = new GameWindow();
-	g_window->GenerateBorders();
 	g_deltaTime = 0.f;
 	g_isRunning = true;
 	g_ballNum = 99;
@@ -51,13 +50,14 @@ void	Game::RefreshWindow(){
 
 int	Game::NewBall(){
 	if (g_remainingBalls.empty())
-		return (1);
+		return 1;
 	g_currentBall = g_remainingBalls.at(0);
 	g_remainingBalls.pop_back();
 	g_currentBall->SetSize(20, 20);
 	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight());
 	g_currentBall->SetOrigin(0.5f, 0.5f);
 	g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_currentBall->o_posX, Mouse::getPosition(*g_window->w_window).y - g_currentBall->o_posY);
+	return 0;
 }
 
 void	Game::GenerateTerrain(){
@@ -72,9 +72,10 @@ void	Game::GenerateTerrain(){
 }
 
 void	Game::GenerateCanon(){
-	GameObject* g_canon = new GameObject('r');
+	g_canon = new GameObject('r');
 	g_canon->SetSize(50, 100);
 	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight());
+	
 }
 
 
