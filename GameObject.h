@@ -10,8 +10,8 @@ class GameObject{
 private:
 	float		o_posX;
 	float		o_posY;
-	int			o_width;
-	int			o_height;
+	float		o_width;
+	float		o_height;
 	float		o_directionX;
 	float		o_directionY;
 
@@ -22,7 +22,7 @@ public:
 
 	void		SetColor(int r, int g, int b);
 	void		SetPos(float posX, float posY);
-	void		SetSize(int width, int height);
+	void		SetSize(float width, float height);
 	void		Move(float deltaTime);
 	void		SetOrientation(int x, int y);
 	void		SetDirection(float dirX, float dirY);

@@ -29,7 +29,7 @@ void GameObject::SetPos(float posX, float posY) {
 	o_shape->setPosition(posX, posY);
 }
 
-void GameObject::SetSize(int width, int height) {
+void GameObject::SetSize(float width, float height) {
 	o_width = width;
 	o_height = height;
 	o_shape->setScale(width, height);
@@ -57,15 +57,6 @@ void GameObject::SetOrientation(int x, int y)
 	o_shape->setRotation(orientation);
 }
 
-/*
-void GameObject::SetOrientation(GameWindow* window){
-	float	orientation;
-
-	orientation = -atan2(Mouse::getPosition(*window->w_window).x - o_posX, Mouse::getPosition(*window->w_window).y - o_posY) * 180 / 3.14159;
-	o_shape->setRotation(orientation);
-}
-*/
-
 void GameObject::SetDirection(float dirX, float dirY) {
 	o_directionX = dirX / sqrt(pow(dirX,2)+pow(dirY,2));
 	o_directionY = dirY / sqrt(pow(dirX, 2) + pow(dirY, 2));
@@ -74,18 +65,31 @@ void GameObject::SetDirection(float dirX, float dirY) {
 
 char GameObject::IsColliding(GameObject* Object) {
 	if (o_posY+o_height/2 >= Object->o_posY-Object->o_height/2 and o_posY-o_height / 2 <= Object->o_posY+Object->o_height/2 and o_posX+o_width/2 >=Object->o_posX-Object->o_width/2 and o_posX-o_width/2 <= Object->o_posX+Object->o_width/2) {
-		if (o_posX + o_width / 2 >= Object->o_posX - Object->o_width / 2 and o_posX <= Object->o_posX) {
-			cout << "left" << endl;
-			return 'l';
+		float overlapLR = min(o_posY + o_height / 2, Object->o_posY + Object->o_height / 2) - max(o_posY - o_height / 2, Object->o_posY - Object->o_height / 2);
+		float overlapUD = min(o_posX + o_width / 2, Object->o_posX + Object->o_width / 2) - max(o_posX - o_width / 2, Object->o_posX - Object->o_width / 2);
+		//cout << overlapLR << "  ud:" << overlapUD << endl;
+		if (overlapLR > overlapUD) {
+			if (o_posX + o_width / 2 >= Object->o_posX - Object->o_width / 2 and o_posX <= Object->o_posX) {
+				cout << "left" << endl;
+				return 'l';
+			}
+			else {
+				cout << "right" << endl;
+				return 'r';
+			}
 		}
-		else if (o_posX - o_width / 2 <= Object->o_posX + Object->o_width / 2 and o_posX >= Object->o_posX) {
-			cout << "right" << endl;
-			return 'r';
+		else if (overlapLR < overlapUD) {
+			if (o_posY + o_height / 2 >= Object->o_posY - Object->o_height / 2 and o_posY <= Object->o_posY) {
+				cout << "UP"<<endl;
+				return 'u';
+			}
+			else {
+				cout << "down" << endl;
+				return 'd';
+			}
 		}
-		else if (o_posY + o_height / 2 >= Object->o_posY - Object->o_height / 2 and o_posY <= Object->o_posY) {
-			cout << "bas" << endl;
-			return 'd';
-		}
+		
+		
 		return 'u';
 	}
 

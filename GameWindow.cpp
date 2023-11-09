@@ -63,9 +63,9 @@ void	GameWindow::RefreshScreen(){
 }
 
 float GameWindow::GetWidth() {
-	return w_width;
+	return (float)w_width;
 }
 
 float GameWindow::GetHeight() {
-	return w_height;
+	return (float)w_height;
 }
