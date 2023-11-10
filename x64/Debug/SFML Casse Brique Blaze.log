@@ -1,5 +1,2 @@
-﻿  Collide.cpp
-  Game.cpp
-C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(74,21): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-  Génération de code en cours...
+﻿  main.cpp
   SFML Casse Brique Blaze.vcxproj -> C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe

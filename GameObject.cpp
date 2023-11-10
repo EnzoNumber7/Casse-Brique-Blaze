@@ -112,4 +112,5 @@ void GameObject::Rebound(char direction, float deltaTime) {
 }
 
 GameObject::~GameObject() {
+
 }

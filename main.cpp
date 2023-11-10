@@ -43,7 +43,7 @@ int main()
                 else game.g_currentBall->Rebound(game.g_currentBall->IsColliding(game.g_borders[i]), game.g_deltaTime);
             }
         }
-
+        cout << game.g_canon->o_shape->getRotation() << endl;
         game.RefreshWindow();
 		game.g_window->w_window->clear();
 
