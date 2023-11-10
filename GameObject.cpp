@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "GameWindow.h"
+#include "Game.h"
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
@@ -40,8 +41,8 @@ void GameObject::SetColor(int r, int g, int b) {
 }
 
 void GameObject::Move(float deltaTime) {
-	o_posX += o_directionX * deltaTime * 100.0f;
-	o_posY += o_directionY * deltaTime * 100.0f;
+	o_posX += o_directionX * deltaTime * 50.0f;
+	o_posY += o_directionY * deltaTime * 50.0f;
 	o_shape->setPosition(o_posX, o_posY);
 }
 
@@ -89,6 +90,10 @@ char GameObject::IsColliding(GameObject* Object) {
 	return 'n';
 }
 
+// Collision enter : Stop move
+// Collision stay :  Trouve la direction
+// Colision Exit : Rebound
+
 void GameObject::Rebound(char direction, float deltaTime) {
 	if (direction == 'l' or direction == 'r') {
 		o_directionX = -o_directionX;
@@ -99,8 +104,12 @@ void GameObject::Rebound(char direction, float deltaTime) {
 		Move(deltaTime);
 	}
 	else if (direction == 'c') {
+		cout << "?" << endl;
 		o_directionY = -o_directionY;
 		o_directionX = -o_directionX;
 		Move(deltaTime);
 	}
+}
+
+GameObject::~GameObject() {
 }

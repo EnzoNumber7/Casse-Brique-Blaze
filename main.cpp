@@ -13,7 +13,7 @@ int main()
     GameObject  brick('r');
 
     brick.SetSize(50, 100);
-    brick.SetPos(game.g_window->GetWidth()/2, game.g_window->GetHeight());
+    brick.SetPos(game.g_window->GetWidth() / 2, game.g_window->GetHeight());
     game.GenerateTerrain();
     game.GenerateCanon();
     game.GenerateBorders();
@@ -21,15 +21,27 @@ int main()
     {
 
         game.HandleEvents();
-        game.g_canon->SetOrientation(Mouse::getPosition(*game.g_window->w_window).x, Mouse::getPosition(*game.g_window->w_window).y);
-        
-		game.g_currentBall->Move(game.g_deltaTime);
+        if (Mouse::getPosition(*game.g_window->w_window).y < game.g_window->w_height)
+            game.g_canon->SetOrientation(Mouse::getPosition(*game.g_window->w_window).x, Mouse::getPosition(*game.g_window->w_window).y);
 
         for (int i = 0; i < game.g_bricks.size(); i++) {
-            if (game.g_currentBall->IsColliding(game.g_bricks.at(i)) == 'n') {
+            if (game.g_currentBall->IsColliding(game.g_bricks.at(i)) != 'n') {
+                game.g_currentBall->Rebound(game.g_currentBall->IsColliding(game.g_bricks.at(i)), game.g_deltaTime);
+            }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            if (game.g_currentBall->IsColliding(game.g_borders[i]) == 'n' and game.g_currentBall->o_directionX != 0 and game.g_currentBall ->o_directionY != 0) {
                 game.g_currentBall->Move(game.g_deltaTime);
             }
-            else game.g_currentBall->Rebound('c', game.g_deltaTime);
+            else if (game.g_currentBall->IsColliding(game.g_borders[i]) != 'n'){
+                if (i == 3) { 
+                    if (game.NewBall()){
+						game.g_isRunning = false;
+                    }
+                }
+                else game.g_currentBall->Rebound(game.g_currentBall->IsColliding(game.g_borders[i]), game.g_deltaTime);
+            }
         }
 
         game.RefreshWindow();

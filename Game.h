@@ -24,6 +24,7 @@ public:
 	void						CloseWindow();
 	void						HandleEvents();
 	int							NewBall();
+	void						SendBall();
 	void						DestroyBall();
 	void						RefreshWindow();
 	void						GenerateTerrain();

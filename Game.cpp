@@ -11,16 +11,15 @@ Game::Game(){
 	g_ballNum = 99;
 	g_currentBall = new GameObject('c');
 	g_currentBall->SetSize(20, 20);
-	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight());
+	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 50);
 	g_currentBall->SetOrigin(0.5f, 0.5f);
-	g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_currentBall->o_posX, Mouse::getPosition(*g_window->w_window).y - g_currentBall->o_posY);
 	for(int i = 0; i < g_ballNum - 1; i++){
 		GameObject  *ball = new GameObject('c');
 		g_remainingBalls.push_back(ball);
 	}
 }
 
-void	Game::HandleEvents(){
+void Game::HandleEvents(){
 	Event event;
         while (g_window->w_window->pollEvent(event))
         {
@@ -28,10 +27,11 @@ void	Game::HandleEvents(){
 				CloseWindow();
 			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Space)){
 				if (!g_currentBall){
-					if (Game::NewBall() == 1) {
-						std::cout << "No more balls available" << std::endl;
-						g_isRunning = false;
-					}
+					std::cout << "No more balls available" << std::endl;
+					g_isRunning = false;
+				}
+				else{
+					SendBall();
 				}
 			}
         }
@@ -44,6 +44,8 @@ void	Game::RefreshWindow(){
 	if (!g_bricks.empty())
 		for (int i = 0; i < g_bricksNum; ++i)
 			g_window->DrawObject(g_bricks.at(i));
+	for (int j = 0; j < 4; ++j)
+		g_window->DrawObject(g_borders[j]);
 	g_window->DrawObject(g_canon);
 	g_window->w_window->display();
 }
@@ -51,13 +53,17 @@ void	Game::RefreshWindow(){
 int	Game::NewBall(){
 	if (g_remainingBalls.empty())
 		return 1;
-	g_currentBall = g_remainingBalls.at(0);
+	g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
 	g_remainingBalls.pop_back();
 	g_currentBall->SetSize(20, 20);
-	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight());
+	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 50);
 	g_currentBall->SetOrigin(0.5f, 0.5f);
-	g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_currentBall->o_posX, Mouse::getPosition(*g_window->w_window).y - g_currentBall->o_posY);
 	return 0;
+}
+
+void	Game::SendBall(){
+	if (g_currentBall->o_directionX == 0 and g_currentBall->o_directionY == 0)
+		g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_currentBall->o_posX, Mouse::getPosition(*g_window->w_window).y - g_currentBall->o_posY);
 }
 
 void	Game::GenerateTerrain(){
@@ -65,7 +71,7 @@ void	Game::GenerateTerrain(){
 	for (int i = 0; i < g_ballNum - 1; i++) {
 		GameObject* brick = new GameObject('r');
 		brick->SetSize(50, 50);
-		brick->SetPos(50 + (i * 50 + (10 * i)), 50);
+		brick->SetPos(250 + (i * 50 + (10 * i)), 250);
 		brick->SetOrigin(0.5f, 0.5f);
 		g_bricks.push_back(brick);
 	}
@@ -74,8 +80,9 @@ void	Game::GenerateTerrain(){
 void	Game::GenerateCanon(){
 	g_canon = new GameObject('r');
 	g_canon->SetSize(50, 100);
+	g_canon->SetOrigin(0.5f, 0.f);
 	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight());
-	
+	g_canon->SetDirection(0, -1);
 }
 
 

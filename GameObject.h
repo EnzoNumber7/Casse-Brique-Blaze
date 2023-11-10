@@ -8,15 +8,16 @@ class GameObject {
 private:
 	float			o_width;
 	float			o_height;
-	float			o_directionX;
-	float			o_directionY;
 
 public:
 	sf::Shape*		o_shape;
 	float			o_posX;
 	float			o_posY;
+	float			o_directionX;
+	float			o_directionY;
 
 					GameObject(char shape);
+					~GameObject();
 
 	void			SetColor(int r, int g, int b);
 	void			SetPos(float posX, float posY);
