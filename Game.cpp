@@ -3,18 +3,22 @@
 #include "Game.h"
 #include "GameWindow.h"
 #include "GameObject.h"
+#include "Ball.h"
+#include "Brick.h"
+#include "Canon.h"
+#include "Border.h"
 
 Game::Game(){
 	g_window = new GameWindow();
 	g_deltaTime = 0.f;
 	g_isRunning = true;
 	g_ballNum = 99;
-	g_currentBall = new GameObject('c');
+	g_currentBall = new Ball();
+	g_currentBall->SetSize(20, 20);
 	g_currentBall->SetSize(20, 20);
 	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 50);
-	g_currentBall->SetOrigin(0.5f, 0.5f);
 	for(int i = 0; i < g_ballNum - 1; i++){
-		GameObject  *ball = new GameObject('c');
+		Ball  *ball = new Ball();
 		g_remainingBalls.push_back(ball);
 	}
 }
@@ -57,7 +61,6 @@ int	Game::NewBall(){
 	g_remainingBalls.pop_back();
 	g_currentBall->SetSize(20, 20);
 	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 50);
-	g_currentBall->SetOrigin(0.5f, 0.5f);
 	return 0;
 }
 
@@ -69,53 +72,51 @@ void	Game::SendBall(){
 void	Game::GenerateTerrain(){
 	g_bricksNum = 10;
 	for (int i = 0; i < g_ballNum - 1; i++) {
-		GameObject* brick = new GameObject('r');
+		Brick* brick = new Brick();
 		brick->SetSize(50, 50);
 		brick->SetPos(250 + (i * 50 + (10 * i)), 250);
-		brick->SetOrigin(0.5f, 0.5f);
 		g_bricks.push_back(brick);
 	}
 }
 
 void	Game::GenerateCanon(){
-	g_canon = new GameObject('r');
+	g_canon = new Canon();
 	g_canon->SetSize(50, 100);
-	g_canon->SetOrigin(0.5f, 0.f);
 	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight());
 	g_canon->SetDirection(0, -1);
 }
 
 
-void	Game::SetBorder(GameObject* border, char id){
+void	Game::SetBorder(Border* border, char id){
 	switch (id) {
 	case('l'):
 		border->SetSize(100, g_window->w_height);
-		border->SetOrigin(0.5f, 0.5f);
+		border->o_shape->setOrigin(0.5f, 0.5f);
 		border->SetPos(-50, g_window->w_height / 2);
 		break;
 	case('u'):
 		border->SetSize(g_window->w_width, 100);
-		border->SetOrigin(0.5f, 0.5f);
+		border->o_shape->setOrigin(0.5f, 0.5f);
 		border->SetPos(g_window->w_width / 2, -50);
 		break;
 	case('r'):
 		border->SetSize(100, g_window->w_height);
-		border->SetOrigin(0.5f, 0.5f);
+		border->o_shape->setOrigin(0.5f, 0.5f);
 		border->SetPos(g_window->w_width + 50, g_window->w_height / 2);
 		break;
 	case('d'):
 		border->SetSize(g_window->w_width, 100);
-		border->SetOrigin(0.5f, 0.5f);
+		border->o_shape->setOrigin(0.5f, 0.5f);
 		border->SetPos(g_window->w_width / 2, g_window->w_height + 50);
 		break;
 	}
 }
 
 void	Game::GenerateBorders(){
-	GameObject* leftWall = new GameObject('r');
-	GameObject* rightWall = new GameObject('r');
-	GameObject* upWall = new GameObject('r');
-	GameObject* downWall = new GameObject('r');
+	Border* leftWall = new Border();
+	Border* rightWall = new Border();
+	Border* upWall = new Border();
+	Border* downWall = new Border();
 
 	SetBorder(leftWall, 'l');
 	SetBorder(upWall, 'u');

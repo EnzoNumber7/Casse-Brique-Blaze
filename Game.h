@@ -1,6 +1,11 @@
 #pragma once
 class GameWindow;
 class GameObject;
+class Canon;
+class Ball;
+class Brick;
+class Border;
+
 #include <SFML/System/Clock.hpp>
 
 class Game
@@ -8,12 +13,12 @@ class Game
 public:
 
 	sf::Clock					g_Clock;
-	std::vector<GameObject*>	g_remainingBalls;
-	std::vector<GameObject*>	g_bricks;
-	GameObject*					g_borders[4];
-	GameObject*					g_canon;
+	std::vector<Ball*>			g_remainingBalls;
+	std::vector<Brick*>			g_bricks;
+	Border*						g_borders[4];
+	Canon*						g_canon;
 	GameWindow*					g_window;
-	GameObject*					g_currentBall;
+	Ball*						g_currentBall;
 	bool						g_isRunning;
 	float						g_deltaTime;
 	int							g_bricksNum;
@@ -32,6 +37,6 @@ public:
 	void						GenerateBorders();
 
 private:
-	void						SetBorder(GameObject* border, char id);
+	void						SetBorder(Border* border, char id);
 };
 

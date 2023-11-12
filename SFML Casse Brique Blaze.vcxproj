@@ -134,6 +134,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Border.cpp" />
+    <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Collide.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -141,6 +145,10 @@
     <ClCompile Include="GameWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="Border.h" />
+    <ClInclude Include="Brick.h" />
+    <ClInclude Include="Canon.h" />
     <ClInclude Include="Collide.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

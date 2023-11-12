@@ -1,5 +1,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Ball.h"
+#include "Canon.h"
+#include "Brick.h"
+#include "Border.h"
 #include "Game.h"
 #include "GameWindow.h"
 #include "GameObject.h"
@@ -10,10 +14,10 @@ using namespace std;
 int main()
 {
     Game        game;
-    GameObject  brick('r');
+    //GameObject  brick('r');
 
-    brick.SetSize(50, 100);
-    brick.SetPos(game.g_window->GetWidth() / 2, game.g_window->GetHeight());
+    //brick.SetSize(50, 100);
+    //brick.SetPos(game.g_window->GetWidth() / 2, game.g_window->GetHeight());
     game.GenerateTerrain();
     game.GenerateCanon();
     game.GenerateBorders();
@@ -48,7 +52,7 @@ int main()
 		game.g_window->w_window->clear();
 
 
-		game.g_window->DrawObject(&brick);
+		//game.g_window->DrawObject(&brick);
 		game.g_window->DrawObject(game.g_currentBall);
         game.g_deltaTime = game.g_Clock.restart().asSeconds();
     }

@@ -8,20 +8,14 @@
 using namespace sf;
 using namespace std;
 
-GameObject::GameObject(char shape) {
+GameObject::GameObject() {
+	o_shape = NULL;
 	o_height = 0;
 	o_width = 0;
 	o_posX = 0.f;
 	o_posY = 0.f;
 	o_directionX = 0.f;
 	o_directionY = 0.f;
-	
-	if (shape == 'c') {
-		o_shape = new CircleShape(1.f);
-	}
-	else if (shape == 'r') {
-		o_shape = new RectangleShape(Vector2f(1.f, 1.f));
-	}
 }
 
 void GameObject::SetPos(float posX, float posY) {
@@ -38,16 +32,6 @@ void GameObject::SetSize(float width, float height) {
 
 void GameObject::SetColor(int r, int g, int b) {
 	o_shape->setFillColor(Color(r, g, b));
-}
-
-void GameObject::Move(float deltaTime) {
-	o_posX += o_directionX * deltaTime * 50.0f;
-	o_posY += o_directionY * deltaTime * 50.0f;
-	o_shape->setPosition(o_posX, o_posY);
-}
-
-void GameObject::SetOrigin(float x, float y){
-	o_shape->setOrigin(x, y);
 }
 
 void GameObject::SetOrientation(int x, int y)
@@ -93,23 +77,6 @@ char GameObject::IsColliding(GameObject* Object) {
 // Collision enter : Stop move
 // Collision stay :  Trouve la direction
 // Colision Exit : Rebound
-
-void GameObject::Rebound(char direction, float deltaTime) {
-	if (direction == 'l' or direction == 'r') {
-		o_directionX = -o_directionX;
-		Move(deltaTime);
-	}
-	else if (direction == 'u' or direction == 'd') {
-		o_directionY = -o_directionY;
-		Move(deltaTime);
-	}
-	else if (direction == 'c') {
-		cout << "?" << endl;
-		o_directionY = -o_directionY;
-		o_directionX = -o_directionX;
-		Move(deltaTime);
-	}
-}
 
 GameObject::~GameObject() {
 
