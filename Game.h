@@ -32,6 +32,7 @@ public:
 	void						SendBall();
 	void						DestroyBall();
 	void						RefreshWindow();
+	void						GenerateBalls();
 	void						GenerateTerrain();
 	void						GenerateCanon();
 	void						GenerateBorders();

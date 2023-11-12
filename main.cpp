@@ -14,13 +14,11 @@ using namespace std;
 int main()
 {
     Game        game;
-    //GameObject  brick('r');
 
-    //brick.SetSize(50, 100);
-    //brick.SetPos(game.g_window->GetWidth() / 2, game.g_window->GetHeight());
     game.GenerateTerrain();
     game.GenerateCanon();
     game.GenerateBorders();
+    game.GenerateBalls();
     while (game.g_isRunning)
     {
 
@@ -47,13 +45,9 @@ int main()
                 else game.g_currentBall->Rebound(game.g_currentBall->IsColliding(game.g_borders[i]), game.g_deltaTime);
             }
         }
-        cout << game.g_canon->o_shape->getRotation() << endl;
         game.RefreshWindow();
-		game.g_window->w_window->clear();
 
 
-		//game.g_window->DrawObject(&brick);
-		game.g_window->DrawObject(game.g_currentBall);
         game.g_deltaTime = game.g_Clock.restart().asSeconds();
     }
 

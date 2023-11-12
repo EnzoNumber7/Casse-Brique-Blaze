@@ -9,6 +9,7 @@
 Ball::Ball() {
 	o_shape = new CircleShape(1.f);
 	o_shape->setOrigin(0.5f, 0.5f);
+	isMoving = false;
 }
 
 void Ball::Move(float deltaTime) {

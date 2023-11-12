@@ -5,6 +5,7 @@
 class Ball : public GameObject
 {
 public:
+	bool			isMoving;
 
 	Ball();
 

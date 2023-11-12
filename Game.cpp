@@ -15,12 +15,7 @@ Game::Game(){
 	g_ballNum = 99;
 	g_currentBall = new Ball();
 	g_currentBall->SetSize(20, 20);
-	g_currentBall->SetSize(20, 20);
-	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 50);
-	for(int i = 0; i < g_ballNum - 1; i++){
-		Ball  *ball = new Ball();
-		g_remainingBalls.push_back(ball);
-	}
+	g_currentBall->SetPos(g_window->GetWidth() / 2 - 10, g_window->GetHeight() - 40);
 }
 
 void Game::HandleEvents(){
@@ -43,7 +38,7 @@ void Game::HandleEvents(){
 
 void	Game::RefreshWindow(){
 	g_window->w_window->clear();
-	if (g_currentBall)
+	if (g_currentBall && g_currentBall->isMoving)
 		g_window->DrawObject(g_currentBall);
 	if (!g_bricks.empty())
 		for (int i = 0; i < g_bricksNum; ++i)
@@ -57,16 +52,29 @@ void	Game::RefreshWindow(){
 int	Game::NewBall(){
 	if (g_remainingBalls.empty())
 		return 1;
+	g_ballNum--;
 	g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
 	g_remainingBalls.pop_back();
 	g_currentBall->SetSize(20, 20);
-	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 50);
+	g_currentBall->SetPos(g_window->GetWidth() / 2 - 10, g_window->GetHeight() - 40);
+	g_canon->SetColor(0, 255, 0);
+	std::cout << g_ballNum << " Balls Remaining." << std::endl;
 	return 0;
 }
 
 void	Game::SendBall(){
-	if (g_currentBall->o_directionX == 0 and g_currentBall->o_directionY == 0)
+	if (g_currentBall->isMoving == false) {
 		g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_currentBall->o_posX, Mouse::getPosition(*g_window->w_window).y - g_currentBall->o_posY);
+		g_currentBall->isMoving = true;
+		g_canon->SetColor(255, 0, 0);
+	}
+}
+
+void	Game::GenerateBalls () {
+	for (int i = 0; i < g_ballNum - 1; i++) {
+		Ball* ball = new Ball();
+		g_remainingBalls.push_back(ball);
+	}
 }
 
 void	Game::GenerateTerrain(){
@@ -81,6 +89,7 @@ void	Game::GenerateTerrain(){
 
 void	Game::GenerateCanon(){
 	g_canon = new Canon();
+	g_canon->SetColor(0, 255, 0);
 	g_canon->SetSize(50, 100);
 	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight());
 	g_canon->SetDirection(0, -1);
