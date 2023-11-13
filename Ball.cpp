@@ -13,8 +13,8 @@ Ball::Ball() {
 }
 
 void Ball::Move(float deltaTime) {
-	o_posX += o_directionX * deltaTime * 50.0f;
-	o_posY += o_directionY * deltaTime * 50.0f;
+	o_posX += o_directionX * deltaTime * 75.0f;
+	o_posY += o_directionY * deltaTime * 75.0f;
 	o_shape->setPosition(o_posX, o_posY);
 }
 
@@ -32,4 +32,8 @@ void Ball::Rebound(char direction, float deltaTime) {
 		o_directionX = -o_directionX;
 		Move(deltaTime);
 	}
+}
+
+void Ball::OnCollisionStay(char direction, float deltaTime) {
+	Rebound(direction, deltaTime);
 }

@@ -11,5 +11,6 @@ public:
 
 	void			Move(float deltaTime);
 	void			Rebound(char direction, float deltaTime);
+	void			OnCollisionStay(char direction, float deltaTime) override;
 };
 

@@ -19,34 +19,38 @@ int main()
     game.GenerateCanon();
     game.GenerateBorders();
     game.GenerateBalls();
+
+
     while (game.g_isRunning)
     {
-
         game.HandleEvents();
-        if (Mouse::getPosition(*game.g_window->w_window).y < game.g_window->w_height)
+        if (Mouse::getPosition(*game.g_window->w_window).y < game.g_window->w_height) {
             game.g_canon->SetOrientation(Mouse::getPosition(*game.g_window->w_window).x, Mouse::getPosition(*game.g_window->w_window).y);
+        }
 
+        //game.g_currentBall->SetPos(220,210);
+
+        //cout << game.g_currentBall->CheckCollision(game.g_bricks.at(0), game.g_deltaTime) << endl;
+        
         for (int i = 0; i < game.g_bricks.size(); i++) {
-            if (game.g_currentBall->IsColliding(game.g_bricks.at(i)) != 'n') {
-                game.g_currentBall->Rebound(game.g_currentBall->IsColliding(game.g_bricks.at(i)), game.g_deltaTime);
-            }
+            game.g_currentBall->CheckCollision(game.g_bricks.at(i), game.g_deltaTime);
         }
 
         for (int i = 0; i < 4; i++) {
-            if (game.g_currentBall->IsColliding(game.g_borders[i]) == 'n' and game.g_currentBall->o_directionX != 0 and game.g_currentBall ->o_directionY != 0) {
+            if (not game.g_currentBall->CheckCollision(game.g_borders[i], game.g_deltaTime) and game.g_currentBall->o_directionX != 0 and game.g_currentBall->o_directionY != 0) {
                 game.g_currentBall->Move(game.g_deltaTime);
             }
-            else if (game.g_currentBall->IsColliding(game.g_borders[i]) != 'n'){
+            else if  (game.g_currentBall->CheckCollision(game.g_borders[i], game.g_deltaTime)) {
                 if (i == 3) { 
                     if (game.NewBall()){
 						game.g_isRunning = false;
                     }
                 }
-                else game.g_currentBall->Rebound(game.g_currentBall->IsColliding(game.g_borders[i]), game.g_deltaTime);
+               
             }
         }
-        game.RefreshWindow();
 
+        game.RefreshWindow();
 
         game.g_deltaTime = game.g_Clock.restart().asSeconds();
     }

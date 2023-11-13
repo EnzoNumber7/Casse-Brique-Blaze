@@ -36,7 +36,7 @@ void Game::HandleEvents(){
         }
 }
 
-void	Game::RefreshWindow(){
+void Game::RefreshWindow(){
 	g_window->w_window->clear();
 	if (g_currentBall && g_currentBall->isMoving)
 		g_window->DrawObject(g_currentBall);
@@ -78,8 +78,8 @@ void	Game::GenerateBalls () {
 }
 
 void	Game::GenerateTerrain(){
-	g_bricksNum = 10;
-	for (int i = 0; i < g_ballNum - 1; i++) {
+	g_bricksNum = 1;
+	for (int i = 0; i <= g_bricksNum - 1; i++) {
 		Brick* brick = new Brick();
 		brick->SetSize(50, 50);
 		brick->SetPos(250 + (i * 50 + (10 * i)), 250);

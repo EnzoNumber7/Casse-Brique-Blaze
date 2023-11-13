@@ -16,6 +16,8 @@ GameObject::GameObject() {
 	o_posY = 0.f;
 	o_directionX = 0.f;
 	o_directionY = 0.f;
+	o_InCollision = false;
+	o_collideDirection = 'n';
 }
 
 void GameObject::SetPos(float posX, float posY) {
@@ -74,9 +76,65 @@ char GameObject::IsColliding(GameObject* Object) {
 	return 'n';
 }
 
-// Collision enter : Stop move
-// Collision stay :  Trouve la direction
-// Colision Exit : Rebound
+void GameObject::ChangeCollideBool() {
+	o_InCollision = not o_InCollision;
+}
+
+bool GameObject::CheckCollision(GameObject* Object, float deltaTime) {
+	bool collision = (o_posX-o_width/2 <= Object->o_posX + Object->o_width/2 and o_posX + o_width/2 >= Object->o_posX - Object->o_width/2) and (o_posY - o_height / 2 <= Object->o_posY + Object->o_height / 2 and o_posY + o_height / 2 >= Object->o_posY - Object->o_height / 2);
+	if (collision) {
+		if (not Object->o_InCollision) {
+			o_collideDirection = OnCollisionEnter(*Object);
+			Object->ChangeCollideBool();
+		}
+		else {
+			OnCollisionStay(o_collideDirection, deltaTime);
+		}
+	}
+	else {
+		if (Object->o_InCollision) {
+			OnCollisionExit();
+			Object->ChangeCollideBool();
+		}
+	}
+
+	if (collision) {
+		return 1;
+	}
+	else return 0;
+}
+
+char GameObject::OnCollisionEnter(const GameObject& Object) {
+	//cout << "ENTER" << endl;
+	float overlapLR = min(o_posY + o_height / 2, Object.o_posY + Object.o_height / 2) - max(o_posY - o_height / 2, Object.o_posY - Object.o_height / 2);
+	float overlapUD = min(o_posX + o_width / 2, Object.o_posX + Object.o_width / 2) - max(o_posX - o_width / 2, Object.o_posX - Object.o_width / 2);
+	if (overlapLR > overlapUD) {
+		if (o_posX + o_width / 2 >= Object.o_posX - Object.o_width / 2 and o_posX <= Object.o_posX) {
+			return 'l';
+		}
+		else {
+			return 'r';
+		}
+	}
+	else if (overlapLR < overlapUD) {
+		if (o_posY + o_height / 2 >= Object.o_posY - Object.o_height / 2 and o_posY <= Object.o_posY) {
+			return 'u';
+		}
+		else {
+			return 'd';
+		}
+	}
+	else return 'c';
+	
+}
+
+void GameObject::OnCollisionStay(char direction, float deltaTime){
+
+}
+
+void GameObject::OnCollisionExit(){
+	//cout << "EXIT" << endl;
+}
 
 GameObject::~GameObject() {
 
