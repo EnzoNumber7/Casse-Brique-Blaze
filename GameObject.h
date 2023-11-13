@@ -17,6 +17,7 @@ public:
 	float			o_posY;
 	float			o_directionX;
 	float			o_directionY;
+	int				o_life;
 
 	GameObject();
 	~GameObject();
@@ -27,6 +28,7 @@ public:
 	void			SetSize(float width, float height);
 	void			SetOrientation(int x, int y);
 	void			SetDirection(float dirX, float dirY);
+	void			DecreaseLife(GameObject* Object, int value);
 	char			IsColliding(GameObject* Object);
 	bool			CheckCollision( GameObject* Object, float deltaTime);
 	char			virtual OnCollisionEnter(const GameObject& Object);

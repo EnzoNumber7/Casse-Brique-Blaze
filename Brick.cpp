@@ -9,4 +9,5 @@
 Brick::Brick() {
 	o_shape = new RectangleShape(Vector2f(1.f, 1.f));
 	o_shape->setOrigin(0.5f, 0.5f);
+	o_life = 3;
 }

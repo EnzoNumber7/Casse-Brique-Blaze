@@ -9,7 +9,7 @@ GameWindow::GameWindow(){
 	w_height = 600.f;
 	w_name = "SFML Brick Breaker";
 
-	w_window = new sf::RenderWindow(sf::VideoMode(w_width, w_height), w_name);
+	w_window = new sf::RenderWindow(sf::VideoMode((unsigned int)w_width, (unsigned int)w_height), w_name);
 }
 
 void	GameWindow::DrawObject(GameObject *gameObject){

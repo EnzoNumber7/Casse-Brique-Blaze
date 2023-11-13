@@ -1,2 +1,11 @@
-﻿  main.cpp
-  SFML Casse Brique Blaze.vcxproj -> C:\Users\enzop\source\repos\EnzoNumber7\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe
+﻿  Ball.cpp
+  Border.cpp
+  Brick.cpp
+  Canon.cpp
+  Collide.cpp
+  Game.cpp
+  GameObject.cpp
+  main.cpp
+  GameWindow.cpp
+  Génération de code en cours...
+  SFML Casse Brique Blaze.vcxproj -> C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe

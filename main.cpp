@@ -51,6 +51,7 @@ int main()
         }
 
         game.RefreshWindow();
+        game.ClearBricks();
 
         game.g_deltaTime = game.g_Clock.restart().asSeconds();
     }

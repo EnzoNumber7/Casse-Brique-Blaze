@@ -31,6 +31,7 @@ public:
 	int							NewBall();
 	void						SendBall();
 	void						DestroyBall();
+	void						ClearBricks();
 	void						RefreshWindow();
 	void						GenerateBalls();
 	void						GenerateTerrain();

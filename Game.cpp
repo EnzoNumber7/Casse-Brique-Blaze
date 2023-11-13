@@ -12,10 +12,13 @@ Game::Game(){
 	g_window = new GameWindow();
 	g_deltaTime = 0.f;
 	g_isRunning = true;
-	g_ballNum = 99;
+	g_ballNum = 50;
 	g_currentBall = new Ball();
 	g_currentBall->SetSize(20, 20);
 	g_currentBall->SetPos(g_window->GetWidth() / 2 - 10, g_window->GetHeight() - 40);
+	g_canon = NULL;
+	g_bricksNum = NULL;
+	*g_borders = NULL;
 }
 
 void Game::HandleEvents(){
@@ -37,12 +40,13 @@ void Game::HandleEvents(){
 }
 
 void Game::RefreshWindow(){
-	g_window->w_window->clear();
+	g_window->RefreshScreen();
 	if (g_currentBall && g_currentBall->isMoving)
 		g_window->DrawObject(g_currentBall);
 	if (!g_bricks.empty())
-		for (int i = 0; i < g_bricksNum; ++i)
+		for (int i = 0; i < g_bricksNum; ++i) {
 			g_window->DrawObject(g_bricks.at(i));
+		}
 	for (int j = 0; j < 4; ++j)
 		g_window->DrawObject(g_borders[j]);
 	g_window->DrawObject(g_canon);
@@ -50,8 +54,14 @@ void Game::RefreshWindow(){
 }
 
 int	Game::NewBall(){
-	if (g_remainingBalls.empty())
+	if (g_remainingBalls.empty()) {
+		std::cout << "Unlucky ! You lost with " << g_bricksNum << " Bricks Remaining !" << std::endl;
 		return 1;
+	}
+	if (g_bricks.empty()) {
+		std::cout << "Good job ! You won with " << g_ballNum << " Balls Remaining !" << std::endl;
+		return 1;
+	}
 	g_ballNum--;
 	g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
 	g_remainingBalls.pop_back();
@@ -78,8 +88,8 @@ void	Game::GenerateBalls () {
 }
 
 void	Game::GenerateTerrain(){
-	g_bricksNum = 1;
-	for (int i = 0; i <= g_bricksNum - 1; i++) {
+	g_bricksNum = 4;
+	for (float i = 0; i <= g_bricksNum - 1; i++) {
 		Brick* brick = new Brick();
 		brick->SetSize(50, 50);
 		brick->SetPos(250 + (i * 50 + (10 * i)), 250);
@@ -144,4 +154,19 @@ void	Game::CloseWindow(){
 
 void Game::DestroyBall() {
 	delete g_currentBall;
+}
+
+void Game::ClearBricks() {
+	Brick* brick;
+	if (g_bricks.empty() == false) {
+		for (int i = 0; i < g_bricksNum; i++) {
+			if (g_bricks.at(i)->o_life == 0)
+			{
+				brick = g_bricks.at(i);
+				g_bricks.erase(g_bricks.begin() + i);
+				delete brick;
+				g_bricksNum--;
+			}
+		}
+	}
 }

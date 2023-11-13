@@ -18,6 +18,7 @@ GameObject::GameObject() {
 	o_directionY = 0.f;
 	o_InCollision = false;
 	o_collideDirection = 'n';
+	o_life = NULL;
 }
 
 void GameObject::SetPos(float posX, float posY) {
@@ -40,14 +41,23 @@ void GameObject::SetOrientation(int x, int y)
 {
 	float	orientation;
 
-	orientation = -atan2(x - o_posX, y - o_posY) * 180 / 3.14159;
+	orientation = -atan2(x - o_posX, y - o_posY) * 180 / 3.14159f;
 	o_shape->setRotation(orientation);
 }
 
 void GameObject::SetDirection(float dirX, float dirY) {
-	o_directionX = dirX / sqrt(pow(dirX,2)+pow(dirY,2));
-	o_directionY = dirY / sqrt(pow(dirX, 2) + pow(dirY, 2));
+	o_directionX = dirX / (float)sqrt(pow(dirX,2)+pow(dirY,2));
+	o_directionY = dirY / (float)sqrt(pow(dirX, 2) + pow(dirY, 2));
 
+}
+
+void GameObject::DecreaseLife(GameObject* Object, int value){
+	if (Object->o_life != NULL) {
+		Object->o_life = Object->o_life - value;
+		std::cout << Object->o_life << std::endl;
+		//if (Object->o_life <= 0)
+			//delete Object;
+	}
 }
 
 char GameObject::IsColliding(GameObject* Object) {
@@ -95,6 +105,7 @@ bool GameObject::CheckCollision(GameObject* Object, float deltaTime) {
 		if (Object->o_InCollision) {
 			OnCollisionExit();
 			Object->ChangeCollideBool();
+			Object->DecreaseLife(Object, 1);
 		}
 	}
 
