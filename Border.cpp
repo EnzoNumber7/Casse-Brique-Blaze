@@ -6,8 +6,18 @@
 #include <cmath>
 #include <iostream>
 
-Border::Border() {
-	o_shape = new RectangleShape(Vector2f(1.f, 1.f));
+Border::Border(char position, GameWindow* window) {
+
+	if (position == 'l' or position == 'r') {
+		o_width = 50.f;
+		o_height = window->w_height;
+	}
+	if (position == 'u' or position == 'd') {
+		o_width = window->w_width;
+		o_height = 50.f;
+
+	}
+	o_shape = new RectangleShape(Vector2f(o_width, o_height));
 	o_shape->setOrigin(0.5f, 0.5f);
 	o_life = NULL;
 }

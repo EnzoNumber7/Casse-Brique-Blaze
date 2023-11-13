@@ -17,20 +17,15 @@ GameObject::GameObject() {
 	o_directionX = 0.f;
 	o_directionY = 0.f;
 	o_InCollision = false;
-	o_collideDirection = 'n';
 	o_life = NULL;
+	o_shouldMove = true;
+	o_lastSide = None;
 }
 
 void GameObject::SetPos(float posX, float posY) {
 	o_posX = posX;
 	o_posY = posY;
 	o_shape->setPosition(posX, posY);
-}
-
-void GameObject::SetSize(float width, float height) {
-	o_width = width;
-	o_height = height;
-	o_shape->setScale(width, height);
 }
 
 void GameObject::SetColor(int r, int g, int b) {
@@ -54,32 +49,14 @@ void GameObject::SetDirection(float dirX, float dirY) {
 void GameObject::DecreaseLife(GameObject* Object, int value){
 	if (Object->o_life != NULL)
 		Object->o_life = Object->o_life - value;
-}
-
-char GameObject::IsColliding(GameObject* Object) {
-	if (o_posY+o_height/2 >= Object->o_posY-Object->o_height/2 and o_posY-o_height / 2 <= Object->o_posY+Object->o_height/2 and o_posX+o_width/2 >=Object->o_posX-Object->o_width/2 and o_posX-o_width/2 <= Object->o_posX+Object->o_width/2) {
-		float overlapLR = min(o_posY + o_height / 2, Object->o_posY + Object->o_height / 2) - max(o_posY - o_height / 2, Object->o_posY - Object->o_height / 2);
-		float overlapUD = min(o_posX + o_width / 2, Object->o_posX + Object->o_width / 2) - max(o_posX - o_width / 2, Object->o_posX - Object->o_width / 2);
-		if (overlapLR > overlapUD) {
-			if (o_posX + o_width / 2 >= Object->o_posX - Object->o_width / 2 and o_posX <= Object->o_posX) {
-				return 'l';
-			}
-			else {
-				return 'r';
-			}
-		}
-		else if (overlapLR < overlapUD) {
-			if (o_posY + o_height / 2 >= Object->o_posY - Object->o_height / 2 and o_posY <= Object->o_posY) {
-				return 'u';
-			}
-			else {
-				return 'd';
-			}
-		}
-		else return 'c';
-
+	switch(o_life){
+		case (2):
+			o_shape->setFillColor(sf::Color::Yellow);
+			break;
+		case (1):
+			o_shape->setFillColor(sf::Color::Red);
+			break;
 	}
-	return 'n';
 }
 
 void GameObject::ChangeCollideBool() {
@@ -90,11 +67,11 @@ bool GameObject::CheckCollision(GameObject* Object, float deltaTime) {
 	bool collision = (o_posX-o_width/2 <= Object->o_posX + Object->o_width/2 and o_posX + o_width/2 >= Object->o_posX - Object->o_width/2) and (o_posY - o_height / 2 <= Object->o_posY + Object->o_height / 2 and o_posY + o_height / 2 >= Object->o_posY - Object->o_height / 2);
 	if (collision) {
 		if (not Object->o_InCollision) {
-			o_collideDirection = OnCollisionEnter(*Object);
+			OnCollisionEnter(*Object, deltaTime);
 			Object->ChangeCollideBool();
 		}
 		else {
-			OnCollisionStay(o_collideDirection, deltaTime);
+			OnCollisionStay(deltaTime);
 		}
 	}
 	else {
@@ -111,36 +88,46 @@ bool GameObject::CheckCollision(GameObject* Object, float deltaTime) {
 	else return 0;
 }
 
-char GameObject::OnCollisionEnter(const GameObject& Object) {
-	//cout << "ENTER" << endl;
+void GameObject::OnCollisionEnter(const GameObject& Object, float deltaTime) {
+	o_shouldMove = false;
+	char direction;
 	float overlapLR = min(o_posY + o_height / 2, Object.o_posY + Object.o_height / 2) - max(o_posY - o_height / 2, Object.o_posY - Object.o_height / 2);
 	float overlapUD = min(o_posX + o_width / 2, Object.o_posX + Object.o_width / 2) - max(o_posX - o_width / 2, Object.o_posX - Object.o_width / 2);
 	if (overlapLR > overlapUD) {
-		if (o_posX + o_width / 2 >= Object.o_posX - Object.o_width / 2 and o_posX <= Object.o_posX) {
-			return 'l';
+		if (o_posX + o_width / 2 >= Object.o_posX - Object.o_width / 2 and o_posX <= Object.o_posX and o_lastSide != Left) {
+			o_directionX = -o_directionX;
+			o_lastSide = Left;
 		}
-		else {
-			return 'r';
+		else if (o_lastSide != Left) {
+			o_directionX = -o_directionX;
+			o_lastSide = Right;
 		}
 	}
 	else if (overlapLR < overlapUD) {
-		if (o_posY + o_height / 2 >= Object.o_posY - Object.o_height / 2 and o_posY <= Object.o_posY) {
-			return 'u';
+		if (o_posY + o_height / 2 >= Object.o_posY - Object.o_height / 2 and o_posY <= Object.o_posY and o_lastSide != Up) {
+			o_directionY = -o_directionY;
+			o_lastSide = Up;
 		}
-		else {
-			return 'd';
+		else if (o_lastSide != Down) {
+			o_directionY = -o_directionY;
+			o_lastSide = Down;
 		}
 	}
-	else return 'c';
+	else  {
+		o_directionY = -o_directionY;
+		o_directionX = -o_directionX;
+		o_lastSide = Diagonal;
+	}
 	
 }
 
-void GameObject::OnCollisionStay(char direction, float deltaTime){
-
+void GameObject::OnCollisionStay(float deltaTime){
+	
 }
 
 void GameObject::OnCollisionExit(){
-	//cout << "EXIT" << endl;
+	cout << "EXIT" << endl;
+	o_shouldMove = true;
 }
 
 GameObject::~GameObject() {

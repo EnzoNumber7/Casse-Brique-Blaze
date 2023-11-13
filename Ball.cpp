@@ -6,34 +6,71 @@
 #include <cmath>
 #include <iostream>
 
+#define SPEED 200.0f
+
+using namespace std;
+
 Ball::Ball() {
-	o_shape = new CircleShape(1.f);
-	o_shape->setOrigin(0.5f, 0.5f);
+	o_shape = new CircleShape(20.f);
+	o_width = 40.f;
+	o_height = 40.f;
+	o_shape->setOrigin(20.0f, 20.0f);
 	isMoving = false;
 }
 
 void Ball::Move(float deltaTime) {
-	o_posX += o_directionX * deltaTime * 75.0f;
-	o_posY += o_directionY * deltaTime * 75.0f;
+	o_posX += o_directionX * deltaTime * SPEED;
+	o_posY += o_directionY * deltaTime * SPEED;
 	o_shape->setPosition(o_posX, o_posY);
 }
 
-void Ball::Rebound(char direction, float deltaTime) {
-	if (direction == 'l' or direction == 'r') {
+void Ball::Rebound(CollisionSide direction, float deltaTime) {
+	if (direction == Left or direction == Right) {
 		o_directionX = -o_directionX;
-		Move(deltaTime);
 	}
-	else if (direction == 'u' or direction == 'd') {
+	else if (direction == Up or direction == Down) {
 		o_directionY = -o_directionY;
-		Move(deltaTime);
 	}
-	else if (direction == 'c') {
+	else if (direction == Diagonal) {
 		o_directionY = -o_directionY;
 		o_directionX = -o_directionX;
-		Move(deltaTime);
 	}
 }
 
-void Ball::OnCollisionStay(char direction, float deltaTime) {
-	Rebound(direction, deltaTime);
+void Ball::OnCollisionEnter(const GameObject& Object, float deltaTime) {
+	cout << "ENTER" << endl;
+	o_shouldMove = false;
+	float overlapLR = min(o_posY + o_height / 2, Object.o_posY + Object.o_height / 2) - max(o_posY - o_height / 2, Object.o_posY - Object.o_height / 2);
+	float overlapUD = min(o_posX + o_width / 2, Object.o_posX + Object.o_width / 2) - max(o_posX - o_width / 2, Object.o_posX - Object.o_width / 2);
+	if (overlapLR > overlapUD) {
+		if (o_posX + o_width / 2 >= Object.o_posX - Object.o_width / 2 and o_posX <= Object.o_posX and o_lastSide != Left) {
+			Rebound(Left,deltaTime);
+			o_lastSide = Left;
+		}
+		else if (o_lastSide != Right) {
+			Rebound(Right, deltaTime);
+			o_lastSide = Right;
+		}
+	}
+	else if (overlapLR < overlapUD) {
+		if (o_posY + o_height / 2 >= Object.o_posY - Object.o_height / 2 and o_posY <= Object.o_posY and o_lastSide != Up) {
+			Rebound(Up, deltaTime);
+			o_lastSide = Up;
+		}
+		else if (o_lastSide != Down){
+			cout << "JAVAI REZON" << endl;
+			Rebound(Down, deltaTime);
+			o_lastSide = Down;
+		}
+	}
+	else {
+		Rebound(Diagonal, deltaTime);
+		o_lastSide = Diagonal;
+	}
+
+}
+
+void Ball::OnCollisionStay(float deltaTime) {
+	//std::cout << "STAY" << std::endl;
+	Move(deltaTime);
 }

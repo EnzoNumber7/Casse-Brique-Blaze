@@ -12,13 +12,15 @@ Game::Game(){
 	g_window = new GameWindow();
 	g_deltaTime = 0.f;
 	g_isRunning = true;
+
 	g_ballNum = 50;
 	g_currentBall = new Ball();
-	g_currentBall->SetSize(20, 20);
 	g_currentBall->SetPos(g_window->GetWidth() / 2 - 10, g_window->GetHeight() - 40);
+
 	g_canon = NULL;
 	g_bricksNum = NULL;
 	*g_borders = NULL;
+
 	if (!g_font.loadFromFile("rsrc/font.ttf"))
 	{
 		std::cout << "Error Loading font" << std::endl;
@@ -37,7 +39,7 @@ void Game::HandleEvents(){
         {
 			if (event.type == Event::Closed)
 				CloseWindow();
-			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Space)){
+			if ((event.mouseButton.button == sf::Mouse::Left)){
 				if (!g_currentBall){
 					std::cout << "No more balls available" << std::endl;
 					g_isRunning = false;
@@ -70,19 +72,9 @@ void Game::DrawHUD(){
 }
 
 int	Game::NewBall(){
-	if (g_remainingBalls.empty()) {
-		std::cout << "Unlucky ! You lost with " << g_bricksNum << " Bricks Remaining !" << std::endl;
-		return 1;
-	}
-	if (g_bricks.empty()) {
-		std::cout << "Good job ! You won with " << g_ballNum << " Balls Remaining !" << std::endl;
-		return 1;
-	}
-	g_ballNum--;
 	g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
 	g_remainingBalls.pop_back();
-	g_currentBall->SetSize(20, 20);
-	g_currentBall->SetPos(g_window->GetWidth() / 2 - 10, g_window->GetHeight() - 40);
+	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 40);
 	g_canon->SetColor(0, 255, 0);
 	std::cout << g_ballNum << " Balls Remaining." << std::endl;
 	return 0;
@@ -90,6 +82,7 @@ int	Game::NewBall(){
 
 void	Game::SendBall(){
 	if (g_currentBall->isMoving == false) {
+		g_ballNum--;
 		g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_currentBall->o_posX, Mouse::getPosition(*g_window->w_window).y - g_currentBall->o_posY);
 		g_currentBall->isMoving = true;
 		g_canon->SetColor(255, 0, 0);
@@ -105,9 +98,8 @@ void	Game::GenerateBalls () {
 
 void	Game::GenerateTerrain(){
 	g_bricksNum = 4;
-	for (float i = 0; i <= g_bricksNum - 1; i++) {
+	for (float i = 0; i <= g_bricksNum - 1; i++){
 		Brick* brick = new Brick();
-		brick->SetSize(50, 50);
 		brick->SetPos(250 + (i * 50 + (10 * i)), 250);
 		g_bricks.push_back(brick);
 	}
@@ -116,42 +108,37 @@ void	Game::GenerateTerrain(){
 void	Game::GenerateCanon(){
 	g_canon = new Canon();
 	g_canon->SetColor(0, 255, 0);
-	g_canon->SetSize(50, 100);
-	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight());
-	g_canon->SetDirection(0, -1);
+	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
+	g_canon->SetOrientation(0, 1);
 }
 
 
 void	Game::SetBorder(Border* border, char id){
 	switch (id) {
 	case('l'):
-		border->SetSize(100, g_window->w_height);
-		border->o_shape->setOrigin(0.5f, 0.5f);
-		border->SetPos(-50, g_window->w_height / 2);
+		border->SetPos(-25,g_window->w_height / 2);
+		border->o_shape->setOrigin(border->o_width / 2, border->o_height / 2);
 		break;
 	case('u'):
-		border->SetSize(g_window->w_width, 100);
-		border->o_shape->setOrigin(0.5f, 0.5f);
-		border->SetPos(g_window->w_width / 2, -50);
+		border->SetPos(g_window->w_width / 2, -25);
+		border->o_shape->setOrigin(border->o_width / 2, border->o_height / 2);
 		break;
 	case('r'):
-		border->SetSize(100, g_window->w_height);
-		border->o_shape->setOrigin(0.5f, 0.5f);
-		border->SetPos(g_window->w_width + 50, g_window->w_height / 2);
+		border->SetPos(g_window->w_width + 25, g_window->w_height / 2);
+		border->o_shape->setOrigin(border->o_width / 2, border->o_height / 2);
 		break;
 	case('d'):
-		border->SetSize(g_window->w_width, 100);
-		border->o_shape->setOrigin(0.5f, 0.5f);
-		border->SetPos(g_window->w_width / 2, g_window->w_height + 50);
+		border->SetPos(g_window->w_width / 2,g_window->w_height + 25);
+		border->o_shape->setOrigin(border->o_width / 2, border->o_height / 2);
 		break;
 	}
 }
 
 void	Game::GenerateBorders(){
-	Border* leftWall = new Border();
-	Border* rightWall = new Border();
-	Border* upWall = new Border();
-	Border* downWall = new Border();
+	Border* leftWall = new Border('l', g_window);
+	Border* rightWall = new Border('r', g_window);
+	Border* upWall = new Border('u', g_window);
+	Border* downWall = new Border('d', g_window);
 
 	SetBorder(leftWall, 'l');
 	SetBorder(upWall, 'u');
@@ -168,11 +155,11 @@ void	Game::CloseWindow(){
 	g_window->w_window->close();
 }
 
-void Game::DestroyBall() {
+void Game::DestroyBall(){
 	delete g_currentBall;
 }
 
-void Game::ClearBricks() {
+void Game::ClearBricks(){
 	Brick* brick;
 	if (g_bricks.empty() == false) {
 		for (int i = 0; i < g_bricksNum; i++) {
@@ -184,5 +171,16 @@ void Game::ClearBricks() {
 				g_bricksNum--;
 			}
 		}
+	}
+}
+
+void Game::EndCheck(){
+	if (g_bricks.empty()) {
+		std::cout << "Good job ! You won with " << g_ballNum << " Balls Remaining !" << std::endl;
+		g_isRunning = false;
+	}
+	if (g_remainingBalls.empty() && !g_currentBall) {
+		std::cout << "Unlucky ! You lost with " << g_bricksNum << " Bricks Remaining !" << std::endl;
+		g_isRunning = false;
 	}
 }

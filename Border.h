@@ -6,6 +6,6 @@ class Border : public GameObject
 {
 public:
 
-	Border();
+	Border(char position, GameWindow* window);
 };
 

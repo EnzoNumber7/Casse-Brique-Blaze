@@ -7,7 +7,10 @@
 #include <iostream>
 
 Brick::Brick() {
-	o_shape = new RectangleShape(Vector2f(1.f, 1.f));
-	o_shape->setOrigin(0.5f, 0.5f);
+	o_shape = new RectangleShape(Vector2f(50.f, 50.f));
+	o_width = 50.f;
+	o_height = 50.f;
+	o_shape->setOrigin(25.f, 25.f);
+	o_shape->setFillColor(sf::Color::Green);
 	o_life = 3;
 }

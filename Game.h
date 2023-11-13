@@ -41,6 +41,7 @@ public:
 	void						GenerateTerrain();
 	void						GenerateCanon();
 	void						GenerateBorders();
+	void						EndCheck();
 
 private:
 	void						SetBorder(Border* border, char id);
