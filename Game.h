@@ -24,6 +24,9 @@ public:
 	int							g_bricksNum;
 	int							g_ballNum;
 
+	sf::Font					g_font;
+	sf::Text					g_screenBalls;
+
 	Game();
 
 	void						CloseWindow();
@@ -33,6 +36,7 @@ public:
 	void						DestroyBall();
 	void						ClearBricks();
 	void						RefreshWindow();
+	void						DrawHUD();
 	void						GenerateBalls();
 	void						GenerateTerrain();
 	void						GenerateCanon();

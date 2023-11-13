@@ -19,6 +19,16 @@ Game::Game(){
 	g_canon = NULL;
 	g_bricksNum = NULL;
 	*g_borders = NULL;
+	if (!g_font.loadFromFile("rsrc/font.ttf"))
+	{
+		std::cout << "Error Loading font" << std::endl;
+		exit(1);
+	}
+	g_screenBalls.setFont(g_font);
+	g_screenBalls.setCharacterSize(24);
+	g_screenBalls.setFillColor(sf::Color::Green);
+	g_screenBalls.setStyle(sf::Text::Bold);
+	g_screenBalls.setPosition(760, 0);
 }
 
 void Game::HandleEvents(){
@@ -50,7 +60,13 @@ void Game::RefreshWindow(){
 	for (int j = 0; j < 4; ++j)
 		g_window->DrawObject(g_borders[j]);
 	g_window->DrawObject(g_canon);
+	DrawHUD();
 	g_window->w_window->display();
+}
+
+void Game::DrawHUD(){
+	g_screenBalls.setString(std::to_string(g_ballNum));
+	g_window->w_window->draw(g_screenBalls);
 }
 
 int	Game::NewBall(){

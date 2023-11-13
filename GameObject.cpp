@@ -52,12 +52,8 @@ void GameObject::SetDirection(float dirX, float dirY) {
 }
 
 void GameObject::DecreaseLife(GameObject* Object, int value){
-	if (Object->o_life != NULL) {
+	if (Object->o_life != NULL)
 		Object->o_life = Object->o_life - value;
-		std::cout << Object->o_life << std::endl;
-		//if (Object->o_life <= 0)
-			//delete Object;
-	}
 }
 
 char GameObject::IsColliding(GameObject* Object) {

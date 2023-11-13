@@ -44,6 +44,7 @@ int main()
                 if (i == 3) { 
                     if (game.NewBall()){
 						game.g_isRunning = false;
+                        game.g_screenBalls.setString(std::to_string(game.g_ballNum));
                     }
                 }
                
