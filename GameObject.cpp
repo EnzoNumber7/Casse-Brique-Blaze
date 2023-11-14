@@ -21,6 +21,14 @@ GameObject::GameObject() {
 	o_life = NULL;
 	o_shouldMove = true;
 	o_lastSide = None;
+	o_angle = 0.f;
+}
+
+void GameObject::ResetAngle() {
+	if (o_angle >= 0 and o_angle < 100) {
+		o_angle = 100;
+	}
+	else o_angle = -100;
 }
 
 void GameObject::SetPos(float posX, float posY) {
@@ -35,18 +43,14 @@ void GameObject::SetColor(int r, int g, int b) {
 
 void GameObject::SetOrientation(int x, int y)
 {
-	float	orientation;
 
-	orientation = -atan2(x - o_posX, y - o_posY) * 180 / 3.14159f;
-	//RotateVect(0, 1, 180);
-	cout << RotateVect(0, 1, 180).x << "  " << RotateVect(0, 1, 180).y << endl;
-	o_shape->setRotation(orientation);
+	o_angle = -atan2(x - o_posX, y - o_posY) * 180 / 3.14159f;
+	o_shape->setRotation(o_angle);
 }
 
-void GameObject::SetDirection(float dirX, float dirY) {
-	o_directionX = dirX;
-	o_directionY = dirY;
-	Normalize(&o_directionX, &o_directionY);
+void GameObject::SetDirection(float angle) {
+	o_directionX = RotateVect(0, 1, angle).x;
+	o_directionY = RotateVect(0, 1, angle).y;
 }
 
 void GameObject::DecreaseLife(GameObject* Object, int value){

@@ -27,13 +27,9 @@ int main()
     while (game.g_isRunning)
     {
         game.HandleEvents();
-        if (Mouse::getPosition(*game.g_window->w_window).y < game.g_canon->o_posY) {
+        if (Mouse::getPosition(*game.g_window->w_window).y < game.g_canon->o_posY - 50) {
             game.g_canon->SetOrientation(Mouse::getPosition(*game.g_window->w_window).x, Mouse::getPosition(*game.g_window->w_window).y);
         }
-        //game.g_currentBall->o_shape->setOrigin(0.5f, 0.5f);
-        //game.g_currentBall->SetPos(0,0);
-        //cout << game.g_currentBall->CheckCollision(game.g_borders[1], game.g_deltaTime) << endl;
-        //cout << game.g_currentBall->CheckCollision(game.g_bricks.at(0), game.g_deltaTime) << endl;
         
         for (int i = 0; i < game.g_bricks.size(); i++) {
             game.g_currentBall->CheckCollision(game.g_bricks.at(i), game.g_deltaTime);
@@ -41,8 +37,7 @@ int main()
 
         for (int i = 0; i < 4; i++) {
             
-            game.g_currentBall->CheckCollision(game.g_borders[i], game.g_deltaTime);
-            if  (game.g_currentBall->CheckCollision(game.g_borders[i], game.g_deltaTime)) {
+            if (game.g_currentBall->CheckCollision(game.g_borders[i], game.g_deltaTime)) {
                 if (i == 3) { 
                     if (game.NewBall()){
 						game.g_isRunning = false;

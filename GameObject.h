@@ -18,6 +18,7 @@ public:
 	float			o_posY;
 	float			o_directionX;
 	float			o_directionY;
+	float			o_angle;
 	int				o_life;
 	bool			o_shouldMove;
 	CollisionSide   o_lastSide;
@@ -26,10 +27,11 @@ public:
 	~GameObject();
 
 	void			ChangeCollideBool();
+	void			ResetAngle();
 	void			SetColor(int r, int g, int b);
 	void			SetPos(float posX, float posY);
 	void			SetOrientation(int x, int y);
-	void			SetDirection(float dirX, float dirY);
+	void			SetDirection(float angle);
 	void			DecreaseLife(GameObject* Object, int value);
 	bool			CheckCollision( GameObject* Object, float deltaTime);
 	void			virtual OnCollisionEnter(const GameObject& Object, float deltaTime);

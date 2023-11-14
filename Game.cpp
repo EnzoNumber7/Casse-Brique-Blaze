@@ -16,7 +16,7 @@ Game::Game(){
 
 	g_ballNum = 50;
 	g_currentBall = new Ball();
-	g_currentBall->SetPos(g_window->GetWidth() / 2 - 10, g_window->GetHeight() - 40);
+	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 
 	g_canon = NULL;
 	g_bricksNum = NULL;
@@ -82,7 +82,7 @@ void Game::DrawHUD(){
 int	Game::NewBall(){
 	g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
 	g_remainingBalls.pop_back();
-	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 40);
+	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 	g_canon->SetColor(0, 255, 0);
 	std::cout << g_ballNum << " Balls Remaining." << std::endl;
 	return 0;
@@ -91,7 +91,7 @@ int	Game::NewBall(){
 void	Game::SendBall(){
 	if (g_currentBall->isMoving == false) {
 		g_ballNum--;
-		g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_canon->o_posX, Mouse::getPosition(*g_window->w_window).y - g_canon->o_posY);
+		g_currentBall->SetDirection(g_canon->o_angle);
 		g_currentBall->isMoving = true;
 		g_canon->SetColor(255, 0, 0);
 	}
