@@ -1,6 +1,7 @@
 #pragma once
 class GameWindow;
 class GameObject;
+class Map;
 class Canon;
 class Ball;
 class Brick;
@@ -13,6 +14,7 @@ class Game
 public:
 
 	sf::Clock					g_Clock;
+	Map*						g_mapObj;
 	std::vector<Ball*>			g_remainingBalls;
 	std::vector<Brick*>			g_bricks;
 	Border*						g_borders[4];

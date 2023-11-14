@@ -13,6 +13,7 @@ public:
 	Map();
 
 	void			ParseMap();
+	void			CheckMap();
 
 private:
 
@@ -21,6 +22,5 @@ private:
 	bool			IsMapFormated();
 	bool			IsConfigFormated(std::string *line);
 	bool			IsHeightFormated();
-	void			CheckMap();
 };
 

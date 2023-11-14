@@ -76,18 +76,27 @@ void		Map::ParseMap() {
 		if (currentChar == '\n')
 			numEndl++;
 	}
+	input.close();
+	
+	input.open(filepath);
 	while (input) {
 		string	line;
 		int		lenLine;
 
-		getline(input, line, '\n');
-		line.pop_back();
-		lenLine = line.length();
+		
+		getline(input, *m_map[i], '\n');
+		cout << "TEST" << endl;
+		m_map[i]->pop_back();
+		lenLine = m_map[i]->length();
 		if (lenLine == 0)
 			cout << "Error Parsing" << endl;
-		m_map[i] = &line;
+		cout << m_map[i] << endl;
+		//*m_map[i] = line;
+		cout << "TEST" << endl;
 		i++;
 	}
+	input.close();
+	
 }
 
 bool		Map::IsHeightFormated() {
