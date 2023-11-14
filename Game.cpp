@@ -40,9 +40,9 @@ Game::Game(){
 	g_screenBalls.setFillColor(sf::Color::White);
 	g_screenBalls.setStyle(sf::Text::Bold);
 	g_screenBalls.setPosition(760, 0);
-	//g_mapObj = new Map;
-	//g_mapObj->ParseMap();
-	//g_mapObj->CheckMap();
+	g_mapObj = new Map;
+	g_mapObj->ParseMap();
+	g_mapObj->CheckMap();
 }
 
 void Game::HandleEvents(){

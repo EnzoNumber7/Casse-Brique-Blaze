@@ -19,7 +19,6 @@ int main()
     game.GenerateCanon();
     game.GenerateBorders();
     game.GenerateBalls();
-    //game.Parser();
     cout << game.g_map << endl;
 
     bool moving = true;

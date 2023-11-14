@@ -2,101 +2,107 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
 Map::Map() {
 	m_sizeX = 0;
 	m_sizeY = 0;
+	m_error = "LOL";
 }
 
-bool		Map::IsConfigFormated(string *line){
-	int		lenLine = line->length();
+bool		Map::IsConfigFormated(char *line){
+	int		lenLine = strlen(line);
 	bool	first = false;
 	bool	second = true;
 
 	if (lenLine == 0 || lenLine > 4)
 		return false;
 	for (int i = 0; i < lenLine; ++i) {
-		if (second and (line->at(i) < 48 || line->at(i) > 57))
+		if (second and (line[i] < 48 || line[i] > 57))
 			return false;
-		else if (first and line->at(i) != 120 and !second)
+		else if (first and line[i] != 120 and !second)
 			return false;
-		else if (line->at(i) < 48 || line->at(i) > 57)
+		else if (line[i] < 48 || line[i] > 57)
 			return false;
-		if (line->at(i) == 120)
+		if (line[i] == 120)
 			first = true;
-		if (first and line->at(i) != 120)
+		if (first and line[i] != 120)
 			second = true;
 	}
 }
 
-bool		Map::IsLineFormated(string* line) {
-	if (line->length() != m_sizeX)
+bool		Map::IsLineFormated(char* line) {
+	if (strlen(line) != m_sizeX)
 		return false;
 	for (int i = 0; i < m_sizeX; ++i) {
-		if (line[i].at(i) > 48 || line->at(i) > 57)
+		if (line[i] > 48 || line[i] > 57)
 			return false;
 
 	}
 }
 
 void		Map::GetSize() {
-	string	line = *m_map[m_sizeY];
-	string	x;
-	string	y;
-	int		lenLine = line.length();
+	char	*x;
+	char	*y;
+	int		lenLine = strlen(m_config);
 
-	if (line[1] >= 48 || line[1] <= 57)
-		y = line.substr(3, 1);
-	else
-		y = line.substr(2, 1);
-	y = line;
-	x.pop_back();
-	x.pop_back();
+	x = new char[2];
+	if (m_config[1] >= 48 || m_config[1] <= 57) {
+		y = new char[3];
+		y[0] = m_config[0];
+		y[1] = m_config[1];
+		y[2] = '\0';
+		x[0] = m_config[3];
+		x[1] = '\0';
+	}
+	else {
+		y = new char[2];
+		y[0] = m_config[0];
+		y[1] = '\0';
+		x[0] = m_config[2];
+		x[1] = '\0';
+	}
+	cout << y << endl;
+	cout << x << endl;
 	m_sizeX = stoi(x);
 	m_sizeY = stoi(y);
+	delete[] x;
+	delete[] y;
 }
 
-void		Map::ParseMap() {
-	string		filepath = "rsrc/map.txt";
-	ifstream	input;
-	int			numEndl = 0;
-	int			currentChar;
-	int			i = 0;
+void Map::ParseMap() {
+	string filepath = "rsrc/map.txt";
+	ifstream input(filepath);
 
-	input.open(filepath);
 	if (!input.is_open()) {
 		cout << "Error loading map" << endl;
+		return;
 	}
-	while (1){
-		if (input.peek() == -1)
-			break;
-		currentChar = input.get();
-		if (currentChar == '\n')
-			numEndl++;
-	}
-	input.close();
-	
-	input.open(filepath);
-	while (input) {
-		string	line;
-		int		lenLine;
 
-		
-		getline(input, *m_map[i], '\n');
-		cout << "TEST" << endl;
-		m_map[i]->pop_back();
-		lenLine = m_map[i]->length();
-		if (lenLine == 0)
-			cout << "Error Parsing" << endl;
-		cout << m_map[i] << endl;
-		//*m_map[i] = line;
-		cout << "TEST" << endl;
-		i++;
+	vector<string> temp;
+	string line;
+
+	while (getline(input, line)) {
+		if (!line.empty()) {
+			temp.push_back(line);
+		}
 	}
+
 	input.close();
-	
+
+	m_map = new char* [temp.size()];
+
+	for (size_t i = 0; i < temp.size() - 1; ++i) {
+		m_map[i] = new char[temp[i].size()];
+		strcpy_s(m_map[i], temp[i].size() + 1, temp[i].c_str());
+		cout << "Test" << endl;
+	}
+	m_config = new char[temp[temp.size() - 1].size() + 1];
+	strcpy_s(m_config, temp[temp.size() - 1].size() + 1, temp[temp.size() - 1].c_str());
+	for (int i = 0; i < 7; ++i)
+		cout << m_map[i] << endl;
 }
 
 bool		Map::IsHeightFormated() {
