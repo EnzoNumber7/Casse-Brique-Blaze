@@ -19,13 +19,15 @@ int main()
     game.GenerateCanon();
     game.GenerateBorders();
     game.GenerateBalls();
+    //game.Parser();
+    cout << game.g_map << endl;
 
     bool moving = true;
 
     while (game.g_isRunning)
     {
         game.HandleEvents();
-        if (Mouse::getPosition(*game.g_window->w_window).y < game.g_window->w_height) {
+        if (Mouse::getPosition(*game.g_window->w_window).y < game.g_canon->o_posY) {
             game.g_canon->SetOrientation(Mouse::getPosition(*game.g_window->w_window).x, Mouse::getPosition(*game.g_window->w_window).y);
         }
         //game.g_currentBall->o_shape->setOrigin(0.5f, 0.5f);

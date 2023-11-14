@@ -1,12 +1,13 @@
 #include "GameObject.h"
 #include "GameWindow.h"
 #include "Game.h"
+#include "math.h"
 #include <SFML/Graphics.hpp>
-#include <cmath>
 #include <iostream>
 
 using namespace sf;
 using namespace std;
+using namespace math;
 
 GameObject::GameObject() {
 	o_shape = NULL;
@@ -37,13 +38,15 @@ void GameObject::SetOrientation(int x, int y)
 	float	orientation;
 
 	orientation = -atan2(x - o_posX, y - o_posY) * 180 / 3.14159f;
+	//RotateVect(0, 1, 180);
+	cout << RotateVect(0, 1, 180).x << "  " << RotateVect(0, 1, 180).y << endl;
 	o_shape->setRotation(orientation);
 }
 
 void GameObject::SetDirection(float dirX, float dirY) {
-	o_directionX = dirX / (float)sqrt(pow(dirX,2)+pow(dirY,2));
-	o_directionY = dirY / (float)sqrt(pow(dirX, 2) + pow(dirY, 2));
-
+	o_directionX = dirX;
+	o_directionY = dirY;
+	Normalize(&o_directionX, &o_directionY);
 }
 
 void GameObject::DecreaseLife(GameObject* Object, int value){
@@ -126,7 +129,7 @@ void GameObject::OnCollisionStay(float deltaTime){
 }
 
 void GameObject::OnCollisionExit(){
-	cout << "EXIT" << endl;
+	//cout << "EXIT" << endl;
 	o_shouldMove = true;
 }
 

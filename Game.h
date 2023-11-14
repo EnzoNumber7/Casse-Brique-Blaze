@@ -27,6 +27,8 @@ public:
 	sf::Font					g_font;
 	sf::Text					g_screenBalls;
 
+	char*						g_map;
+
 	Game();
 
 	void						CloseWindow();
@@ -42,6 +44,7 @@ public:
 	void						GenerateCanon();
 	void						GenerateBorders();
 	void						EndCheck();
+	void						Parser();
 
 private:
 	void						SetBorder(Border* border, char id);

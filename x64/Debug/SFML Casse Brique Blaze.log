@@ -1,2 +1,12 @@
-﻿  Ball.cpp
+﻿  math.cpp
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\math.cpp(15,24): warning C4244: '=' : conversion de 'double' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\math.cpp(16,24): warning C4244: '=' : conversion de 'double' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
   SFML Casse Brique Blaze.vcxproj -> C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <errno.h>
 #include "Game.h"
 #include "GameWindow.h"
 #include "GameObject.h"
@@ -20,6 +21,13 @@ Game::Game(){
 	g_canon = NULL;
 	g_bricksNum = NULL;
 	*g_borders = NULL;
+
+	g_map = (char *)malloc(13 * 5 + 1);
+	if (!g_map)
+	{
+		std::cout << "Malloc Error Loading Map" << std::endl;
+		exit(1);
+	}
 
 	if (!g_font.loadFromFile("rsrc/font.ttf"))
 	{
@@ -83,7 +91,7 @@ int	Game::NewBall(){
 void	Game::SendBall(){
 	if (g_currentBall->isMoving == false) {
 		g_ballNum--;
-		g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_currentBall->o_posX, Mouse::getPosition(*g_window->w_window).y - g_currentBall->o_posY);
+		g_currentBall->SetDirection(Mouse::getPosition(*g_window->w_window).x - g_canon->o_posX, Mouse::getPosition(*g_window->w_window).y - g_canon->o_posY);
 		g_currentBall->isMoving = true;
 		g_canon->SetColor(255, 0, 0);
 	}
@@ -183,4 +191,23 @@ void Game::EndCheck(){
 		std::cout << "Unlucky ! You lost with " << g_bricksNum << " Bricks Remaining !" << std::endl;
 		g_isRunning = false;
 	}
+}
+
+void Game::Parser(){
+	errno_t error;
+	FILE* mapFile;
+	if ((error = fopen_s(&mapFile,"rsrc/map.txt", "rb") != 0))
+		std::cout << "Error Loading Map File" << std::endl;
+	fseek(mapFile, 0L, SEEK_END);
+	long fsize = ftell(mapFile);
+	fseek(mapFile, 0L, SEEK_SET);
+	if (fsize != 13 * 5){
+		std::cout << "Map File == " << fsize << std::endl;
+		std::cout << "Wrong Map File size" << std::endl;
+		exit(1);
+	}
+	fread(g_map, fsize, 1, mapFile);
+	fclose(mapFile);
+
+	g_map[fsize] = '\0';
 }

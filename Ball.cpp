@@ -38,7 +38,7 @@ void Ball::Rebound(CollisionSide direction, float deltaTime) {
 }
 
 void Ball::OnCollisionEnter(const GameObject& Object, float deltaTime) {
-	cout << "ENTER" << endl;
+	//cout << "ENTER" << endl;
 	o_shouldMove = false;
 	float overlapLR = min(o_posY + o_height / 2, Object.o_posY + Object.o_height / 2) - max(o_posY - o_height / 2, Object.o_posY - Object.o_height / 2);
 	float overlapUD = min(o_posX + o_width / 2, Object.o_posX + Object.o_width / 2) - max(o_posX - o_width / 2, Object.o_posX - Object.o_width / 2);
@@ -58,7 +58,6 @@ void Ball::OnCollisionEnter(const GameObject& Object, float deltaTime) {
 			o_lastSide = Up;
 		}
 		else if (o_lastSide != Down){
-			cout << "JAVAI REZON" << endl;
 			Rebound(Down, deltaTime);
 			o_lastSide = Down;
 		}
