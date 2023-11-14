@@ -36,7 +36,7 @@ Game::Game(){
 	}
 	g_screenBalls.setFont(g_font);
 	g_screenBalls.setCharacterSize(24);
-	g_screenBalls.setFillColor(sf::Color::Green);
+	g_screenBalls.setFillColor(sf::Color::White);
 	g_screenBalls.setStyle(sf::Text::Bold);
 	g_screenBalls.setPosition(760, 0);
 }
@@ -105,11 +105,18 @@ void	Game::GenerateBalls () {
 }
 
 void	Game::GenerateTerrain(){
-	g_bricksNum = 4;
-	for (float i = 0; i <= g_bricksNum - 1; i++){
-		Brick* brick = new Brick();
-		brick->SetPos(250 + (i * 50 + (10 * i)), 250);
-		g_bricks.push_back(brick);
+	g_bricksNum = 91;
+	float	x = 40;
+	float	y = 65;
+	for (int j = 0; j < 7; ++j) {
+		for (int i = 0; i <= 12; ++i) {
+			Brick* brick = new Brick();
+			brick->SetPos(x, y);
+			g_bricks.push_back(brick);
+			x += (60);
+		}
+		x = 40;
+		y += 40;
 	}
 }
 

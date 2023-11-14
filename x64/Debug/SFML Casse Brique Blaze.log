@@ -1,2 +1,9 @@
-﻿  main.cpp
-  SFML Casse Brique Blaze.vcxproj -> C:\Users\enzop\source\repos\EnzoNumber7\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe
+﻿  Map.cpp
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(14,15): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(48,15): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(85,24): warning C4267: '=' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(32): warning C4715: 'Map::IsConfigFormated' : les chemins de contrôle ne retournent pas tous une valeur
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(42): warning C4715: 'Map::IsLineFormated' : les chemins de contrôle ne retournent pas tous une valeur
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(96): warning C4715: 'Map::IsHeightFormated' : les chemins de contrôle ne retournent pas tous une valeur
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(114): warning C4715: 'Map::IsMapFormated' : les chemins de contrôle ne retournent pas tous une valeur
+  SFML Casse Brique Blaze.vcxproj -> C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe
