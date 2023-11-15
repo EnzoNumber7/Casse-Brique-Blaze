@@ -8,6 +8,8 @@ class Brick;
 class Border;
 
 #include <SFML/System/Clock.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <xstring>
 
 class Game
 {
@@ -15,10 +17,12 @@ private:
 
 	// Main Attributes
 
-	GameWindow* g_window;
-	Hud* g_hud;
+	GameWindow*					g_window;
+	bool						g_menu;
+	Hud*						g_hud;
 
-	Map* g_map;
+	Map*						g_map;
+	std::string					*g_filePath;
 
 	// Time Attributes
 
@@ -47,11 +51,17 @@ public:
 
 	// Called in main
 
+	void						Menu();
 	void						Start();
 	void						Generate();
 
 private:
 	
+	// Menu
+
+	void						GetPath(sf::Vector2i MousePos);
+	void						ChooseLevel();
+
 	// Generation
 
 	void						GenerateTerrain();

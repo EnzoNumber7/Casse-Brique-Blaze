@@ -14,6 +14,12 @@ void math::Normalize(float* VectX, float* VectY) {
 	*VectY = *VectY / (float)sqrt(pow(*VectX, 2) + pow(*VectY, 2));
 }
 
+float math::RoundFloat(float number, int roundingNum) {
+	int temp = (number * pow(10, roundingNum));
+	number = temp / 1000;
+	return number;
+}
+
 sf::Vector2f math::RotateVect(float X, float Y, float angle) {
 	float rad = (3.1415926535 / 180) * angle;
 	sf::Vector2f Vect;

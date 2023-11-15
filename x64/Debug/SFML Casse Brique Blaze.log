@@ -1,4 +1,1 @@
-﻿  Map.cpp
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(51,15): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Map.cpp(83,15): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
-  SFML Casse Brique Blaze.vcxproj -> C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe
+﻿  SFML Casse Brique Blaze.vcxproj -> C:\Users\Julie\Desktop\Projet Cpp\SFML\tmp\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe

@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <errno.h>
+#include <SFML/System/Vector2.hpp>
 
 #include "Game.h"
 
@@ -13,6 +14,8 @@
 #include "Map.h"
 #include "Hud.h"
 
+//enum FileNum { One, Two, Three, Four, Five, Six };
+
 /*
 ---------------------------------------------------------------------------------
 |						 Here is the constructor								|
@@ -21,8 +24,12 @@
 
 Game::Game(){
 	g_window = new GameWindow();
+	g_menu = true;
 	g_deltaTime = 0.f;
 	g_isRunning = true;
+
+	g_filePath = new std::string();
+
 
 	g_ballNum = 50;
 	g_currentBall = new Ball();
@@ -33,9 +40,7 @@ Game::Game(){
 	*g_borders = NULL;
 	g_hud = new Hud();
 
-	g_map = new Map;
-	g_map->ParseMap();
-	g_map->CheckMap();
+	g_map = new Map();
 
 	g_fpsLimit = 1.0f / 120.0f;
 }
@@ -45,7 +50,6 @@ Game::Game(){
 |				Here are all the generation methods								|
 ---------------------------------------------------------------------------------
 */
-
 
 void	Game::GenerateTerrain() {
 	float	x = 40;
@@ -266,15 +270,73 @@ void Game::EndCheck() {
 */
 
 void Game::Generate() {
+	g_map->ParseMap(g_filePath);
+	g_map->CheckMap();
 	GenerateTerrain();
 	GenerateBorders();
 	GenerateCanon();
 	GenerateBalls();
 }
 
+
+void Game::GetPath(Vector2i MousePos) {
+	std::string res;
+	int			x;
+	int			y;
+
+	x = MousePos.x;
+	y = MousePos.y;
+	if (x >= 0 && x <= 266 && y >= 0 && y <= 300) {
+		*g_filePath = "rsrc/Level1.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 266 && MousePos.x <= 532){
+		*g_filePath = "rsrc/Level2.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 532 && MousePos.x <= 800) {
+		*g_filePath = "rsrc/Level3.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 0 && MousePos.x <= 266) {
+		*g_filePath = "rsrc/Level4.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 266 && MousePos.x <= 532) {
+		*g_filePath = "rsrc/Level5.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 532 && MousePos.x <= 800) {
+		*g_filePath = "rsrc/Level6.txt";
+		g_menu = false;
+	}
+}
+
+void Game::Menu() {
+	g_menu = true;
+
+	while (g_menu) {
+		ChooseLevel();
+	}
+}
+
+void Game::ChooseLevel(){
+	Event event;
+	while (g_window->w_window->pollEvent(event))
+	{
+		//std::cout << "Tour de boucle" << std::endl;
+		if (event.type == Event::Closed)
+			CloseWindow();
+		if (Mouse::isButtonPressed(Mouse::Button::Left)) {
+			GetPath(Mouse::getPosition(*g_window->w_window));
+		}
+	}
+}
+
+
 void Game::Start() {
-	float fps = 0;
-	bool moving = true;
+	float	fps = 0;
+
 	while (g_isRunning)
 	{
 		HandleEvents();

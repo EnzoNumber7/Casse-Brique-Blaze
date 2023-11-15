@@ -34,7 +34,7 @@ public:
 	
 	// Main Methods
 
-	void			ParseMap();
+	void			ParseMap(std::string* filePath);
 	void			CheckMap();
 
 	// Get Methods

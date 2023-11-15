@@ -154,11 +154,13 @@ void		Map::CheckMap() {
 ---------------------------------------------------------------------------------
 */
 
-void Map::ParseMap() {
-	string filepath = "rsrc/map.txt";
-	ifstream input(filepath);
+void Map::ParseMap(string *filePath) {
+	//string filepath = "rsrc/Level1.txt";
+	//std::cout << *filePath << std::endl;
+	ifstream input(*filePath);
 
 	if (!input.is_open()) {
+		
 		cout << "Error loading map" << endl;
 		exit(1);
 	}
