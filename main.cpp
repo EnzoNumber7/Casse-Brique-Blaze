@@ -5,7 +5,6 @@
 
 int main()
 {
-    Base        base;
     Game        game;
 
     game.Menu();

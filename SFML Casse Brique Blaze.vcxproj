@@ -142,7 +142,6 @@
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Canon.cpp" />
-    <ClCompile Include="Base.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Hud.cpp" />
@@ -156,7 +155,6 @@
     <ClInclude Include="Border.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Canon.h" />
-    <ClInclude Include="Base.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameWindow.h" />
