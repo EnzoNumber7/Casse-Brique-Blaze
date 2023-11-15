@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "GameWindow.h"
 #include "Game.h"
+#include "math.h"
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
@@ -9,6 +10,7 @@
 #define SPEED 300.0f
 
 using namespace std;
+using namespace math;
 
 Ball::Ball() {
 	o_shape = new CircleShape(10.f);
@@ -42,12 +44,14 @@ void Ball::OnCollisionEnter(const GameObject& Object, float deltaTime) {
 	o_shouldMove = false;
 	float overlapLR = min(o_posY + o_height / 2, Object.o_posY + Object.o_height / 2) - max(o_posY - o_height / 2, Object.o_posY - Object.o_height / 2);
 	float overlapUD = min(o_posX + o_width / 2, Object.o_posX + Object.o_width / 2) - max(o_posX - o_width / 2, Object.o_posX - Object.o_width / 2);
+	overlapLR = RoundFloat(overlapLR, 3);
+	overlapUD = RoundFloat(overlapUD, 3);
 	if (overlapLR > overlapUD) {
 		if (o_posX + o_width / 2 >= Object.o_posX - Object.o_width / 2 and o_posX <= Object.o_posX and o_lastSide != Left) {
 			Rebound(Left,deltaTime);
 			o_lastSide = Left;
 		}
-		else if (o_lastSide != Right) {
+		else if (o_posX - o_width / 2 <= Object.o_posX + Object.o_width / 2 and o_posX >= Object.o_posX and o_lastSide != Right) {
 			Rebound(Right, deltaTime);
 			o_lastSide = Right;
 		}
@@ -57,12 +61,12 @@ void Ball::OnCollisionEnter(const GameObject& Object, float deltaTime) {
 			Rebound(Up, deltaTime);
 			o_lastSide = Up;
 		}
-		else if (o_lastSide != Down){
+		else if (o_posY - o_height / 2 <= Object.o_posY + Object.o_height / 2 and o_posY >= Object.o_posY and o_lastSide != Down){
 			Rebound(Down, deltaTime);
 			o_lastSide = Down;
 		}
 	}
-	else {
+	else if (overlapLR == overlapUD) {
 		Rebound(Diagonal, deltaTime);
 		o_lastSide = Diagonal;
 	}
