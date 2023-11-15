@@ -51,7 +51,7 @@ void Game::HandleEvents(){
         {
 			if (event.type == Event::Closed)
 				CloseWindow();
-			if ((event.mouseButton.button == sf::Mouse::Left)){
+			if (Mouse::isButtonPressed(Mouse::Button::Left)){
 				if (!g_currentBall){
 					std::cout << "No more balls available" << std::endl;
 					g_isRunning = false;
