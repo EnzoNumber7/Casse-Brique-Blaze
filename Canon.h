@@ -6,5 +6,7 @@ class Canon : public GameObject
 {
 public:
 	Canon();
+
+	void	FollowMouse(GameWindow* window);
 };
 

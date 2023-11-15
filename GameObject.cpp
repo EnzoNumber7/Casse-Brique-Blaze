@@ -1,13 +1,18 @@
-#include "GameObject.h"
-#include "GameWindow.h"
-#include "Game.h"
-#include "math.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
+
+#include "GameObject.h"
+
+#include "math.h"
 
 using namespace sf;
 using namespace std;
 using namespace math;
+
+/*
+---------------------------------------------------------------------------------
+|						 Here is the constructor								|
+---------------------------------------------------------------------------------
+*/
 
 GameObject::GameObject() {
 	o_shape = NULL;
@@ -24,12 +29,11 @@ GameObject::GameObject() {
 	o_angle = 0.f;
 }
 
-void GameObject::ResetAngle() {
-	if (o_angle >= 0 and o_angle < 100) {
-		o_angle = 100;
-	}
-	else o_angle = -100;
-}
+/*
+---------------------------------------------------------------------------------
+|				Here are the object parameters related methods					|
+---------------------------------------------------------------------------------
+*/
 
 void GameObject::SetPos(float posX, float posY) {
 	o_posX = posX;
@@ -51,6 +55,13 @@ void GameObject::SetOrientation(int x, int y)
 void GameObject::SetDirection(float angle) {
 	o_directionX = RotateVect(0, 1, angle).x;
 	o_directionY = RotateVect(0, 1, angle).y;
+}
+
+void GameObject::ResetAngle() {
+	if (o_angle >= 0 and o_angle < 100) {
+		o_angle = 100;
+	}
+	else o_angle = -100;
 }
 
 void GameObject::DecreaseLife(GameObject* Object, int value){
@@ -77,6 +88,12 @@ void GameObject::DecreaseLife(GameObject* Object, int value){
 		break;
 	}
 }
+
+/*
+---------------------------------------------------------------------------------
+|				Here are the Collisions related methods							|
+---------------------------------------------------------------------------------
+*/
 
 void GameObject::ChangeCollideBool() {
 	o_InCollision = not o_InCollision;

@@ -5,27 +5,41 @@ class Map
 {
 private:
 
+	// Main Attributes
+
 	int				m_sizeX;
 	int				m_sizeY;
 	int				m_num;
 	const	char*	m_error;
+
 public:
 
-	char			**m_map;
+	char			**m_str;
 	char			*m_config;
-	Map();
 
-	void			ParseMap();
-	void			CheckMap();
-	int				GetWidth();
-	int				GetHeight();
+	Map();
 
 private:
 
-	void			GetSize();
+	// Check Methods
+
+	bool			IsConfigFormated(char* line);
 	bool			IsLineFormated(char *line);
-	bool			IsMapFormated();
-	bool			IsConfigFormated(char *line);
 	bool			IsHeightFormated();
+	bool			IsMapFormated();
+
+	void			GetSize();
+
+public:
+	
+	// Main Methods
+
+	void			ParseMap();
+	void			CheckMap();
+
+	// Get Methods
+
+	int				GetWidth();
+	int				GetHeight();
 };
 

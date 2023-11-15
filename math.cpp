@@ -1,7 +1,13 @@
-#include "math.h"
 #include <cmath>
 #include <iostream>
 
+#include "math.h"
+
+/*
+---------------------------------------------------------------------------------
+|						 Here are the Main Functions							|
+---------------------------------------------------------------------------------
+*/
 
 void math::Normalize(float* VectX, float* VectY) {
 	*VectX = *VectX / (float)sqrt(pow(*VectX, 2) + pow(*VectY, 2));

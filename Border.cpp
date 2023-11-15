@@ -1,19 +1,24 @@
-#include "Border.h"
-#include "GameObject.h"
-#include "GameWindow.h"
-#include "Game.h"
 #include <SFML/Graphics.hpp>
-#include <cmath>
-#include <iostream>
+
+#include "Border.h"
+
+#include "GameWindow.h"
+
+
+/*
+---------------------------------------------------------------------------------
+|						 Here is the constructor								|
+---------------------------------------------------------------------------------
+*/
 
 Border::Border(char position, GameWindow* window) {
 
 	if (position == 'l' or position == 'r') {
 		o_width = 50.f;
-		o_height = window->w_height;
+		o_height = window->GetHeight();
 	}
 	if (position == 'u' or position == 'd') {
-		o_width = window->w_width;
+		o_width = window->GetWidth();
 		o_height = 50.f;
 
 	}

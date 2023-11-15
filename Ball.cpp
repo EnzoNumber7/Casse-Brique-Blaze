@@ -6,7 +6,7 @@
 #include <cmath>
 #include <iostream>
 
-#define SPEED 500.0f
+#define SPEED 300.0f
 
 using namespace std;
 

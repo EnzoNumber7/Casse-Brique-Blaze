@@ -9,8 +9,14 @@ public:
 
 	Ball();
 
-	void			Move(float deltaTime);
+private:
 	void			Rebound(CollisionSide direction, float deltaTime);
+
+public:
+	void			Move(float deltaTime);
+
+	// Collisions Override
+
 	void			OnCollisionEnter(const GameObject& Object, float deltaTime) override;
 	void			OnCollisionStay(float deltaTime) override;
 };

@@ -12,3 +12,9 @@ Canon::Canon() {
 	o_width = 50.f;
 	o_height = 100.f;
 }
+
+void	Canon::FollowMouse(GameWindow *window) {
+	if (Mouse::getPosition(*window->w_window).y < o_posY - 50) {
+		SetOrientation(Mouse::getPosition(*window->w_window).x, Mouse::getPosition(*window->w_window).y);
+	}
+}
