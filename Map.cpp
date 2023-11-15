@@ -9,38 +9,59 @@ using namespace std;
 Map::Map() {
 	m_sizeX = 0;
 	m_sizeY = 0;
-	m_error = "LOL";
+	m_num = 0;
+	m_error =	"Map is not correctly formated. Expected format would be : \n\n\
+\
+0000\n\
+0000\n\
+0000\n\
+0000\n\
+WidthxHeight\n\n\
+\
+You can change 0 by bricks health capped at 9\n \
+Width max is 13\n \
+Height max is 7\n";
+}
+
+int		Map::GetWidth() {
+	return m_sizeX;
+}
+
+int		Map::GetHeight() {
+	return m_sizeY;
 }
 
 bool		Map::IsConfigFormated(char *line){
 	int		lenLine = strlen(line);
 	bool	first = false;
-	bool	second = true;
+	bool	second = false;
 
 	if (lenLine == 0 || lenLine > 4)
 		return false;
 	for (int i = 0; i < lenLine; ++i) {
 		if (second and (line[i] < 48 || line[i] > 57))
 			return false;
-		else if (first and line[i] != 120 and !second)
+		else if (first and line[i] != 120 and second)
 			return false;
-		else if (line[i] < 48 || line[i] > 57)
-			return false;
+		else if (first and line[i] != 120)
+			second = true;
 		if (line[i] == 120)
 			first = true;
-		if (first and line[i] != 120)
-			second = true;
+		if (line[i] == 120 and !line[i + 1])
+			return false;
 	}
+	return true;
 }
 
 bool		Map::IsLineFormated(char* line) {
-	if (strlen(line) != m_sizeX)
+	if (strlen(line) != m_sizeX) 
 		return false;
+		
 	for (int i = 0; i < m_sizeX; ++i) {
-		if (line[i] > 48 || line[i] > 57)
+		if (line[i] < 48 || line[i] > 57)
 			return false;
-
 	}
+	return true;
 }
 
 void		Map::GetSize() {
@@ -48,28 +69,27 @@ void		Map::GetSize() {
 	char	*y;
 	int		lenLine = strlen(m_config);
 
-	x = new char[2];
+	y = new char[2];
 	if (m_config[1] >= 48 || m_config[1] <= 57) {
-		y = new char[3];
-		y[0] = m_config[0];
-		y[1] = m_config[1];
-		y[2] = '\0';
-		x[0] = m_config[3];
-		x[1] = '\0';
+		x = new char[3];
+		x[0] = m_config[0];
+		x[1] = m_config[1];
+		x[2] = '\0';
+		y[0] = m_config[3];
+		y[1] = '\0';
 	}
 	else {
-		y = new char[2];
-		y[0] = m_config[0];
-		y[1] = '\0';
-		x[0] = m_config[2];
+		x = new char[2];
+		x[0] = m_config[0];
 		x[1] = '\0';
+		y[0] = m_config[2];
+		y[1] = '\0';
 	}
-	cout << y << endl;
-	cout << x << endl;
 	m_sizeX = stoi(x);
 	m_sizeY = stoi(y);
 	delete[] x;
 	delete[] y;
+	m_num = m_sizeX * m_sizeY;
 }
 
 void Map::ParseMap() {
@@ -78,7 +98,7 @@ void Map::ParseMap() {
 
 	if (!input.is_open()) {
 		cout << "Error loading map" << endl;
-		return;
+		exit(1);
 	}
 
 	vector<string> temp;
@@ -97,25 +117,29 @@ void Map::ParseMap() {
 	for (size_t i = 0; i < temp.size() - 1; ++i) {
 		m_map[i] = new char[temp[i].size()];
 		strcpy_s(m_map[i], temp[i].size() + 1, temp[i].c_str());
-		cout << "Test" << endl;
 	}
 	m_config = new char[temp[temp.size() - 1].size() + 1];
 	strcpy_s(m_config, temp[temp.size() - 1].size() + 1, temp[temp.size() - 1].c_str());
-	for (int i = 0; i < 7; ++i)
-		cout << m_map[i] << endl;
 }
 
 bool		Map::IsHeightFormated() {
-	if (sizeof(*m_map) / sizeof(*m_map[0]) != m_sizeY + 1)
+	//std::cout << m_sizeY << std::endl;
+	if (sizeof(m_map) / sizeof(*m_map[0]) - 1 != m_sizeY)
 		return false;
+	return true;
 }
 
 void		Map::CheckMap() {
-	if (!IsConfigFormated(m_map[m_sizeY]))
+	if (!IsConfigFormated(m_config)) {
 		cout << m_error << endl;
+		exit(1);
+	}
 	GetSize();
 	if (!IsMapFormated())
+	{
 		cout << m_error << endl;
+		exit(1);
+	}
 }
 
 bool		Map::IsMapFormated() {
@@ -126,4 +150,5 @@ bool		Map::IsMapFormated() {
 			return false;
 		}
 	}
+	return true;
 }

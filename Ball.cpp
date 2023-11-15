@@ -6,15 +6,15 @@
 #include <cmath>
 #include <iostream>
 
-#define SPEED 200.0f
+#define SPEED 500.0f
 
 using namespace std;
 
 Ball::Ball() {
-	o_shape = new CircleShape(20.f);
-	o_width = 40.f;
-	o_height = 40.f;
-	o_shape->setOrigin(20.0f, 20.0f);
+	o_shape = new CircleShape(10.f);
+	o_width = 20.f;
+	o_height = 20.f;
+	o_shape->setOrigin(10.0f, 10.0f);
 	isMoving = false;
 }
 

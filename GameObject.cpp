@@ -56,13 +56,25 @@ void GameObject::SetDirection(float angle) {
 void GameObject::DecreaseLife(GameObject* Object, int value){
 	if (Object->o_life != NULL)
 		Object->o_life = Object->o_life - value;
-	switch(o_life){
-		case (2):
-			o_shape->setFillColor(sf::Color::Yellow);
-			break;
-		case (1):
-			o_shape->setFillColor(sf::Color::Red);
-			break;
+	switch (Object->o_life) {
+	case (1):
+		o_shape->setFillColor(sf::Color::Red);
+		break;
+	case (2):
+		o_shape->setFillColor(sf::Color::Yellow);
+		break;
+	case (3):
+		o_shape->setFillColor(sf::Color::Green);
+		break;
+	case (4):
+		o_shape->setFillColor(sf::Color::Blue);
+		break;
+	case (5):
+		o_shape->setFillColor(sf::Color::Magenta);
+		break;
+	case (6):
+		o_shape->setFillColor(sf::Color::White);
+		break;
 	}
 }
 

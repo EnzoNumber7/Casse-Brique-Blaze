@@ -84,11 +84,13 @@ void Game::DrawHUD(){
 }
 
 int	Game::NewBall(){
-	g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
-	g_remainingBalls.pop_back();
-	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
-	g_canon->SetColor(0, 255, 0);
-	std::cout << g_ballNum << " Balls Remaining." << std::endl;
+	if (!g_remainingBalls.empty()) {
+		g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
+		g_remainingBalls.pop_back();
+		g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
+		g_canon->SetColor(0, 255, 0);
+		return 1;
+	}
 	return 0;
 }
 
@@ -109,18 +111,29 @@ void	Game::GenerateBalls () {
 }
 
 void	Game::GenerateTerrain(){
-	g_bricksNum = 91;
 	float	x = 40;
 	float	y = 65;
-	for (int j = 0; j < 7; ++j) {
-		for (int i = 0; i <= 12; ++i) {
-			Brick* brick = new Brick();
-			brick->SetPos(x, y);
-			g_bricks.push_back(brick);
+	int		sizeX = g_mapObj->GetWidth();
+	int		sizeY = g_mapObj->GetHeight();
+
+	g_bricksNum = 0;
+	for (int i = 0; i < sizeY; ++i) {
+		for (int j = 0; j < sizeX; ++j) {
+			if (g_mapObj->m_map[i][j] - 48 != 0) {
+				Brick* brick = new Brick(g_mapObj->m_map[i][j] - 48);
+				brick->SetPos(x, y);
+				g_bricks.push_back(brick);
+				g_bricksNum++;
+			}
 			x += (60);
 		}
 		x = 40;
 		y += 40;
+	}
+	if (g_bricks.empty())
+	{
+		std::cout << "Error Generating Terrain. Terrain must not be empty" << std::endl;
+		exit(1);
 	}
 }
 
@@ -202,23 +215,4 @@ void Game::EndCheck(){
 		std::cout << "Unlucky ! You lost with " << g_bricksNum << " Bricks Remaining !" << std::endl;
 		g_isRunning = false;
 	}
-}
-
-void Game::Parser(){
-	errno_t error;
-	FILE* mapFile;
-	if ((error = fopen_s(&mapFile,"rsrc/map.txt", "rb") != 0))
-		std::cout << "Error Loading Map File" << std::endl;
-	fseek(mapFile, 0L, SEEK_END);
-	long fsize = ftell(mapFile);
-	fseek(mapFile, 0L, SEEK_SET);
-	if (fsize != 13 * 5){
-		std::cout << "Map File == " << fsize << std::endl;
-		std::cout << "Wrong Map File size" << std::endl;
-		exit(1);
-	}
-	fread(g_map, fsize, 1, mapFile);
-	fclose(mapFile);
-
-	g_map[fsize] = '\0';
 }

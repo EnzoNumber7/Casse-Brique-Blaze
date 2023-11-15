@@ -6,6 +6,6 @@ class Brick : public GameObject
 {
 public:
 
-	Brick();
+	Brick(int hp);
 };
 

@@ -7,6 +7,7 @@ private:
 
 	int				m_sizeX;
 	int				m_sizeY;
+	int				m_num;
 	const	char*	m_error;
 public:
 
@@ -16,6 +17,8 @@ public:
 
 	void			ParseMap();
 	void			CheckMap();
+	int				GetWidth();
+	int				GetHeight();
 
 private:
 
