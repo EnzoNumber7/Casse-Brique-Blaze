@@ -342,19 +342,34 @@ void Game::GetPath(Vector2i MousePos) {
 	}
 }
 
+void	Game::DrawMenu() {
+	sf::Texture menuTexture;
+	sf::Sprite menu;
+
+	if (!menuTexture.loadFromFile("rsrc/menu.png")) {
+		std::cout << "Error loading menu.png" << std::endl;
+		exit(1);
+	}
+	menu.setTexture(menuTexture);
+	g_window->RefreshScreen();
+	g_window->w_window->draw(menu);
+	g_window->w_window->display();
+}
+
 void Game::Menu() {
 	g_menu = true;
 
+	DrawMenu();
 	while (g_menu) {
 		ChooseLevel();
 	}
+	g_window->RefreshScreen();
 }
 
 void Game::ChooseLevel(){
 	Event event;
 	while (g_window->w_window->pollEvent(event))
 	{
-		//std::cout << "Tour de boucle" << std::endl;
 		if (event.type == Event::Closed)
 			CloseWindow();
 		if (Mouse::isButtonPressed(Mouse::Button::Left)) {

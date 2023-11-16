@@ -63,7 +63,7 @@ public:
 private:
 	
 	// Menu
-
+	void						DrawMenu();
 	void						GetPath(sf::Vector2i MousePos);
 	void						ChooseLevel();
 
