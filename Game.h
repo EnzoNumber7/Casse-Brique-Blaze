@@ -9,6 +9,7 @@ class Border;
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Audio/Music.hpp>
 #include <xstring>
 
 class Game

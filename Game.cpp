@@ -1,7 +1,8 @@
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <errno.h>
+#include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Audio/Music.hpp>
 
 #include "Game.h"
 
@@ -21,6 +22,7 @@
 */
 
 Game::Game(){
+
 	g_window = new GameWindow();
 	g_menu = true;
 	g_win = false;
@@ -53,12 +55,12 @@ Game::Game(){
 void Game::GenerateSprites() {
 	sf::Texture* menuTexture = new sf::Texture();
 	sf::Texture* backgroundTexture = new sf::Texture();
-	if (!menuTexture->loadFromFile("rsrc/menu.png") or !backgroundTexture->loadFromFile("rsrc/background.png"))
+	if (!menuTexture->loadFromFile("rsrc/hud/menu.png") or !backgroundTexture->loadFromFile("rsrc/img/background.png"))
 		std::cout << "Error loading menu or background texture." << std::endl;
 	sf::Texture* ballTexture = new sf::Texture();
 	sf::Texture* canonTexture = new sf::Texture();
 	sf::Texture* brickTexture = new sf::Texture();
-	if (!ballTexture->loadFromFile("rsrc/ball.png") or !canonTexture->loadFromFile("rsrc/canon.png") or !brickTexture->loadFromFile("rsrc/brick.png"))
+	if (!ballTexture->loadFromFile("rsrc/img/ball.png") or !canonTexture->loadFromFile("rsrc/img/canon.png") or !brickTexture->loadFromFile("rsrc/img/brick.png"))
 		std::cout << "Error loading object textures." << std::endl;
 
 	sf::Sprite* menuSprite = new sf::Sprite();
@@ -308,27 +310,39 @@ void Game::GetPath(Vector2i MousePos) {
 	x = MousePos.x;
 	y = MousePos.y;
 	if (x >= 0 && x <= 266 && y >= 0 && y <= 300) {
-		*g_filePath = "rsrc/Level1.txt";
+		*g_filePath = "rsrc/levels/Level1.txt";
+		//if (!g_music->openFromFile("rsrc/musics/Level1.ogg"))
+			//exit(1);
 		g_menu = false;
 	}
 	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 266 && MousePos.x <= 532) {
-		*g_filePath = "rsrc/Level2.txt";
+		*g_filePath = "rsrc/levels/Level2.txt";
+		//if (!g_music->openFromFile("rsrc/musics/Level2.ogg"))
+			//exit(1);
 		g_menu = false;
 	}
 	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 532 && MousePos.x <= 800) {
-		*g_filePath = "rsrc/Level3.txt";
+		*g_filePath = "rsrc/levels/Level3.txt";
+		//if (!g_music->openFromFile("rsrc/musics/Level3.ogg"))
+			//exit(1);
 		g_menu = false;
 	}
 	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 0 && MousePos.x <= 266) {
-		*g_filePath = "rsrc/Level4.txt";
+		*g_filePath = "rsrc/levels/Level4.txt";
+		//if (!g_music->openFromFile("rsrc/musics/Level4.ogg"))
+			//exit(1);
 		g_menu = false;
 	}
 	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 266 && MousePos.x <= 532) {
-		*g_filePath = "rsrc/Level5.txt";
+		*g_filePath = "rsrc/levels/Level5.txt";
+		//if (!g_music->openFromFile("rsrc/musics/Level5.ogg"))
+		//	exit(1);
 		g_menu = false;
 	}
 	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 532 && MousePos.x <= 800) {
-		*g_filePath = "rsrc/Level6.txt";
+		*g_filePath = "rsrc/levels/Level6.txt";
+		//if (!g_music->openFromFile("rsrc/musics/Level6.ogg"))
+		//	exit(1);
 		g_menu = false;
 	}
 }
@@ -345,7 +359,7 @@ void	Game::LoosingScreen() {
 	Event		event;
 	bool		loop = true;
 
-	if (!winTexture.loadFromFile("rsrc/loose.png")) {
+	if (!winTexture.loadFromFile("rsrc/hud/loose.png")) {
 		std::cout << "Error loading loose.png" << std::endl;
 		exit(1);
 	}
@@ -373,7 +387,7 @@ void	Game::WinningScreen() {
 	Event		event;
 	bool		loop = true;
 
-	if (!winTexture.loadFromFile("rsrc/win.png")) {
+	if (!winTexture.loadFromFile("rsrc/hud/win.png")) {
 		std::cout << "Error loading win.png" << std::endl;
 		exit(1);
 	}
@@ -399,7 +413,7 @@ void	Game::DrawMenu() {
 	sf::Texture menuTexture;
 	sf::Sprite menu;
 
-	if (!menuTexture.loadFromFile("rsrc/menu.png")) {
+	if (!menuTexture.loadFromFile("rsrc/hud/menu.png")) {
 		std::cout << "Error loading menu.png" << std::endl;
 		exit(1);
 	}

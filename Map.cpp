@@ -23,15 +23,17 @@ Map::Map() {
 	m_error = \
 		"Map is not correctly formated. Expected format would be :\n\n\
 \
-0000\n \
-0000\n \
-0000\n \
-0000\n \
+BallNum\n\
+0000\n\
+0000\n\
+0000\n\
+0000\n\
 WidthxHeight\n\n \
 \
 You can change 0 by bricks health capped at 9\n \
 Width max is 13\n \
-Height max is 7\n";
+Height max is 7\n \
+BallNum max is 999\n";
 }
 
 /*

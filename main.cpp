@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Sleep.hpp>
+#include <SFML/Audio.hpp>
 
 #include "Game.h"
 
