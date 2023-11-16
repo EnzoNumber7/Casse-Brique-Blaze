@@ -9,6 +9,7 @@ public:
 	sf::RectangleShape		*o_shape;
 
 	Border(char position, GameWindow* window);
+	~Border();
 
 	void SetBorderPos(float posX, float posY);
 };

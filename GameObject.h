@@ -14,7 +14,6 @@ private:
 public:
 	// Main Attributes
 
-	//sf::Shape*		o_shape;
 	float			o_width;
 	float			o_height;
 	int				o_life;

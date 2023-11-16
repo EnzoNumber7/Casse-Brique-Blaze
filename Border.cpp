@@ -32,3 +32,7 @@ void Border::SetBorderPos(float posX, float posY) {
 	o_posY = posY;
 	o_shape->setPosition(posX, posY);
 }
+
+Border::~Border() {
+	delete o_shape;
+}

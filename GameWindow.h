@@ -20,6 +20,7 @@ public:
 	RenderWindow		*w_window;
 
 	GameWindow();
+	~GameWindow();
 
 	// Main Methods
 

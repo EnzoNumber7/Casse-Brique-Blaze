@@ -21,6 +21,7 @@ public:
     std::string*              m_ballconfig;
 
     Map();
+    ~Map();
 
 private:
 

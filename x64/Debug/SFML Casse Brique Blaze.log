@@ -1,2 +1,4 @@
 ﻿  Game.cpp
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Game.cpp(592,2): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\Game.cpp(592,2): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
   SFML Casse Brique Blaze.vcxproj -> C:\Users\Julie\Desktop\Projet Cpp\SFML\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe

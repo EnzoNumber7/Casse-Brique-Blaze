@@ -214,3 +214,9 @@ void Map::ParseMap(string *filePath) {
 
 	std::cout << *m_config << endl;
 }
+
+Map::~Map() {
+	delete m_config;
+	delete m_ballconfig;
+	m_vstr->clear();
+}

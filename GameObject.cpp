@@ -15,7 +15,6 @@ using namespace math;
 */
 
 GameObject::GameObject(sf::Sprite *sprite) {
-	//o_shape = NULL;
 	o_height = 0;
 	o_width = 0;
 	o_posX = 0.f;

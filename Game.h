@@ -19,6 +19,7 @@ private:
 	// Main Attributes
 
 	GameWindow*					g_window;
+	sf::Image					*g_icon;
 	Hud*						g_hud;
 	bool						g_menu;
 	bool						g_win;
@@ -66,6 +67,7 @@ public:
 	void						Start();
 	void						Generate();
 
+	~Game();
 private:
 	
 	// Menu
@@ -86,6 +88,7 @@ private:
 
 	// Window related
 
+	void						SetIcon();
 	void						RefreshWindow();
 	void						CloseWindow();
 	void						LimitFps(float fps);

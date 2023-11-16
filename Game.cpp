@@ -25,6 +25,7 @@ Game::Game(){
 
 	g_level = 0;
 	g_window = new GameWindow();
+	g_icon = new sf::Image();
 	g_music = new Music();
 
 	g_menu = true;
@@ -36,12 +37,13 @@ Game::Game(){
 
 	g_filePath = new std::string();
 
-
+	g_currentBall = NULL;
 	g_ballNum = 50;
 
 	g_canon = NULL;
 	g_bricksNum = NULL;
 	*g_borders = NULL;
+
 	g_hud = new Hud();
 
 	g_map = new Map();
@@ -60,8 +62,10 @@ void Game::GenerateSprites() {
 	sf::Texture* canonTexture = new sf::Texture();
 	sf::Texture* brickTexture = new sf::Texture();
 	if (!ballTexture->loadFromFile("rsrc/img/ball.png") or !canonTexture->loadFromFile("rsrc/img/canon.png") \
-		or !brickTexture->loadFromFile("rsrc/img/brick.png"))
+		or !brickTexture->loadFromFile("rsrc/img/brick.png")) {
 		std::cout << "Error loading object textures." << std::endl;
+		exit(1);
+	}
 
 	sf::Sprite* ballSprite = new sf::Sprite();
 	ballSprite->setTexture(*ballTexture);
@@ -159,6 +163,15 @@ void	Game::GenerateCanon() {
 |				Here are all the window related methods							|
 ---------------------------------------------------------------------------------
 */
+
+void Game::SetIcon() {
+	if (!g_icon->loadFromFile("rsrc/img/icon.png"))
+	{
+		std::cout << "Error loading icon" << std::endl;
+		exit(1);
+	}
+	g_window->w_window->setIcon(g_icon->getSize().x, g_icon->getSize().y, g_icon->getPixelsPtr());
+}
 
 void Game::RefreshWindow() {
 	g_window->RefreshScreen();
@@ -417,18 +430,18 @@ void Game::GetPath(Vector2i MousePos) {
 */
 
 void	Game::LoosingScreen() {
-	sf::Texture winTexture;
-	sf::Sprite	win;
+	sf::Texture loseTexture;
+	sf::Sprite	lose;
 	Event		event;
 	bool		loop = true;
 
-	if (!winTexture.loadFromFile("rsrc/hud/loose.png")) {
-		std::cout << "Error loading loose.png" << std::endl;
+	if (!loseTexture.loadFromFile("rsrc/hud/lose.png")) {
+		std::cout << "Error loading lose.png" << std::endl;
 		exit(1);
 	}
-	win.setTexture(winTexture);
-	g_window->RefreshScreen();
-	g_window->w_window->draw(win);
+	lose.setTexture(loseTexture);
+	lose.setColor(sf::Color(255, 255, 255, 128));
+	g_window->w_window->draw(lose);
 	g_window->w_window->display();
 
 	while (loop)
@@ -455,7 +468,7 @@ void	Game::WinningScreen() {
 		exit(1);
 	}
 	win.setTexture(winTexture);
-	g_window->RefreshScreen();
+	win.setColor(sf::Color(255, 255, 255, 128));
 	g_window->w_window->draw(win);
 	g_window->w_window->display();
 
@@ -501,6 +514,8 @@ void Game::ChooseLevel() {
 
 void Game::Menu() {
 	g_menu = true;
+	
+	SetIcon();
 	sf::Music music;
 
 	if (!music.openFromFile("rsrc/music/menu.ogg"))
@@ -561,4 +576,22 @@ void Game::Start() {
 		LoosingScreen();
 	if (g_win)
 		WinningScreen();
+}
+
+Game::~Game() {
+	delete g_window;
+	delete g_icon;
+	delete g_hud;
+	delete g_map;
+	delete g_filePath;
+	delete g_music;
+	delete g_currentBall;
+	delete g_canon;
+	for (int i = 0; i < 4; ++i)
+		delete g_borders[i];
+	delete g_borders;
+	g_bricks.clear();
+	g_remainingBalls.clear();
+	g_backgrounds.clear();
+	g_sprites.clear();
 }

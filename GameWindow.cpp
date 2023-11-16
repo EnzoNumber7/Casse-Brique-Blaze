@@ -13,7 +13,7 @@ using namespace sf;
 GameWindow::GameWindow(){
 	w_width = 800.f;
 	w_height = 600.f;
-	w_name = "SFML Brick Breaker";
+	w_name = "Minecraft Brick Breaker";
 
 	w_window = new sf::RenderWindow(sf::VideoMode((unsigned int)w_width, (unsigned int)w_height), w_name);
 }
@@ -44,4 +44,8 @@ void	GameWindow::DrawObject(GameObject *gameObject){
 
 void	GameWindow::RefreshScreen(){
 	w_window->clear();
+}
+
+GameWindow::~GameWindow() {
+	delete w_window;
 }
