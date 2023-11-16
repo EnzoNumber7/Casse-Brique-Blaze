@@ -14,7 +14,7 @@ Hud::Hud() {
 	h_balls.setCharacterSize(24);
 	h_balls.setFillColor(sf::Color::White);
 	h_balls.setStyle(sf::Text::Bold);
-	h_balls.setPosition(760, 0);
+	h_balls.setPosition(755, 0);
 }
 
 void	Hud::DrawHud(GameWindow *window, int ball_num) {

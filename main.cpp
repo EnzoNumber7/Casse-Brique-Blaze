@@ -1,5 +1,6 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Sleep.hpp>
+
 #include "Game.h"
 
 int main()
@@ -8,6 +9,7 @@ int main()
 
     game.Menu();
     game.Generate();
+    sf::sleep(sf::milliseconds(200));
     game.Start();
     return 0;
 }

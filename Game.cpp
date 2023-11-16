@@ -246,6 +246,7 @@ void Game::ClearBricks() {
 
 void Game::HandleEvents() {
 	Event event;
+
 	while (g_window->w_window->pollEvent(event))
 	{
 		if (event.type == Event::Closed)

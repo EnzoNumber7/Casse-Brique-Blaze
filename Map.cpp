@@ -21,7 +21,7 @@ Map::Map() {
 	m_vstr = new vector<string>;
 	m_config = new string;
 	m_error = \
-"Map is not correctly formated. Expected format would be :\n\n\
+		"Map is not correctly formated. Expected format would be :\n\n\
 \
 0000\n \
 0000\n \
@@ -86,23 +86,46 @@ int    Map::GetBall() {
 ---------------------------------------------------------------------------------
 */
 
-bool		Map::IsConfigFormated(string *line){
-	int		lenLine = line->size();
+bool		Map::IsBallNumValid() {
+	if (m_ball <= 0 or m_ball > 999)
+		return false;
+	return true;
+}
+
+bool		Map::IsBallNumFormated() {
+	if (m_ballconfig->size() == 0 || m_ballconfig->size() > 3)
+	{
+		std::cout << m_error << std::endl;
+		exit(1);
+	}
+	for (int i = 0; i < m_ballconfig->size(); ++i)
+	{
+		if (m_ballconfig->at(i) < 48 and m_ballconfig->at(i) > 57)
+		{
+			std::cout << m_error << std::endl;
+			exit(1);
+		}
+	}
+	return true;
+}
+
+bool		Map::IsConfigFormated(){
+	int		lenLine = m_config->size();
 	bool	first = false;
 	bool	second = false;
 
 	if (lenLine == 0 || lenLine > 4)
 		return false;
 	for (int i = 0; i < lenLine; ++i) {
-		if (second and (line->at(i) < 48 || line->at(i) > 57))
+		if (second and (m_config->at(i) < 48 || m_config->at(i) > 57))
 			return false;
-		else if (first and line->at(i) != 120 and second)
+		else if (first and m_config->at(i) != 120 and second)
 			return false;
-		else if (first and line->at(i) != 120)
+		else if (first and m_config->at(i) != 120)
 			second = true;
-		if (line->at(i) == 120)
+		if (m_config->at(i) == 120)
 			first = true;
-		if (line->at(i) == 120 and !line->at(i + 1))
+		if (m_config->at(i) == 120 and !m_config->at(i + 1))
 			return false;
 	}
 	return true;
@@ -137,7 +160,7 @@ bool		Map::IsMapFormated() {
 }
 
 void		Map::CheckMap() {
-	if (!IsConfigFormated(m_config)) {
+	if (!IsConfigFormated() && !IsBallNumValid()) {
 		cout << m_error << endl;
 		exit(1);
 	}
@@ -167,11 +190,13 @@ void Map::ParseMap(string *filePath) {
 	string line;
 
 	getline(input, line);
+	std::cout << line << std::endl;
 	if (line.empty()) {
 		cout << m_error << endl;
 		exit(1);
 	}
 	*m_ballconfig = line;
+	IsBallNumFormated();
 	m_ball = stoi(*m_ballconfig);
 
 	while (getline(input, line)) {

@@ -26,7 +26,9 @@ private:
 
     // Check Methods
 
-    bool            IsConfigFormated(std::string* line);
+    bool		    IsBallNumFormated();
+    bool		    IsBallNumValid();
+    bool            IsConfigFormated();
     bool            IsLineFormated(std::string* line);
     bool            IsHeightFormated();
     bool            IsMapFormated();
