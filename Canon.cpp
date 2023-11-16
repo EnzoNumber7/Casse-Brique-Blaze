@@ -7,7 +7,6 @@
 #include <iostream>
 
 Canon::Canon(sf::Sprite* sprite) : GameObject(sprite) {
-	//o_shape = new RectangleShape(Vector2f(50.f, 100.f));
 	o_sprite.setOrigin(25.f, 0.f);
 	o_width = 50.f;
 	o_height = 100.f;

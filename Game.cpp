@@ -23,8 +23,10 @@
 
 Game::Game(){
 
+	g_level = 0;
 	g_window = new GameWindow();
 	g_music = new Music();
+
 	g_menu = true;
 	g_win = false;
 	g_lose = false;
@@ -54,23 +56,12 @@ Game::Game(){
 */
 
 void Game::GenerateSprites() {
-	sf::Texture* menuTexture = new sf::Texture();
-	sf::Texture* backgroundTexture = new sf::Texture();
-	if (!menuTexture->loadFromFile("rsrc/hud/menu.png") or !backgroundTexture->loadFromFile("rsrc/img/background.png"))
-		std::cout << "Error loading menu or background texture." << std::endl;
 	sf::Texture* ballTexture = new sf::Texture();
 	sf::Texture* canonTexture = new sf::Texture();
 	sf::Texture* brickTexture = new sf::Texture();
-	if (!ballTexture->loadFromFile("rsrc/img/ball.png") or !canonTexture->loadFromFile("rsrc/img/canon.png") or !brickTexture->loadFromFile("rsrc/img/brick.png"))
+	if (!ballTexture->loadFromFile("rsrc/img/ball.png") or !canonTexture->loadFromFile("rsrc/img/canon.png") \
+		or !brickTexture->loadFromFile("rsrc/img/brick.png"))
 		std::cout << "Error loading object textures." << std::endl;
-
-	sf::Sprite* menuSprite = new sf::Sprite();
-	menuSprite->setTexture(*menuTexture);
-	g_sprites.push_back(menuSprite);
-
-	sf::Sprite* backgroundSprite = new sf::Sprite();
-	backgroundSprite->setTexture(*backgroundTexture);
-	g_sprites.push_back(backgroundSprite);
 
 	sf::Sprite* ballSprite = new sf::Sprite();
 	ballSprite->setTexture(*ballTexture);
@@ -95,7 +86,7 @@ void	Game::GenerateTerrain() {
 	for (int i = 0; i < sizeY; ++i) {
 		for (int j = 0; j < sizeX; ++j) {
 			if (g_map->m_vstr->at(i).at(j) - 48 != 0) {
-				Brick* brick = new Brick(g_map->m_vstr->at(i).at(j) - 48, g_sprites.at(4));
+				Brick* brick = new Brick(g_map->m_vstr->at(i).at(j) - 48, g_sprites.at(2));
 				brick->SetPos(x, y);
 				g_bricks.push_back(brick);
 				g_bricksNum++;
@@ -152,14 +143,13 @@ void	Game::GenerateBorders() {
 
 void	Game::GenerateBalls() {
 	for (int i = 0; i < g_ballNum - 1; i++) {
-		Ball* ball = new Ball(g_sprites.at(2));
+		Ball* ball = new Ball(g_sprites.at(0));
 		g_remainingBalls.push_back(ball);
 	}
 }
 
 void	Game::GenerateCanon() {
-	g_canon = new Canon(g_sprites.at(3));
-	g_canon->SetColor(0, 255, 0);
+	g_canon = new Canon(g_sprites.at(1));
 	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 	g_canon->SetOrientation(0, 1);
 }
@@ -172,6 +162,7 @@ void	Game::GenerateCanon() {
 
 void Game::RefreshWindow() {
 	g_window->RefreshScreen();
+	g_window->w_window->draw(*g_backgrounds.at(0));
 	if (g_currentBall && g_currentBall->isMoving)
 		g_window->DrawObject(g_currentBall);
 	if (!g_bricks.empty())
@@ -206,7 +197,6 @@ void Game::LimitFps(float fps) {
 
 void	Game::PlayMusic() {
 	g_music->play();
-	//g_music->setVolume(30.f);
 	g_music->setLoop(true);
 }
 
@@ -244,7 +234,6 @@ int	Game::NewBall() {
 		g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
 		g_remainingBalls.pop_back();
 		g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
-		g_canon->SetColor(0, 255, 0);
 		return 1;
 	}
 	return 0;
@@ -255,7 +244,6 @@ void	Game::SendBall() {
 		g_ballNum--;
 		g_currentBall->SetDirection(g_canon->o_angle);
 		g_currentBall->isMoving = true;
-		g_canon->SetColor(255, 0, 0);
 	}
 }
 
@@ -340,6 +328,66 @@ void Game::EndCheck() {
 ---------------------------------------------------------------------------------
 */
 
+void Game::InitLevel() {
+	const	char* filepath;
+	const	char* texturepath;
+	const	char* musicpath;
+
+	sf::Texture* backgroundTexture = new sf::Texture();
+	sf::Sprite* background = new sf::Sprite();
+	filepath = NULL;
+	texturepath = NULL;
+	musicpath = NULL;
+
+	switch (g_level) {
+	case 1:
+		filepath = "rsrc/levels/Level1.txt";
+		texturepath = "rsrc/img/Level1_Background.png";
+		musicpath = "rsrc/music/Level1.ogg";
+		break;
+	case 2:
+		filepath = "rsrc/levels/Level2.txt";
+		texturepath = "rsrc/img/Level2_Background.png";
+		musicpath = "rsrc/music/Level2.ogg";
+		break;
+	case 3:
+		filepath = "rsrc/levels/Level3.txt";
+		texturepath = "rsrc/img/Level3_Background.png";
+		musicpath = "rsrc/music/Level3.ogg";
+		break;
+	case 4:
+		filepath = "rsrc/levels/Level4.txt";
+		texturepath = "rsrc/img/Level4_Background.png";
+		musicpath = "rsrc/music/Level4.ogg";
+		break;
+	case 5:
+		filepath = "rsrc/levels/Level5.txt";
+		texturepath = "rsrc/img/Level5_Background.png";
+		musicpath = "rsrc/music/Level5.ogg";
+		break;
+	case 6:
+		filepath = "rsrc/levels/Level6.txt";
+		texturepath = "rsrc/img/Level6_Background.png";
+		musicpath = "rsrc/music/Level6.ogg";
+		break;
+	}
+	*g_filePath = filepath;
+
+	if (!backgroundTexture->loadFromFile(texturepath))
+	{
+		std::cout << "Error" << std::endl;
+		exit(1);
+	}
+	background->setTexture(*backgroundTexture);
+	g_backgrounds.push_back(background);
+	if (!g_music->openFromFile(musicpath)) {
+		std::cout << "Error" << std::endl;
+		exit(1);
+	}
+	g_music->setVolume(10.0f);
+	g_menu = false;
+}
+
 void Game::GetPath(Vector2i MousePos) {
 	std::string res;
 	int			x;
@@ -347,48 +395,19 @@ void Game::GetPath(Vector2i MousePos) {
 
 	x = MousePos.x;
 	y = MousePos.y;
-	if (x >= 0 && x <= 266 && y >= 0 && y <= 300) {
-		*g_filePath = "rsrc/levels/Level1.txt";
-		if (!g_music->openFromFile("rsrc/music/Level1.ogg"))
-			exit(1);
-		g_music->setVolume(10.0f);
-		g_menu = false;
-	}
-	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 266 && MousePos.x <= 532) {
-		*g_filePath = "rsrc/levels/Level2.txt";
-		if (!g_music->openFromFile("rsrc/music/Level2.ogg"))
-			exit(1);
-		g_music->setVolume(10.0f);
-		g_menu = false;
-	}
-	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 532 && MousePos.x <= 800) {
-		*g_filePath = "rsrc/levels/Level3.txt";
-		if (!g_music->openFromFile("rsrc/music/Level3.ogg"))
-			exit(1);
-		g_music->setVolume(10.0f);
-		g_menu = false;
-	}
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 0 && MousePos.x <= 266) {
-		*g_filePath = "rsrc/levels/Level4.txt";
-		if (!g_music->openFromFile("rsrc/music/Level4.ogg"))
-			exit(1);
-		g_music->setVolume(10.0f);
-		g_menu = false;
-	}
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 266 && MousePos.x <= 532) {
-		*g_filePath = "rsrc/levels/Level5.txt";
-		if (!g_music->openFromFile("rsrc/music/Level5.ogg"))
-			exit(1);
-		g_music->setVolume(10.0f);
-		g_menu = false;
-	}
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 532 && MousePos.x <= 800) {
-		*g_filePath = "rsrc/levels/Level6.txt";
-		if (!g_music->openFromFile("rsrc/music/Level6.ogg"))
-			exit(1);
-		g_music->setVolume(5.0f);
-		g_menu = false;
-	}
+	if (x >= 0 && x <= 266 && y >= 0 && y <= 300)
+		g_level = 1;
+	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 266 && MousePos.x <= 532)
+		g_level = 2;
+	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 532 && MousePos.x <= 800)
+		g_level = 3;
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 0 && MousePos.x <= 266) 
+		g_level = 4;
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 266 && MousePos.x <= 532)
+		g_level = 5;
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 532 && MousePos.x <= 800)
+		g_level = 6;
+	InitLevel();
 }
 
 /*
@@ -508,7 +527,7 @@ void Game::Generate() {
 	g_map->ParseMap(g_filePath);
 	g_map->CheckMap();
 	GenerateSprites();
-	g_currentBall = new Ball(g_sprites.at(2));
+	g_currentBall = new Ball(g_sprites.at(0));
 	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 	g_ballNum = g_map->GetBall();
 	GenerateTerrain();

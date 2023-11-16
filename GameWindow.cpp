@@ -40,7 +40,6 @@ float GameWindow::GetHeight() {
 
 void	GameWindow::DrawObject(GameObject *gameObject){
 	w_window->draw(gameObject->o_sprite);
-	//w_window->draw(*gameObject->o_shape);
 }
 
 void	GameWindow::RefreshScreen(){

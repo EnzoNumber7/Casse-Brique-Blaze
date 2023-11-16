@@ -23,10 +23,12 @@ private:
 	bool						g_menu;
 	bool						g_win;
 	bool						g_lose;
+	int							g_level;
 
 	Map*						g_map;
 	std::string					*g_filePath;
 	sf::Music					*g_music;
+	std::vector<sf::Sprite*>	g_backgrounds;
 
 	// Time Attributes
 
@@ -68,6 +70,7 @@ private:
 	
 	// Menu
 	void						DrawMenu();
+	void						InitLevel();
 	void						GetPath(sf::Vector2i MousePos);
 	void						ChooseLevel();
 	void						LoosingScreen();
