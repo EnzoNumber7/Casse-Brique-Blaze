@@ -6,6 +6,6 @@ class Brick : public GameObject
 {
 public:
 
-	Brick(int hp);
+	Brick(int hp, sf::Sprite *sprite);
 };
 

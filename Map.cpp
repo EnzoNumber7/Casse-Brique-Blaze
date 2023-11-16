@@ -19,7 +19,7 @@ Map::Map() {
 	m_vstr = new vector<string>;
 	m_config = new string;
 	m_error = \
-"Map is not correctly formated. Expected format would be : \n\n\
+"Map is not correctly formated. Expected format would be :\n\n\
 \
 0000\n \
 0000\n \
@@ -150,8 +150,7 @@ void		Map::CheckMap() {
 */
 
 void Map::ParseMap(string *filePath) {
-	//string filepath = "rsrc/Level1.txt";
-	//std::cout << *filePath << std::endl;
+
 	ifstream input(*filePath);
 
 	if (!input.is_open()) {

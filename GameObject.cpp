@@ -14,8 +14,8 @@ using namespace math;
 ---------------------------------------------------------------------------------
 */
 
-GameObject::GameObject() {
-	o_shape = NULL;
+GameObject::GameObject(sf::Sprite *sprite) {
+	//o_shape = NULL;
 	o_height = 0;
 	o_width = 0;
 	o_posX = 0.f;
@@ -27,6 +27,10 @@ GameObject::GameObject() {
 	o_shouldMove = true;
 	o_lastSide = None;
 	o_angle = 0.f;
+
+	o_sprite = *new sf::Sprite;
+	if (sprite != NULL)
+		o_sprite = *sprite;
 }
 
 /*
@@ -38,18 +42,18 @@ GameObject::GameObject() {
 void GameObject::SetPos(float posX, float posY) {
 	o_posX = posX;
 	o_posY = posY;
-	o_shape->setPosition(posX, posY);
+	o_sprite.setPosition(posX, posY);
 }
 
 void GameObject::SetColor(int r, int g, int b) {
-	o_shape->setFillColor(Color(r, g, b));
+	o_sprite.setColor(Color(r, g, b));
 }
 
 void GameObject::SetOrientation(int x, int y)
 {
 
 	o_angle = -atan2(x - o_posX, y - o_posY) * 180 / 3.14159f;
-	o_shape->setRotation(o_angle);
+	o_sprite.setRotation(o_angle);
 }
 
 void GameObject::SetDirection(float angle) {
@@ -69,22 +73,22 @@ void GameObject::DecreaseLife(GameObject* Object, int value){
 		Object->o_life = Object->o_life - value;
 	switch (Object->o_life) {
 	case (1):
-		o_shape->setFillColor(sf::Color::Red);
+		o_sprite.setColor(sf::Color::Red);
 		break;
 	case (2):
-		o_shape->setFillColor(sf::Color::Yellow);
+		o_sprite.setColor(sf::Color::Yellow);
 		break;
 	case (3):
-		o_shape->setFillColor(sf::Color::Green);
+		o_sprite.setColor(sf::Color::Green);
 		break;
 	case (4):
-		o_shape->setFillColor(sf::Color::Blue);
+		o_sprite.setColor(sf::Color::Blue);
 		break;
 	case (5):
-		o_shape->setFillColor(sf::Color::Magenta);
+		o_sprite.setColor(sf::Color::Magenta);
 		break;
 	case (6):
-		o_shape->setFillColor(sf::Color::White);
+		o_sprite.setColor(sf::Color::White);
 		break;
 	}
 }

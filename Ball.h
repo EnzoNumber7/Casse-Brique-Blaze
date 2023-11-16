@@ -7,7 +7,7 @@ class Ball : public GameObject
 public:
 	bool			isMoving;
 
-	Ball();
+	Ball(sf::Sprite* sprite);
 
 private:
 	void			Rebound(CollisionSide direction, float deltaTime);

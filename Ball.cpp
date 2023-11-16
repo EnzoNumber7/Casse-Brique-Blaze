@@ -12,18 +12,18 @@
 using namespace std;
 using namespace math;
 
-Ball::Ball() {
-	o_shape = new CircleShape(10.f);
+Ball::Ball(sf::Sprite *sprite) : GameObject(sprite) {
+	//o_shape = new CircleShape(10.f);
 	o_width = 20.f;
 	o_height = 20.f;
-	o_shape->setOrigin(10.0f, 10.0f);
+	o_sprite.setOrigin(10.0f, 10.0f);
 	isMoving = false;
 }
 
 void Ball::Move(float deltaTime) {
 	o_posX += o_directionX * deltaTime * SPEED;
 	o_posY += o_directionY * deltaTime * SPEED;
-	o_shape->setPosition(o_posX, o_posY);
+	o_sprite.setPosition(o_posX, o_posY);
 }
 
 void Ball::Rebound(CollisionSide direction, float deltaTime) {

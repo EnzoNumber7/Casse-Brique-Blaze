@@ -14,7 +14,7 @@ private:
 public:
 	// Main Attributes
 
-	sf::Shape*		o_shape;
+	//sf::Shape*		o_shape;
 	float			o_width;
 	float			o_height;
 	int				o_life;
@@ -29,7 +29,9 @@ public:
 	bool			o_shouldMove;
 	CollisionSide   o_lastSide;
 
-	GameObject();
+	sf::Sprite		o_sprite;
+
+	GameObject(sf::Sprite *sprite);
 	~GameObject();
 
 private:

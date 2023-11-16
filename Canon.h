@@ -5,7 +5,7 @@
 class Canon : public GameObject
 {
 public:
-	Canon();
+	Canon(sf::Sprite* sprite);
 
 	void	FollowMouse(GameWindow* window);
 };

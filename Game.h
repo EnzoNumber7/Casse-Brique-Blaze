@@ -30,6 +30,7 @@ private:
 	sf::Clock					g_Clock;
 	float						g_deltaTime;
 	float						g_fpsLimit;
+	int							g_numSim;
 
 	// Game Objects
 
@@ -43,6 +44,10 @@ private:
 	Border*						g_borders[4];
 
 	Canon*						g_canon;
+
+	// Textures
+
+	std::vector<sf::Sprite*>	g_sprites;
 
 
 public:
@@ -83,6 +88,8 @@ private:
 	void						DestroyBall();
 
 	void						ClearBricks();
+
+	void						GenerateSprites();
 
 	// Checks Related
 	

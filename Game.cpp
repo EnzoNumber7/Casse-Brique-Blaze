@@ -14,8 +14,6 @@
 #include "Map.h"
 #include "Hud.h"
 
-//enum FileNum { One, Two, Three, Four, Five, Six };
-
 /*
 ---------------------------------------------------------------------------------
 |						 Here is the constructor								|
@@ -27,13 +25,12 @@ Game::Game(){
 	g_menu = true;
 	g_deltaTime = 0.f;
 	g_isRunning = true;
+	g_numSim = 10;
 
 	g_filePath = new std::string();
 
 
 	g_ballNum = 50;
-	g_currentBall = new Ball();
-	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 
 	g_canon = NULL;
 	g_bricksNum = NULL;
@@ -51,6 +48,38 @@ Game::Game(){
 ---------------------------------------------------------------------------------
 */
 
+void Game::GenerateSprites() {
+	sf::Texture* menuTexture = new sf::Texture();
+	sf::Texture* backgroundTexture = new sf::Texture();
+	if (!menuTexture->loadFromFile("rsrc/menu.png") or !backgroundTexture->loadFromFile("rsrc/background.png"))
+		std::cout << "Error loading menu or background texture." << std::endl;
+	sf::Texture* ballTexture = new sf::Texture();
+	sf::Texture* canonTexture = new sf::Texture();
+	sf::Texture* brickTexture = new sf::Texture();
+	if (!ballTexture->loadFromFile("rsrc/ball.png") or !canonTexture->loadFromFile("rsrc/canon.png") or !brickTexture->loadFromFile("rsrc/brick.png"))
+		std::cout << "Error loading object textures." << std::endl;
+
+	sf::Sprite* menuSprite = new sf::Sprite();
+	menuSprite->setTexture(*menuTexture);
+	g_sprites.push_back(menuSprite);
+
+	sf::Sprite* backgroundSprite = new sf::Sprite();
+	backgroundSprite->setTexture(*backgroundTexture);
+	g_sprites.push_back(backgroundSprite);
+
+	sf::Sprite* ballSprite = new sf::Sprite();
+	ballSprite->setTexture(*ballTexture);
+	g_sprites.push_back(ballSprite);
+
+	sf::Sprite* canonSprite = new sf::Sprite();
+	canonSprite->setTexture(*canonTexture);
+	g_sprites.push_back(canonSprite);
+
+	sf::Sprite* brickSprite = new sf::Sprite();
+	brickSprite->setTexture(*brickTexture);
+	g_sprites.push_back(brickSprite);
+}
+
 void	Game::GenerateTerrain() {
 	float	x = 40;
 	float	y = 65;
@@ -61,7 +90,7 @@ void	Game::GenerateTerrain() {
 	for (int i = 0; i < sizeY; ++i) {
 		for (int j = 0; j < sizeX; ++j) {
 			if (g_map->m_vstr->at(i).at(j) - 48 != 0) {
-				Brick* brick = new Brick(g_map->m_vstr->at(i).at(j) - 48);
+				Brick* brick = new Brick(g_map->m_vstr->at(i).at(j) - 48, g_sprites.at(4));
 				brick->SetPos(x, y);
 				g_bricks.push_back(brick);
 				g_bricksNum++;
@@ -81,19 +110,19 @@ void	Game::GenerateTerrain() {
 void	Game::SetBorder(Border* border, char id) {
 	switch (id) {
 	case('l'):
-		border->SetPos(-25, g_window->GetHeight() / 2);
+		border->SetBorderPos(-25, g_window->GetHeight() / 2);
 		border->o_shape->setOrigin(border->o_width / 2, border->o_height / 2);
 		break;
 	case('u'):
-		border->SetPos(g_window->GetWidth() / 2, -25);
+		border->SetBorderPos(g_window->GetWidth() / 2, -25);
 		border->o_shape->setOrigin(border->o_width / 2, border->o_height / 2);
 		break;
 	case('r'):
-		border->SetPos(g_window->GetWidth() + 25, g_window->GetHeight() / 2);
+		border->SetBorderPos(g_window->GetWidth() + 25, g_window->GetHeight() / 2);
 		border->o_shape->setOrigin(border->o_width / 2, border->o_height / 2);
 		break;
 	case('d'):
-		border->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() + 25);
+		border->SetBorderPos(g_window->GetWidth() / 2, g_window->GetHeight() + 25);
 		border->o_shape->setOrigin(border->o_width / 2, border->o_height / 2);
 		break;
 	}
@@ -118,13 +147,13 @@ void	Game::GenerateBorders() {
 
 void	Game::GenerateBalls() {
 	for (int i = 0; i < g_ballNum - 1; i++) {
-		Ball* ball = new Ball();
+		Ball* ball = new Ball(g_sprites.at(2));
 		g_remainingBalls.push_back(ball);
 	}
 }
 
 void	Game::GenerateCanon() {
-	g_canon = new Canon();
+	g_canon = new Canon(g_sprites.at(3));
 	g_canon->SetColor(0, 255, 0);
 	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 	g_canon->SetOrientation(0, 1);
@@ -144,8 +173,6 @@ void Game::RefreshWindow() {
 		for (int i = 0; i < g_bricksNum; ++i) {
 			g_window->DrawObject(g_bricks.at(i));
 		}
-	for (int j = 0; j < 4; ++j)
-		g_window->DrawObject(g_borders[j]);
 	g_window->DrawObject(g_canon);
 	g_hud->DrawHud(g_window, g_ballNum);
 	g_window->w_window->display();
@@ -272,6 +299,9 @@ void Game::EndCheck() {
 void Game::Generate() {
 	g_map->ParseMap(g_filePath);
 	g_map->CheckMap();
+	GenerateSprites();
+	g_currentBall = new Ball(g_sprites.at(2));
+	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 	GenerateTerrain();
 	GenerateBorders();
 	GenerateCanon();
@@ -346,10 +376,11 @@ void Game::Start() {
 		EndCheck();
 		LimitFps(fps);
 		g_canon->FollowMouse(g_window);
-		CollCheck();
-
-		if (g_currentBall->o_shouldMove) {
-			g_currentBall->Move(g_deltaTime);
+		for (int i = 0; i < g_numSim; i++) {
+			CollCheck();
+			if (g_currentBall->o_shouldMove) {
+				g_currentBall->Move(g_deltaTime / g_numSim);
+			}
 		}
 	}
 }
