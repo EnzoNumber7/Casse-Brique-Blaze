@@ -18,8 +18,10 @@ private:
 	// Main Attributes
 
 	GameWindow*					g_window;
-	bool						g_menu;
 	Hud*						g_hud;
+	bool						g_menu;
+	bool						g_win;
+	bool						g_lose;
 
 	Map*						g_map;
 	std::string					*g_filePath;
@@ -66,6 +68,8 @@ private:
 	void						DrawMenu();
 	void						GetPath(sf::Vector2i MousePos);
 	void						ChooseLevel();
+	void						LoosingScreen();
+	void						WinningScreen();
 
 	// Generation
 

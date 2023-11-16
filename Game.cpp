@@ -23,6 +23,8 @@
 Game::Game(){
 	g_window = new GameWindow();
 	g_menu = true;
+	g_win = false;
+	g_lose = false;
 	g_deltaTime = 0.f;
 	g_isRunning = true;
 	g_numSim = 10;
@@ -250,7 +252,7 @@ void Game::HandleEvents() {
 			CloseWindow();
 		if (Mouse::isButtonPressed(Mouse::Button::Left)) {
 			if (!g_currentBall) {
-				std::cout << "No more balls available" << std::endl;
+				g_lose = true;
 				g_isRunning = false;
 			}
 			else {
@@ -270,6 +272,7 @@ void Game::CollCheck() {
 		if (g_currentBall->CheckCollision(g_borders[i], g_deltaTime)) {
 			if (i == 3) {
 				if (!NewBall()) {
+					g_lose = true;
 					g_isRunning = false;
 					g_hud->h_balls.setString(std::to_string(g_ballNum));
 				}
@@ -281,13 +284,151 @@ void Game::CollCheck() {
 
 void Game::EndCheck() {
 	if (g_bricks.empty()) {
-		std::cout << "Good job ! You won with " << g_ballNum << " Balls Remaining !" << std::endl;
+		g_win = true;
 		g_isRunning = false;
 	}
 	if (g_remainingBalls.empty() && !g_currentBall) {
-		std::cout << "Unlucky ! You lost with " << g_bricksNum << " Bricks Remaining !" << std::endl;
+		g_lose = true;
 		g_isRunning = false;
 	}
+}
+
+/*
+---------------------------------------------------------------------------------
+|				Here are the texture path method								|
+---------------------------------------------------------------------------------
+*/
+
+void Game::GetPath(Vector2i MousePos) {
+	std::string res;
+	int			x;
+	int			y;
+
+	x = MousePos.x;
+	y = MousePos.y;
+	if (x >= 0 && x <= 266 && y >= 0 && y <= 300) {
+		*g_filePath = "rsrc/Level1.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 266 && MousePos.x <= 532) {
+		*g_filePath = "rsrc/Level2.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 532 && MousePos.x <= 800) {
+		*g_filePath = "rsrc/Level3.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 0 && MousePos.x <= 266) {
+		*g_filePath = "rsrc/Level4.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 266 && MousePos.x <= 532) {
+		*g_filePath = "rsrc/Level5.txt";
+		g_menu = false;
+	}
+	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 532 && MousePos.x <= 800) {
+		*g_filePath = "rsrc/Level6.txt";
+		g_menu = false;
+	}
+}
+
+/*
+---------------------------------------------------------------------------------
+|				Here are the menu related methods								|
+---------------------------------------------------------------------------------
+*/
+
+void	Game::LoosingScreen() {
+	sf::Texture winTexture;
+	sf::Sprite	win;
+	Event		event;
+	bool		loop = true;
+
+	if (!winTexture.loadFromFile("rsrc/loose.png")) {
+		std::cout << "Error loading loose.png" << std::endl;
+		exit(1);
+	}
+	win.setTexture(winTexture);
+	g_window->RefreshScreen();
+	g_window->w_window->draw(win);
+	g_window->w_window->display();
+
+	while (loop)
+	{
+		while (g_window->w_window->pollEvent(event))
+		{
+			if (event.type == sf::Event::KeyPressed)
+				if (event.key.scancode == sf::Keyboard::Scan::Escape)
+					loop = false;
+			if (event.type == Event::Closed)
+				CloseWindow();
+		}
+	}
+}
+
+void	Game::WinningScreen() {
+	sf::Texture winTexture;
+	sf::Sprite	win;
+	Event		event;
+	bool		loop = true;
+
+	if (!winTexture.loadFromFile("rsrc/win.png")) {
+		std::cout << "Error loading win.png" << std::endl;
+		exit(1);
+	}
+	win.setTexture(winTexture);
+	g_window->RefreshScreen();
+	g_window->w_window->draw(win);
+	g_window->w_window->display();
+
+	while (loop)
+	{
+		while (g_window->w_window->pollEvent(event))
+		{
+			if (event.type == sf::Event::KeyPressed)
+				if (event.key.scancode == sf::Keyboard::Scan::Escape)
+					loop = false;
+			if (event.type == Event::Closed)
+				CloseWindow();
+		}
+	}
+}
+
+void	Game::DrawMenu() {
+	sf::Texture menuTexture;
+	sf::Sprite menu;
+
+	if (!menuTexture.loadFromFile("rsrc/menu.png")) {
+		std::cout << "Error loading menu.png" << std::endl;
+		exit(1);
+	}
+	menu.setTexture(menuTexture);
+	g_window->RefreshScreen();
+	g_window->w_window->draw(menu);
+	g_window->w_window->display();
+}
+
+void Game::ChooseLevel() {
+	Event event;
+	while (g_window->w_window->pollEvent(event))
+	{
+		if (event.type == Event::Closed)
+			CloseWindow();
+		if (Mouse::isButtonPressed(Mouse::Button::Left)) {
+
+			GetPath(Mouse::getPosition(*g_window->w_window));
+		}
+	}
+}
+
+void Game::Menu() {
+	g_menu = true;
+
+	DrawMenu();
+	while (g_menu) {
+		ChooseLevel();
+	}
+	g_window->RefreshScreen();
 }
 
 /*
@@ -310,77 +451,6 @@ void Game::Generate() {
 }
 
 
-void Game::GetPath(Vector2i MousePos) {
-	std::string res;
-	int			x;
-	int			y;
-
-	x = MousePos.x;
-	y = MousePos.y;
-	if (x >= 0 && x <= 266 && y >= 0 && y <= 300) {
-		*g_filePath = "rsrc/Level1.txt";
-		g_menu = false;
-	}
-	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 266 && MousePos.x <= 532){
-		*g_filePath = "rsrc/Level2.txt";
-		g_menu = false;
-	}
-	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 532 && MousePos.x <= 800) {
-		*g_filePath = "rsrc/Level3.txt";
-		g_menu = false;
-	}
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 0 && MousePos.x <= 266) {
-		*g_filePath = "rsrc/Level4.txt";
-		g_menu = false;
-	}
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 266 && MousePos.x <= 532) {
-		*g_filePath = "rsrc/Level5.txt";
-		g_menu = false;
-	}
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 532 && MousePos.x <= 800) {
-		*g_filePath = "rsrc/Level6.txt";
-		g_menu = false;
-	}
-}
-
-void	Game::DrawMenu() {
-	sf::Texture menuTexture;
-	sf::Sprite menu;
-
-	if (!menuTexture.loadFromFile("rsrc/menu.png")) {
-		std::cout << "Error loading menu.png" << std::endl;
-		exit(1);
-	}
-	menu.setTexture(menuTexture);
-	g_window->RefreshScreen();
-	g_window->w_window->draw(menu);
-	g_window->w_window->display();
-}
-
-void Game::Menu() {
-	g_menu = true;
-
-	DrawMenu();
-	while (g_menu) {
-		ChooseLevel();
-	}
-	g_window->RefreshScreen();
-}
-
-void Game::ChooseLevel(){
-	Event event;
-	while (g_window->w_window->pollEvent(event))
-	{
-		if (event.type == Event::Closed)
-			CloseWindow();
-		if (Mouse::isButtonPressed(Mouse::Button::Left)) {
-
-			GetPath(Mouse::getPosition(*g_window->w_window));
-		}
-	}
-}
-
-
 void Game::Start() {
 	float	fps = 0;
 
@@ -399,4 +469,8 @@ void Game::Start() {
 			}
 		}
 	}
+	if (g_lose)
+		LoosingScreen();
+	if (g_win)
+		WinningScreen();
 }
