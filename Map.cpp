@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <vector>
 
 #include "Map.h"
@@ -17,6 +16,8 @@ Map::Map() {
 	m_sizeX = 0;
 	m_sizeY = 0;
 	m_num = 0;
+	m_vstr = new vector<string>;
+	m_config = new string;
 	m_error = \
 "Map is not correctly formated. Expected format would be : \n\n\
 \
@@ -48,22 +49,22 @@ int		Map::GetHeight() {
 void		Map::GetSize() {
 	char* x;
 	char* y;
-	int		lenLine = strlen(m_config);
+	int		lenLine = m_config->size();
 
 	y = new char[2];
-	if (m_config[1] >= 48 and m_config[1] <= 57) {
+	if (m_config->at(1) >= 48 and m_config->at(1) <= 57) {
 		x = new char[3];
-		x[0] = m_config[0];
-		x[1] = m_config[1];
+		x[0] = m_config->at(0);
+		x[1] = m_config->at(1);
 		x[2] = '\0';
-		y[0] = m_config[3];
+		y[0] = m_config->at(3);
 		y[1] = '\0';
 	}
 	else {
 		x = new char[2];
-		x[0] = m_config[0];
+		x[0] = m_config->at(0);
 		x[1] = '\0';
-		y[0] = m_config[2];
+		y[0] = m_config->at(2);
 		y[1] = '\0';
 	}
 	m_sizeX = stoi(x);
@@ -79,47 +80,41 @@ void		Map::GetSize() {
 ---------------------------------------------------------------------------------
 */
 
-bool		Map::IsConfigFormated(char *line){
-	int		lenLine = strlen(line);
+bool		Map::IsConfigFormated(string *line){
+	int		lenLine = line->size();
 	bool	first = false;
 	bool	second = false;
 
 	if (lenLine == 0 || lenLine > 4)
 		return false;
 	for (int i = 0; i < lenLine; ++i) {
-		if (second and (line[i] < 48 || line[i] > 57))
+		if (second and (line->at(i) < 48 || line->at(i) > 57))
 			return false;
-		else if (first and line[i] != 120 and second)
+		else if (first and line->at(i) != 120 and second)
 			return false;
-		else if (first and line[i] != 120)
+		else if (first and line->at(i) != 120)
 			second = true;
-		if (line[i] == 120)
+		if (line->at(i) == 120)
 			first = true;
-		if (line[i] == 120 and !line[i + 1])
+		if (line->at(i) == 120 and !line->at(i + 1))
 			return false;
 	}
 	return true;
 }
 
-bool		Map::IsLineFormated(char* line) {
-	if (strlen(line) != m_sizeX) 
+bool		Map::IsLineFormated(string *line) {
+	if (line->size() != m_sizeX) 
 		return false;
 		
 	for (int i = 0; i < m_sizeX; ++i) {
-		if (line[i] < 48 || line[i] > 57)
+		if (line->at(i) < 48 || line->at(i) > 57)
 			return false;
 	}
 	return true;
 }
 
 bool		Map::IsHeightFormated() {
-	int	i = 0;
-	//std::cout << "Expected == " << m_sizeY << std::endl;
-	//std::cout << "Actual == " << sizeof(m_map) / sizeof(*m_map[0]) - 1 << std::endl;
-	for (int j = 0; m_str[j]; ++j)
-		i++;
-	//std::cout << "I == " << i - 2 << std::endl;
-	if (i - 2 != m_sizeY)
+	if (m_vstr->size() != m_sizeY)
 		return false;
 	return true;
 }
@@ -128,7 +123,7 @@ bool		Map::IsMapFormated() {
 	if (!IsHeightFormated())
 		return false;
 	for (int i = 0; i < m_sizeY; ++i) {
-		if (!IsLineFormated(m_str[i])) {
+		if (!IsLineFormated(&m_vstr->at(i))) {
 			return false;
 		}
 	}
@@ -164,24 +159,18 @@ void Map::ParseMap(string *filePath) {
 		cout << "Error loading map" << endl;
 		exit(1);
 	}
-
-	vector<string> temp;
 	string line;
 
 	while (getline(input, line)) {
 		if (!line.empty()) {
-			temp.push_back(line);
+			m_vstr->push_back(line);
 		}
 	}
 
 	input.close();
 
-	m_str = new char* [temp.size()];
+	*m_config = m_vstr->at(m_vstr->size() - 1);
+	m_vstr->pop_back();
 
-	for (size_t i = 0; i < temp.size() - 1; ++i) {
-		m_str[i] = new char[temp[i].size()];
-		strcpy_s(m_str[i], temp[i].size() + 1, temp[i].c_str());
-	}
-	m_config = new char[temp[temp.size() - 1].size() + 1];
-	strcpy_s(m_config, temp[temp.size() - 1].size() + 1, temp[temp.size() - 1].c_str());
+	std::cout << *m_config << endl;
 }

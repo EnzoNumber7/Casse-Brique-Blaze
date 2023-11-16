@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class Map
 {
@@ -14,8 +15,8 @@ private:
 
 public:
 
-	char			**m_str;
-	char			*m_config;
+	std::vector<std::string>	*m_vstr;
+	std::string						*m_config;
 
 	Map();
 
@@ -23,8 +24,8 @@ private:
 
 	// Check Methods
 
-	bool			IsConfigFormated(char* line);
-	bool			IsLineFormated(char *line);
+	bool			IsConfigFormated(std::string *line);
+	bool			IsLineFormated(std::string *line);
 	bool			IsHeightFormated();
 	bool			IsMapFormated();
 

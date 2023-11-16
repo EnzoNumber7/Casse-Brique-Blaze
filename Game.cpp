@@ -60,8 +60,8 @@ void	Game::GenerateTerrain() {
 	g_bricksNum = 0;
 	for (int i = 0; i < sizeY; ++i) {
 		for (int j = 0; j < sizeX; ++j) {
-			if (g_map->m_str[i][j] - 48 != 0) {
-				Brick* brick = new Brick(g_map->m_str[i][j] - 48);
+			if (g_map->m_vstr->at(i).at(j) - 48 != 0) {
+				Brick* brick = new Brick(g_map->m_vstr->at(i).at(j) - 48);
 				brick->SetPos(x, y);
 				g_bricks.push_back(brick);
 				g_bricksNum++;
@@ -328,6 +328,7 @@ void Game::ChooseLevel(){
 		if (event.type == Event::Closed)
 			CloseWindow();
 		if (Mouse::isButtonPressed(Mouse::Button::Left)) {
+
 			GetPath(Mouse::getPosition(*g_window->w_window));
 		}
 	}
