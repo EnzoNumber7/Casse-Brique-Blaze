@@ -2,7 +2,7 @@
 #include <errno.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <SFML/Audio/Music.hpp>
+#include <SFML/Audio.hpp>
 
 #include "Game.h"
 
@@ -24,6 +24,7 @@
 Game::Game(){
 
 	g_window = new GameWindow();
+	g_music = new Music();
 	g_menu = true;
 	g_win = false;
 	g_lose = false;
@@ -184,6 +185,8 @@ void Game::RefreshWindow() {
 
 void	Game::CloseWindow() {
 	g_window->w_window->close();
+	delete g_music;
+	exit(0);
 }
 
 void Game::LimitFps(float fps) {
@@ -193,6 +196,41 @@ void Game::LimitFps(float fps) {
 		g_deltaTime += g_fpsLimit - g_deltaTime;
 	}
 	fps = 1.0f / g_deltaTime;
+}
+
+/*
+---------------------------------------------------------------------------------
+|				Here are all the music related methods							|
+---------------------------------------------------------------------------------
+*/
+
+void	Game::PlayMusic() {
+	g_music->play();
+	//g_music->setVolume(30.f);
+	g_music->setLoop(true);
+}
+
+void	Game::ChangetoEndMusic() {
+	g_music->stop();
+	if (g_win)
+	{
+		if (!g_music->openFromFile("rsrc/music/Win.ogg"))
+		{
+			std::cout << "Error loading Win.ogg" << std::endl;
+			exit(1);
+		}
+	}
+	else if (g_lose)
+	{
+		if (!g_music->openFromFile("rsrc/music/Lose.ogg"))
+		{
+			std::cout << "Error loading Lose.ogg" << std::endl;
+			exit(1);
+		}
+	}
+	g_music->setVolume(10.0f);
+	g_music->play();
+	g_music->setLoop(true);
 }
 
 /*
@@ -311,38 +349,44 @@ void Game::GetPath(Vector2i MousePos) {
 	y = MousePos.y;
 	if (x >= 0 && x <= 266 && y >= 0 && y <= 300) {
 		*g_filePath = "rsrc/levels/Level1.txt";
-		//if (!g_music->openFromFile("rsrc/musics/Level1.ogg"))
-			//exit(1);
+		if (!g_music->openFromFile("rsrc/music/Level1.ogg"))
+			exit(1);
+		g_music->setVolume(10.0f);
 		g_menu = false;
 	}
 	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 266 && MousePos.x <= 532) {
 		*g_filePath = "rsrc/levels/Level2.txt";
-		//if (!g_music->openFromFile("rsrc/musics/Level2.ogg"))
-			//exit(1);
+		if (!g_music->openFromFile("rsrc/music/Level2.ogg"))
+			exit(1);
+		g_music->setVolume(10.0f);
 		g_menu = false;
 	}
 	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 532 && MousePos.x <= 800) {
 		*g_filePath = "rsrc/levels/Level3.txt";
-		//if (!g_music->openFromFile("rsrc/musics/Level3.ogg"))
-			//exit(1);
+		if (!g_music->openFromFile("rsrc/music/Level3.ogg"))
+			exit(1);
+		g_music->setVolume(10.0f);
 		g_menu = false;
 	}
 	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 0 && MousePos.x <= 266) {
 		*g_filePath = "rsrc/levels/Level4.txt";
-		//if (!g_music->openFromFile("rsrc/musics/Level4.ogg"))
-			//exit(1);
+		if (!g_music->openFromFile("rsrc/music/Level4.ogg"))
+			exit(1);
+		g_music->setVolume(10.0f);
 		g_menu = false;
 	}
 	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 266 && MousePos.x <= 532) {
 		*g_filePath = "rsrc/levels/Level5.txt";
-		//if (!g_music->openFromFile("rsrc/musics/Level5.ogg"))
-		//	exit(1);
+		if (!g_music->openFromFile("rsrc/music/Level5.ogg"))
+			exit(1);
+		g_music->setVolume(10.0f);
 		g_menu = false;
 	}
 	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 532 && MousePos.x <= 800) {
 		*g_filePath = "rsrc/levels/Level6.txt";
-		//if (!g_music->openFromFile("rsrc/musics/Level6.ogg"))
-		//	exit(1);
+		if (!g_music->openFromFile("rsrc/music/Level6.ogg"))
+			exit(1);
+		g_music->setVolume(5.0f);
 		g_menu = false;
 	}
 }
@@ -438,11 +482,19 @@ void Game::ChooseLevel() {
 
 void Game::Menu() {
 	g_menu = true;
+	sf::Music music;
 
-	DrawMenu();
-	while (g_menu) {
-		ChooseLevel();
+	if (!music.openFromFile("rsrc/music/menu.ogg"))
+	{
+		std::cout << "Error loading menu.ogg" << std::endl;// error
+		exit(1);
 	}
+	music.play();
+	g_music->setVolume(10.0f);
+	music.setLoop(true);
+	DrawMenu();
+	while (g_menu)
+		ChooseLevel();
 	g_window->RefreshScreen();
 }
 
@@ -463,6 +515,7 @@ void Game::Generate() {
 	GenerateBorders();
 	GenerateCanon();
 	GenerateBalls();
+	PlayMusic();
 }
 
 
@@ -484,6 +537,7 @@ void Game::Start() {
 			}
 		}
 	}
+	ChangetoEndMusic();
 	if (g_lose)
 		LoosingScreen();
 	if (g_win)

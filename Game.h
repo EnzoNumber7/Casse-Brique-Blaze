@@ -26,6 +26,7 @@ private:
 
 	Map*						g_map;
 	std::string					*g_filePath;
+	sf::Music					*g_music;
 
 	// Time Attributes
 
@@ -85,6 +86,10 @@ private:
 	void						RefreshWindow();
 	void						CloseWindow();
 	void						LimitFps(float fps);
+
+	// Music related
+	void						PlayMusic();
+	void						ChangetoEndMusic();
 
 	// Obj related
 
