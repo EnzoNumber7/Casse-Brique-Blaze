@@ -6,41 +6,43 @@ class Map
 {
 private:
 
-	// Main Attributes
+    // Main Attributes
 
-	int				m_sizeX;
-	int				m_sizeY;
-	int				m_num;
-	const	char*	m_error;
+    int                m_sizeX;
+    int                m_sizeY;
+    int                m_num;
+    int                m_ball;
+    const    char*     m_error;
 
 public:
 
-	std::vector<std::string>	*m_vstr;
-	std::string						*m_config;
+    std::vector<std::string>* m_vstr;
+    std::string*              m_config;
+    std::string*              m_ballconfig;
 
-	Map();
+    Map();
 
 private:
 
-	// Check Methods
+    // Check Methods
 
-	bool			IsConfigFormated(std::string *line);
-	bool			IsLineFormated(std::string *line);
-	bool			IsHeightFormated();
-	bool			IsMapFormated();
+    bool            IsConfigFormated(std::string* line);
+    bool            IsLineFormated(std::string* line);
+    bool            IsHeightFormated();
+    bool            IsMapFormated();
 
-	void			GetSize();
+    void            GetSize();
 
 public:
-	
-	// Main Methods
 
-	void			ParseMap(std::string* filePath);
-	void			CheckMap();
+    // Main Methods
 
-	// Get Methods
+    void            ParseMap(std::string* filePath);
+    void            CheckMap();
 
-	int				GetWidth();
-	int				GetHeight();
+    // Get Methods
+
+    int                GetWidth();
+    int                GetHeight();
+    int                GetBall();
 };
-

@@ -302,6 +302,7 @@ void Game::Generate() {
 	GenerateSprites();
 	g_currentBall = new Ball(g_sprites.at(2));
 	g_currentBall->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
+	g_ballNum = g_map->GetBall();
 	GenerateTerrain();
 	GenerateBorders();
 	GenerateCanon();

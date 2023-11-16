@@ -13,6 +13,8 @@ using namespace std;
 */
 
 Map::Map() {
+	m_ballconfig = new string;
+	m_ball = 0;
 	m_sizeX = 0;
 	m_sizeY = 0;
 	m_num = 0;
@@ -72,6 +74,10 @@ void		Map::GetSize() {
 	delete[] x;
 	delete[] y;
 	m_num = m_sizeX * m_sizeY;
+}
+
+int    Map::GetBall() {
+	return m_ball;
 }
 
 /*
@@ -159,6 +165,14 @@ void Map::ParseMap(string *filePath) {
 		exit(1);
 	}
 	string line;
+
+	getline(input, line);
+	if (line.empty()) {
+		cout << m_error << endl;
+		exit(1);
+	}
+	*m_ballconfig = line;
+	m_ball = stoi(*m_ballconfig);
 
 	while (getline(input, line)) {
 		if (!line.empty()) {
