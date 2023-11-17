@@ -22,7 +22,7 @@
 ---------------------------------------------------------------------------------
 */
 
-Game::Game(){
+Game::Game() {
 
 	g_level = 0;
 	g_window = new GameWindow();
@@ -38,6 +38,7 @@ Game::Game(){
 
 	g_filePath = new std::string();
 
+	g_ballNum = 0;
 	g_currentBall = NULL;
 
 	g_canon = NULL;
@@ -51,7 +52,7 @@ Game::Game(){
 	g_fpsLimit = 1.0f / 120.0f;
 }
 
-/* 
+/*
 ---------------------------------------------------------------------------------
 |				Here are all the generation methods								|
 ---------------------------------------------------------------------------------
@@ -188,8 +189,8 @@ void Game::RefreshWindow() {
 }
 
 void	Game::CloseWindow() {
-	g_window->w_window->close();
 	delete g_music;
+	g_window->w_window->close();
 	exit(0);
 }
 
@@ -353,11 +354,15 @@ void Game::InitLevel() {
 	const	char* texturepath;
 	const	char* musicpath;
 
+	// Init all the texture related variables
+
 	sf::Texture* backgroundTexture = new sf::Texture();
 	sf::Sprite* background = new sf::Sprite();
 	filepath = NULL;
 	texturepath = NULL;
 	musicpath = NULL;
+
+	// Load ressources based on the level num
 
 	switch (g_level) {
 	case 1:
@@ -391,19 +396,23 @@ void Game::InitLevel() {
 		musicpath = "rsrc/music/Level6.ogg";
 		break;
 	}
-	*g_filePath = filepath;
 
-	if (!backgroundTexture->loadFromFile(texturepath))
-	{
-		std::cout << "Error" << std::endl;
-		exit(1);
+	if (filepath)
+		*g_filePath = filepath;
+	if (texturepath) {
+		if (!backgroundTexture->loadFromFile(texturepath))
+		{
+			std::cout << "Error" << std::endl;
+			exit(1);
+		}
 	}
 	background->setTexture(*backgroundTexture);
 	g_backgrounds.push_back(background);
-	if (!g_music->openFromFile(musicpath)) {
-		std::cout << "Error" << std::endl;
-		exit(1);
-	}
+	if (musicpath)
+		if (!g_music->openFromFile(musicpath)) {
+			std::cout << "Error" << std::endl;
+			exit(1);
+		}
 	g_music->setVolume(10.0f);
 	g_menu = false;
 }
@@ -506,20 +515,21 @@ void	Game::DrawMenu() {
 
 void Game::ChooseLevel() {
 	Event event;
-	while (g_window->w_window->pollEvent(event))
-	{
-		while (g_menu) {
+	while (g_menu) {
+		while (g_window->w_window->pollEvent(event))
+		{
 			if (event.type == Event::Closed)
 				CloseWindow();
-			if (Mouse::isButtonPressed(Mouse::Button::Left)) 
+			if (Mouse::isButtonPressed(Mouse::Button::Left))
 				GetPath(Mouse::getPosition(*g_window->w_window));
 		}
 	}
+
 }
 
 void Game::Menu() {
 	g_menu = true;
-	
+
 	SetIcon();
 	sf::Music music;
 

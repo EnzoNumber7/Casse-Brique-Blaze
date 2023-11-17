@@ -13,9 +13,9 @@ using namespace std;
 using namespace math;
 
 Ball::Ball(sf::Sprite *sprite) : GameObject(sprite) {
-	o_width = 25.f;
-	o_height = 25.f;
-	o_sprite.setOrigin(20.0f, 20.0f);
+	o_width = 20.f;
+	o_height = 20.f;
+	o_sprite.setOrigin(10.0f, 10.0f);
 	isMoving = false;
 }
 
@@ -27,10 +27,29 @@ void Ball::Move(float deltaTime) {
 
 void Ball::Rebound(CollisionSide direction, float deltaTime) {
 	if (direction == Left or direction == Right) {
-		o_directionX = -o_directionX;
+		if (direction == Left) {
+			if (o_directionX > 0) {
+				o_directionX = -o_directionX;
+			}
+		}
+		if (direction == Right) {
+			if (o_directionX < 0) {
+				o_directionX = -o_directionX;
+			}
+		}
+		
 	}
 	else if (direction == Up or direction == Down) {
-		o_directionY = -o_directionY;
+		if (direction == Up) {
+			if (o_directionY > 0) {
+				o_directionY = -o_directionY;
+			}
+		}
+		if (direction == Down) {
+			if (o_directionY < 0) {
+				o_directionY = -o_directionY;
+			}
+		}
 	}
 	else if (direction == Diagonal) {
 		o_directionY = -o_directionY;
@@ -64,8 +83,53 @@ void Ball::OnCollisionEnter(const GameObject& Object, float deltaTime) {
 			o_lastSide = Down;
 		}
 	}
-	else if (overlapLR == overlapUD) {
-		Rebound(Diagonal, deltaTime);
+	else if (overlapLR == overlapUD and o_lastSide != Diagonal) {
+		// On vérifie sur quelle diagonal on collide, puis on verifie que les direction n'ont pas déjà été inverser par une collision précédente
+		if ((o_posY + o_height / 2 >= Object.o_posY - Object.o_height / 2 and o_posY <= Object.o_posY) and (o_posX + o_width / 2 >= Object.o_posX - Object.o_width / 2 and o_posX <= Object.o_posX and o_lastSide)) {
+			if (o_directionY < 0 and o_directionX > 0) { // La direction en Y a déjà été inversé, ainsi on veut juste inverser X, ce qui revient a collide a gauche
+				Rebound(Left, deltaTime);
+			}
+			if (o_directionX < 0 and o_directionY > 0) {
+				Rebound(Up, deltaTime);
+			}
+			else if(o_directionX > 0 and o_directionY > 0){
+				Rebound(Diagonal, deltaTime);
+			}
+		}
+		if ((o_posY + o_height / 2 >= Object.o_posY - Object.o_height / 2 and o_posY <= Object.o_posY) and (o_posX - o_width / 2 <= Object.o_posX + Object.o_width / 2 and o_posX >= Object.o_posX)) {
+			if (o_directionY < 0 and o_directionX < 0) { 
+				Rebound(Left, deltaTime);
+			}
+			if (o_directionX > 0 and o_directionY > 0) {
+				Rebound(Up, deltaTime);
+			}
+			else if (o_directionY > 0 and o_directionX < 0){
+				cout << o_directionY << endl; // Verif si on touche pas un truc avant 
+				Rebound(Diagonal, deltaTime);
+			}
+		}
+		if ((o_posY - o_height / 2 <= Object.o_posY + Object.o_height / 2 and o_posY >= Object.o_posY) and (o_posX - o_width / 2 <= Object.o_posX + Object.o_width / 2 and o_posX >= Object.o_posX)) {
+			if (o_directionY > 0 and o_directionX < 0) {
+				Rebound(Left, deltaTime);
+			}
+			if (o_directionX > 0 and o_directionY < 0) {
+				Rebound(Up, deltaTime);
+			}
+			else if (o_directionY < 0 and o_directionX < 0){
+				Rebound(Diagonal, deltaTime);
+			}
+		}
+		if ((o_posY - o_height / 2 <= Object.o_posY + Object.o_height / 2 and o_posY >= Object.o_posY) and (o_posX + o_width / 2 >= Object.o_posX - Object.o_width / 2 and o_posX <= Object.o_posX)) {
+			if (o_directionY > 0 and o_directionX > 0) {
+				Rebound(Left, deltaTime);
+			}
+			if (o_directionX < 0 and o_directionY < 0) {
+				Rebound(Up, deltaTime);
+			}
+			else if (o_directionY < 0 and o_directionX > 0) {
+				Rebound(Diagonal, deltaTime);
+			}
+		}
 		o_lastSide = Diagonal;
 	}
 
