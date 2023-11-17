@@ -13,10 +13,9 @@ using namespace std;
 using namespace math;
 
 Ball::Ball(sf::Sprite *sprite) : GameObject(sprite) {
-	//o_shape = new CircleShape(10.f);
-	o_width = 20.f;
-	o_height = 20.f;
-	o_sprite.setOrigin(10.0f, 10.0f);
+	o_width = 25.f;
+	o_height = 25.f;
+	o_sprite.setOrigin(20.0f, 20.0f);
 	isMoving = false;
 }
 
@@ -40,7 +39,6 @@ void Ball::Rebound(CollisionSide direction, float deltaTime) {
 }
 
 void Ball::OnCollisionEnter(const GameObject& Object, float deltaTime) {
-	//cout << "ENTER" << endl;
 	o_shouldMove = false;
 	float overlapLR = min(o_posY + o_height / 2, Object.o_posY + Object.o_height / 2) - max(o_posY - o_height / 2, Object.o_posY - Object.o_height / 2);
 	float overlapUD = min(o_posX + o_width / 2, Object.o_posX + Object.o_width / 2) - max(o_posX - o_width / 2, Object.o_posX - Object.o_width / 2);
@@ -74,6 +72,5 @@ void Ball::OnCollisionEnter(const GameObject& Object, float deltaTime) {
 }
 
 void Ball::OnCollisionStay(float deltaTime) {
-	//std::cout << "STAY" << std::endl;
 	Move(deltaTime);
 }

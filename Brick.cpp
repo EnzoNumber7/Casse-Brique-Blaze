@@ -31,5 +31,8 @@ Brick::Brick(int hp, sf::Sprite *sprite) : GameObject(sprite) {
 	case (6):
 		o_sprite.setColor(sf::Color::White);
 		break;
+	case (7):
+		o_sprite.setColor(sf::Color::Black);
+		break;
 	}
 }

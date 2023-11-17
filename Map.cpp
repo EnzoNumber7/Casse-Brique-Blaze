@@ -192,7 +192,6 @@ void Map::ParseMap(string *filePath) {
 	string line;
 
 	getline(input, line);
-	std::cout << line << std::endl;
 	if (line.empty()) {
 		cout << m_error << endl;
 		exit(1);
@@ -211,8 +210,6 @@ void Map::ParseMap(string *filePath) {
 
 	*m_config = m_vstr->at(m_vstr->size() - 1);
 	m_vstr->pop_back();
-
-	std::cout << *m_config << endl;
 }
 
 Map::~Map() {

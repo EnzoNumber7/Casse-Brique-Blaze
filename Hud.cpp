@@ -5,7 +5,7 @@
 
 Hud::Hud() {
 
-	if (!h_font.loadFromFile("rsrc/font.ttf"))
+	if (!h_font.loadFromFile("rsrc/font/font.ttf"))
 	{
 		std::cout << "Error Loading font" << std::endl;
 		exit(1);

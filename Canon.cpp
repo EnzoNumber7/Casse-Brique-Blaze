@@ -13,7 +13,6 @@ Canon::Canon(sf::Sprite* sprite) : GameObject(sprite) {
 }
 
 void	Canon::FollowMouse(GameWindow *window) {
-	if (Mouse::getPosition(*window->w_window).y < o_posY - 50) {
+	if (Mouse::getPosition(*window->w_window).y < o_posY - 50) 
 		SetOrientation(Mouse::getPosition(*window->w_window).x, Mouse::getPosition(*window->w_window).y);
-	}
 }

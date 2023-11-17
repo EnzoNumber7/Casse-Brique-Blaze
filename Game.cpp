@@ -61,8 +61,8 @@ void Game::GenerateSprites() {
 	sf::Texture* ballTexture = new sf::Texture();
 	sf::Texture* canonTexture = new sf::Texture();
 	sf::Texture* brickTexture = new sf::Texture();
-	if (!ballTexture->loadFromFile("rsrc/img/ball.png") or !canonTexture->loadFromFile("rsrc/img/canon.png") \
-		or !brickTexture->loadFromFile("rsrc/img/brick.png")) {
+	if (!ballTexture->loadFromFile("rsrc/img/objects/ball.png") or !canonTexture->loadFromFile("rsrc/img/objects/canon.png") \
+		or !brickTexture->loadFromFile("rsrc/img/objects/brick.png")) {
 		std::cout << "Error loading object textures." << std::endl;
 		exit(1);
 	}
@@ -165,7 +165,7 @@ void	Game::GenerateCanon() {
 */
 
 void Game::SetIcon() {
-	if (!g_icon->loadFromFile("rsrc/img/icon.png"))
+	if (!g_icon->loadFromFile("rsrc/img/icon/icon.png"))
 	{
 		std::cout << "Error loading icon" << std::endl;
 		exit(1);
@@ -362,32 +362,32 @@ void Game::InitLevel() {
 	switch (g_level) {
 	case 1:
 		filepath = "rsrc/levels/Level1.txt";
-		texturepath = "rsrc/img/Level1_Background.png";
+		texturepath = "rsrc/img/backgrounds/Level1_Background.png";
 		musicpath = "rsrc/music/Level1.ogg";
 		break;
 	case 2:
 		filepath = "rsrc/levels/Level2.txt";
-		texturepath = "rsrc/img/Level2_Background.png";
+		texturepath = "rsrc/img/backgrounds/Level2_Background.png";
 		musicpath = "rsrc/music/Level2.ogg";
 		break;
 	case 3:
 		filepath = "rsrc/levels/Level3.txt";
-		texturepath = "rsrc/img/Level3_Background.png";
+		texturepath = "rsrc/img/backgrounds/Level3_Background.png";
 		musicpath = "rsrc/music/Level3.ogg";
 		break;
 	case 4:
 		filepath = "rsrc/levels/Level4.txt";
-		texturepath = "rsrc/img/Level4_Background.png";
+		texturepath = "rsrc/img/backgrounds/Level4_Background.png";
 		musicpath = "rsrc/music/Level4.ogg";
 		break;
 	case 5:
 		filepath = "rsrc/levels/Level5.txt";
-		texturepath = "rsrc/img/Level5_Background.png";
+		texturepath = "rsrc/img/backgrounds/Level5_Background.png";
 		musicpath = "rsrc/music/Level5.ogg";
 		break;
 	case 6:
 		filepath = "rsrc/levels/Level6.txt";
-		texturepath = "rsrc/img/Level6_Background.png";
+		texturepath = "rsrc/img/backgrounds/Level6_Background.png";
 		musicpath = "rsrc/music/Level6.ogg";
 		break;
 	}
@@ -511,10 +511,8 @@ void Game::ChooseLevel() {
 		while (g_menu) {
 			if (event.type == Event::Closed)
 				CloseWindow();
-			if (Mouse::isButtonPressed(Mouse::Button::Left)) {
-
+			if (Mouse::isButtonPressed(Mouse::Button::Left)) 
 				GetPath(Mouse::getPosition(*g_window->w_window));
-			}
 		}
 	}
 }
