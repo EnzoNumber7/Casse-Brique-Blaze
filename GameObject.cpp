@@ -67,8 +67,6 @@ void GameObject::ResetAngle() {
 	else o_angle = -100;
 }
 
-// Decrease life of value and change colors
-
 void GameObject::DecreaseLife(GameObject* Object, int value){
 	if (Object->o_life != NULL)
 		Object->o_life = Object->o_life - value;
@@ -131,7 +129,7 @@ bool GameObject::CheckCollision(GameObject* Object, float deltaTime) {
 
 void GameObject::OnCollisionEnter(const GameObject& Object, float deltaTime) {
 	o_shouldMove = false;
-	char direction;
+	char direction = NULL;
 	float overlapLR = min(o_posY + o_height / 2, Object.o_posY + Object.o_height / 2) - max(o_posY - o_height / 2, Object.o_posY - Object.o_height / 2);
 	float overlapUD = min(o_posX + o_width / 2, Object.o_posX + Object.o_width / 2) - max(o_posX - o_width / 2, Object.o_posX - Object.o_width / 2);
 	if (overlapLR > overlapUD) {

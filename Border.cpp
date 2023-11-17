@@ -24,7 +24,6 @@ Border::Border(char position, GameWindow* window) : GameObject(NULL){
 	}
 	o_shape = new RectangleShape(Vector2f(o_width, o_height));
 	o_shape->setOrigin(0.5f, 0.5f);
-	o_life = NULL;
 }
 
 void Border::SetBorderPos(float posX, float posY) {

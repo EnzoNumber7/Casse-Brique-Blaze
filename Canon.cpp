@@ -16,3 +16,10 @@ void	Canon::FollowMouse(GameWindow *window) {
 	if (Mouse::getPosition(*window->w_window).y < o_posY - 50) 
 		SetOrientation(Mouse::getPosition(*window->w_window).x, Mouse::getPosition(*window->w_window).y);
 }
+
+void Canon::SetOrientation(int x, int y)
+{
+
+	o_angle = -atan2(x - o_posX, y - o_posY) * 180 / 3.14159f;
+	o_sprite.setRotation(o_angle);
+}
