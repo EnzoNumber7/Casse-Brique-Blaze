@@ -1,2 +1,19 @@
-﻿  Game.cpp
-  SFML Casse Brique Blaze.vcxproj -> C:\Users\enzop\source\repos\EnzoNumber7\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe
+﻿  Ball.cpp
+  Border.cpp
+  Brick.cpp
+  Canon.cpp
+  Game.cpp
+  GameObject.cpp
+C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\GameObject.cpp(132,7): warning C4101: 'direction' : variable locale non référencée
+  GameWindow.cpp
+  Hud.cpp
+  main.cpp
+  Map.cpp
+C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\Map.cpp(56,15): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\Map.cpp(115,15): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+  math.cpp
+C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\math.cpp(18,11): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
+C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\math.cpp(19,16): warning C4244: '=' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\math.cpp(24,12): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  Génération de code en cours...
+  SFML Casse Brique Blaze.vcxproj -> C:\Users\Julie\source\repos\SFML\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe

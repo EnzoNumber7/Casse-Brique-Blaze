@@ -67,6 +67,8 @@ void GameObject::ResetAngle() {
 	else o_angle = -100;
 }
 
+// Decrease life of value and change colors
+
 void GameObject::DecreaseLife(GameObject* Object, int value){
 	if (Object->o_life != NULL)
 		Object->o_life = Object->o_life - value;

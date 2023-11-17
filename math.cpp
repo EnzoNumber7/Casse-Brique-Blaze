@@ -20,6 +20,8 @@ float math::RoundFloat(float number, int roundingNum) {
 	return number;
 }
 
+// Return a vector with an angle given by x an y
+
 sf::Vector2f math::RotateVect(float X, float Y, float angle) {
 	float rad = (3.1415926535 / 180) * angle;
 	sf::Vector2f Vect;

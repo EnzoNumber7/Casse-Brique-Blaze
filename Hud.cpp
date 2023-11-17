@@ -21,7 +21,3 @@ void	Hud::DrawHud(GameWindow *window, int ball_num) {
 	h_balls.setString(std::to_string(ball_num));
 	window->w_window->draw(h_balls);
 }
-
-void	Hud::StartGame(GameWindow* window) {
-
-}

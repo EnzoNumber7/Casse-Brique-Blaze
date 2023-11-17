@@ -50,6 +50,8 @@ int		Map::GetHeight() {
 	return m_sizeY;
 }
 
+// Get the Supposed size of the map based on the map txt file
+
 void		Map::GetSize() {
 	char* x;
 	char* y;
@@ -111,6 +113,8 @@ bool		Map::IsBallNumFormated() {
 	return true;
 }
 
+// Check the format of the config line of the txt file
+
 bool		Map::IsConfigFormated(){
 	int		lenLine = m_config->size();
 	bool	first = false;
@@ -149,6 +153,8 @@ bool		Map::IsHeightFormated() {
 		return false;
 	return true;
 }
+
+// Check map height then every line of the map file
 
 bool		Map::IsMapFormated() {
 	if (!IsHeightFormated())
@@ -199,6 +205,8 @@ void Map::ParseMap(string *filePath) {
 	*m_ballconfig = line;
 	IsBallNumFormated();
 	m_ball = stoi(*m_ballconfig);
+
+	// Pushback line after line the txt file in the mvstr vector
 
 	while (getline(input, line)) {
 		if (!line.empty()) {
