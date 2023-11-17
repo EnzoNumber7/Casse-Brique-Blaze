@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iostream>
 #include <errno.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -38,7 +39,6 @@ Game::Game(){
 	g_filePath = new std::string();
 
 	g_currentBall = NULL;
-	g_ballNum = 50;
 
 	g_canon = NULL;
 	g_bricksNum = NULL;
@@ -242,6 +242,12 @@ void	Game::ChangetoEndMusic() {
 ---------------------------------------------------------------------------------
 */
 
+void Game::AddBall() {
+	g_ballNum += 1;
+	Ball* ball = new Ball(g_sprites.at(0));
+	g_remainingBalls.push_back(ball);
+}
+
 int	Game::NewBall() {
 	if (!g_remainingBalls.empty()) {
 		g_currentBall = g_remainingBalls.at(g_remainingBalls.size() - 1);
@@ -270,6 +276,7 @@ void Game::ClearBricks() {
 		for (int i = 0; i < g_bricksNum; i++) {
 			if (g_bricks.at(i)->o_life == 0)
 			{
+				AddBall();
 				brick = g_bricks.at(i);
 				g_bricks.erase(g_bricks.begin() + i);
 				delete brick;
@@ -402,27 +409,25 @@ void Game::InitLevel() {
 }
 
 void Game::GetPath(Vector2i MousePos) {
-	std::string res;
-	int			x;
-	int			y;
+	g_menu = true;
 
-	x = MousePos.x;
-	y = MousePos.y;
-	if (x >= 0 && x <= 266 && y >= 0 && y <= 300)
+	if (MousePos.y >= 22 && MousePos.y <= 276 && MousePos.x >= 22 && MousePos.x <= 246)
 		g_level = 1;
-	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 266 && MousePos.x <= 532)
+	else if (MousePos.y >= 22 && MousePos.y <= 276 and MousePos.x >= 288 && MousePos.x <= 512)
 		g_level = 2;
-	else if (MousePos.y > 0 && MousePos.y <= 300 and MousePos.x > 532 && MousePos.x <= 800)
+	else if (MousePos.y >= 22 && MousePos.y <= 276 and MousePos.x >= 554 && MousePos.x <= 778)
 		g_level = 3;
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 0 && MousePos.x <= 266) 
+	else if (MousePos.y >= 322 && MousePos.y <= 576 and MousePos.x >= 22 && MousePos.x <= 246)
 		g_level = 4;
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 266 && MousePos.x <= 532)
+	else if (MousePos.y >= 322 && MousePos.y <= 576 and MousePos.x >= 288 && MousePos.x <= 512)
 		g_level = 5;
-	else if (MousePos.y > 300 && MousePos.y <= 600 and MousePos.x > 532 && MousePos.x <= 800)
+	else if (MousePos.y >= 322 && MousePos.y <= 576 and MousePos.x >= 554 && MousePos.x <= 778)
 		g_level = 6;
-	InitLevel();
+	if (g_level != 0) {
+		InitLevel();
+		g_menu = false;
+	}
 }
-
 /*
 ---------------------------------------------------------------------------------
 |				Here are the menu related methods								|
@@ -503,11 +508,13 @@ void Game::ChooseLevel() {
 	Event event;
 	while (g_window->w_window->pollEvent(event))
 	{
-		if (event.type == Event::Closed)
-			CloseWindow();
-		if (Mouse::isButtonPressed(Mouse::Button::Left)) {
+		while (g_menu) {
+			if (event.type == Event::Closed)
+				CloseWindow();
+			if (Mouse::isButtonPressed(Mouse::Button::Left)) {
 
-			GetPath(Mouse::getPosition(*g_window->w_window));
+				GetPath(Mouse::getPosition(*g_window->w_window));
+			}
 		}
 	}
 }
@@ -589,7 +596,6 @@ Game::~Game() {
 	delete g_canon;
 	for (int i = 0; i < 4; ++i)
 		delete g_borders[i];
-	delete g_borders;
 	g_bricks.clear();
 	g_remainingBalls.clear();
 	g_backgrounds.clear();

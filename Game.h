@@ -99,6 +99,7 @@ private:
 
 	// Obj related
 
+	void						AddBall();
 	int							NewBall();
 	void						SendBall();
 	void						DestroyBall();
