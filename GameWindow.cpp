@@ -11,11 +11,13 @@ using namespace sf;
 */
 
 GameWindow::GameWindow(){
-	w_width = 800.f;
-	w_height = 600.f;
+	w_width = 1920.f;
+	w_height = 1080.f;
 	w_name = "Minecraft Brick Breaker";
 
 	w_window = new sf::RenderWindow(sf::VideoMode((unsigned int)w_width, (unsigned int)w_height), w_name);
+	sf::View view(sf::Vector2f(960, 540), sf::Vector2f(1920, 1080));
+	w_window->setView(view);
 }
 
 /*
