@@ -85,6 +85,7 @@ private:
 	void						GenerateBorders();
 	void						GenerateCanon();
 	void						GenerateBalls();
+	void						GenerateHud();
 
 	// Window related
 

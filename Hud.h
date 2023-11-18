@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "GameWindow.h"
+
+class GameWindow;
+
 class Hud
 {
 private:
@@ -13,11 +15,10 @@ public:
 
 	sf::Text					h_balls;
 
-	Hud();
+	Hud(GameWindow *window);
 
 	//Main Methods
 
-	void	StartGame(GameWindow* window);
 	void	DrawHud(GameWindow *window, int ball_num);
 };
 

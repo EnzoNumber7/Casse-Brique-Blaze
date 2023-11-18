@@ -45,8 +45,6 @@ Game::Game() {
 	g_bricksNum = NULL;
 	*g_borders = NULL;
 
-	g_hud = new Hud();
-
 	g_map = new Map();
 
 	g_fpsLimit = 1.0f / 120.0f;
@@ -158,6 +156,10 @@ void	Game::GenerateCanon() {
 	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 	g_canon->SetOrientation(0, 1);
 }
+void	Game::GenerateHud() {
+	g_hud = new Hud(g_window);
+}
+
 
 /*
 ---------------------------------------------------------------------------------
@@ -189,6 +191,7 @@ void Game::RefreshWindow() {
 }
 
 void	Game::CloseWindow() {
+	g_music->stop();
 	delete g_music;
 	g_window->w_window->close();
 	exit(0);
@@ -531,16 +534,15 @@ void Game::Menu() {
 	g_menu = true;
 
 	SetIcon();
-	sf::Music music;
 
-	if (!music.openFromFile("rsrc/music/menu.ogg"))
+	if (!g_music->openFromFile("rsrc/music/menu.ogg"))
 	{
-		std::cout << "Error loading menu.ogg" << std::endl;// error
+		std::cout << "Error loading menu.ogg" << std::endl;
 		exit(1);
 	}
-	music.play();
+	g_music->play();
 	g_music->setVolume(10.0f);
-	music.setLoop(true);
+	g_music->setLoop(true);
 	DrawMenu();
 	while (g_menu)
 		ChooseLevel();
@@ -564,6 +566,7 @@ void Game::Generate() {
 	GenerateBorders();
 	GenerateCanon();
 	GenerateBalls();
+	GenerateHud();
 	PlayMusic();
 }
 
