@@ -1,2 +1,12 @@
 ﻿  Game.cpp
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(567,55): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(567,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(570,55): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(570,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(573,57): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(573,27): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(576,56): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(576,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(579,56): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(579,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
   SFML Casse Brique Blaze.vcxproj -> C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\x64\Debug\SFML Casse Brique Blaze.exe

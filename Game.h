@@ -25,11 +25,22 @@ private:
 	bool						g_win;
 	bool						g_lose;
 	int							g_level;
+	int							g_levelsDone;
 
 	Map*						g_map;
 	std::string					*g_filePath;
 	sf::Music					*g_music;
 	std::vector<sf::Sprite*>	g_backgrounds;
+	std::vector<sf::Sprite*>	g_locks;
+
+	// Levels Completed Checks
+
+	bool						g_doneLevel1;
+	bool						g_doneLevel2;
+	bool						g_doneLevel3;
+	bool						g_doneLevel4;
+	bool						g_doneLevel5;
+	bool						g_doneLevel6;
 
 	// Time Attributes
 
@@ -67,6 +78,9 @@ public:
 	void						Menu();
 	void						Start();
 	void						Generate();
+	void						GameReset();
+	void						EndLevel();
+	void						EndGame();
 
 	~Game();
 private:
@@ -78,6 +92,9 @@ private:
 	void						ChooseLevel();
 	void						LoosingScreen();
 	void						WinningScreen();
+	void						CheckLevelDone();
+	void						MakeLock(int id);
+	void						CreateLocks();
 
 	// Generation
 

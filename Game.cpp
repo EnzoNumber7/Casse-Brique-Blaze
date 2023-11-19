@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iostream>
 #include <errno.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -25,11 +24,19 @@
 Game::Game() {
 
 	g_level = 0;
+	g_levelsDone = 0;
 	g_window = new GameWindow();
 	g_icon = new sf::Image();
 	g_music = new Music();
 	g_hud = new Hud(g_window);
 	g_shotClock = new sf::Clock();
+
+	g_doneLevel1 = false;
+	g_doneLevel2 = false;
+	g_doneLevel3 = false;
+	g_doneLevel4 = false;
+	g_doneLevel5 = false;
+	g_doneLevel6 = false;
 
 	g_menu = true;
 	g_win = false;
@@ -158,6 +165,7 @@ void	Game::GenerateCanon() {
 	g_canon->SetPos(g_window->GetWidth() / 2, g_window->GetHeight() - 25);
 	g_canon->SetOrientation(0, 1);
 }
+
 void	Game::GenerateHud() {
 	g_hud = new Hud(g_window);
 }
@@ -285,7 +293,6 @@ void Game::ClearBricks() {
 		for (int i = 0; i < g_bricksNum; i++) {
 			if (g_bricks.at(i)->o_life == 0)
 			{
-				//AddBall();
 				brick = g_bricks.at(i);
 				g_bricks.erase(g_bricks.begin() + i);
 				delete brick;
@@ -428,24 +435,28 @@ void Game::InitLevel() {
 
 void Game::GetPath(Vector2i MousePos) {
 	g_menu = true;
-
 	if (MousePos.y >= 0.037 * g_window->GetHeight() and MousePos.y <= 0.46 * g_window->GetHeight() \
 		and MousePos.x >= 0.027 * g_window->GetWidth() and MousePos.x <= 0.307 * g_window->GetWidth())
 		g_level = 1;
 	else if (MousePos.y >= 0.037 * g_window->GetHeight() and MousePos.y <= 0.46 * g_window->GetHeight() \
-		and MousePos.x >= 0.34 * g_window->GetWidth() and MousePos.x <= 0.64 * g_window->GetWidth())
+		and MousePos.x >= 0.34 * g_window->GetWidth() and MousePos.x <= 0.64 * g_window->GetWidth() \
+		and g_doneLevel1)
 		g_level = 2;
 	else if (MousePos.y >= 0.037 * g_window->GetHeight() and MousePos.y <= 0.46 * g_window->GetHeight() \
-		and MousePos.x >= 0.69 * g_window->GetWidth() and MousePos.x <= 0.97 * g_window->GetWidth())
+		and MousePos.x >= 0.69 * g_window->GetWidth() and MousePos.x <= 0.97 * g_window->GetWidth() \
+		and g_doneLevel2)
 		g_level = 3;
 	else if (MousePos.y >= 0.553 * g_window->GetHeight() and MousePos.y <= 0.96 * g_window->GetHeight() \
-		and MousePos.x >= 0.027 * g_window->GetWidth() and MousePos.x <= 0.307 * g_window->GetWidth())
+		and MousePos.x >= 0.027 * g_window->GetWidth() and MousePos.x <= 0.307 * g_window->GetWidth() \
+		and g_doneLevel3)
 		g_level = 4;
 	else if (MousePos.y >= 0.553 * g_window->GetHeight() and MousePos.y <= 0.96 * g_window->GetHeight() and \
-		MousePos.x >= 0.34 * g_window->GetWidth() and MousePos.x <= 0.64 * g_window->GetWidth())
+		MousePos.x >= 0.34 * g_window->GetWidth() and MousePos.x <= 0.64 * g_window->GetWidth() \
+		and g_doneLevel4)
 		g_level = 5;
 	else if (MousePos.y >= 0.553 * g_window->GetHeight() and MousePos.y <= 0.96 * g_window->GetHeight() and \
-		MousePos.x >= 0.69 * g_window->GetWidth() and MousePos.x <= 0.97 * g_window->GetWidth())
+		MousePos.x >= 0.69 * g_window->GetWidth() and MousePos.x <= 0.97 * g_window->GetWidth() \
+		and g_doneLevel5)
 		g_level = 6;
 	if (g_level != 0) {
 		InitLevel();
@@ -457,6 +468,33 @@ void Game::GetPath(Vector2i MousePos) {
 |				Here are the menu related methods								|
 ---------------------------------------------------------------------------------
 */
+
+void	Game::EndGame() {
+	sf::Texture endTexture;
+	sf::Sprite	end;
+	Event		event;
+	bool		loop = true;
+
+	if (!endTexture.loadFromFile("rsrc/hud/end.png")) {
+		std::cout << "Error loading end.png" << std::endl;
+		exit(1);
+	}
+	end.setTexture(endTexture);
+	g_window->w_window->draw(end);
+	g_window->w_window->display();
+
+	while (loop)
+	{
+		while (g_window->w_window->pollEvent(event))
+		{
+			if (event.type == sf::Event::KeyPressed)
+				if (event.key.scancode == sf::Keyboard::Scan::Escape)
+					loop = false;
+			if (event.type == Event::Closed)
+				loop = false;
+		}
+	}
+}
 
 void	Game::LoosingScreen() {
 	sf::Texture loseTexture;
@@ -509,9 +547,45 @@ void	Game::WinningScreen() {
 				if (event.key.scancode == sf::Keyboard::Scan::Escape)
 					loop = false;
 			if (event.type == Event::Closed)
-				CloseWindow();
+				loop = false;
 		}
 	}
+}
+
+void	Game::MakeLock(int id) {
+	sf::Texture *lockTexture = new sf::Texture();
+	sf::Sprite* lock = new sf::Sprite();
+
+	if (!lockTexture->loadFromFile("rsrc/hud/lock.png")) {
+		std::cout << "Error loading lock.png" << std::endl;
+		exit(1);
+	}
+	lock->setTexture(*lockTexture);
+	lock->setOrigin(250, 230);
+	switch (id) {
+	case 5:
+		lock->setPosition(0.49 * g_window->GetWidth(), 0.25 * g_window->GetHeight());
+		break;
+	case 4:
+		lock->setPosition(0.83 * g_window->GetWidth(), 0.25 * g_window->GetHeight());
+		break;
+	case 3:
+		lock->setPosition(0.167 * g_window->GetWidth(), 0.757 * g_window->GetHeight());
+		break;
+	case 2:
+		lock->setPosition(0.49 * g_window->GetWidth(), 0.757 * g_window->GetHeight());
+		break;
+	case 1:
+		lock->setPosition(0.83 * g_window->GetWidth(), 0.757 * g_window->GetHeight());
+		break;
+	}
+	g_locks.push_back(lock);
+}
+
+
+void	Game::CreateLocks() {
+	for (int i = 1; i < (6 - g_levelsDone); ++i)
+		MakeLock(i);
 }
 
 void	Game::DrawMenu() {
@@ -525,6 +599,8 @@ void	Game::DrawMenu() {
 	menu.setTexture(menuTexture);
 	g_window->RefreshScreen();
 	g_window->w_window->draw(menu);
+	for (int i = 0; i < g_locks.size(); ++i) 
+		g_window->w_window->draw(*g_locks.at(i));
 	g_window->w_window->display();
 }
 
@@ -540,7 +616,6 @@ void Game::ChooseLevel() {
 				GetPath(Mouse::getPosition(*g_window->w_window));
 		}
 	}
-
 }
 
 void Game::Menu() {
@@ -556,10 +631,56 @@ void Game::Menu() {
 	g_music->play();
 	g_music->setVolume(10.0f);
 	g_music->setLoop(true);
+	CreateLocks();
 	DrawMenu();
 	while (g_menu)
 		ChooseLevel();
+
 	g_window->RefreshScreen();
+	g_locks.clear();
+}
+
+void	Game::CheckLevelDone() {
+	if (g_win) {
+		switch (g_level) {
+		case 1:
+			if (!g_doneLevel1) {
+				g_doneLevel1 = true;
+				g_levelsDone++;
+			}
+			break;
+		case 2:
+			if (!g_doneLevel2) {
+				g_doneLevel2 = true;
+				g_levelsDone++;
+			}
+			break;
+		case 3:
+			if (!g_doneLevel3) {
+				g_doneLevel3 = true;
+				g_levelsDone++;
+			}
+			break;
+		case 4:
+			if (!g_doneLevel4) {
+				g_doneLevel4 = true;
+				g_levelsDone++;
+			}
+			break;
+		case 5:
+			if (!g_doneLevel5) {
+				g_doneLevel5 = true;
+				g_levelsDone++;
+			}
+			break;
+		case 6:
+			if (!g_doneLevel6) {
+				g_doneLevel6 = true;
+				g_levelsDone++;
+			}
+			break;
+		}
+	}
 }
 
 /*
@@ -583,6 +704,47 @@ void Game::Generate() {
 	PlayMusic();
 }
 
+void Game::GameReset() {
+	g_window->RefreshScreen();
+	delete g_map;
+	g_map = new Map();
+	delete g_filePath;
+	g_filePath = new std::string();
+	g_music->stop();
+	g_currentBall = NULL;
+	delete g_canon;
+	for (int i = 0; i < 4; ++i)
+		delete g_borders[i];
+	g_bricks.clear();
+	g_remainingBalls.clear();
+	g_backgrounds.clear();
+	g_sprites.clear();
+	g_menu = true;
+	g_level = 0;
+}
+
+void Game::EndLevel() {
+	CheckLevelDone();
+
+	if (g_win and !g_doneLevel6) {
+		ChangetoEndMusic();
+		WinningScreen();
+		g_isRunning = true;
+		GameReset();
+		Menu();
+		Generate();
+		g_win = false;
+	}
+	else if (g_lose) {
+		ChangetoEndMusic();
+		LoosingScreen();
+		g_isRunning = true;
+		GameReset();
+		Menu();
+		Generate();
+		g_lose = false;
+	}
+}
 
 void Game::Start() {
 	float	fps = 0;
@@ -609,12 +771,9 @@ void Game::Start() {
 			g_shotClock->restart();
 			g_currentBall->speed *= 1.5;
 		}
+		EndLevel();
 	}
-	ChangetoEndMusic();
-	if (g_lose)
-		LoosingScreen();
-	if (g_win)
-		WinningScreen();
+	EndGame();
 }
 
 Game::~Game() {
