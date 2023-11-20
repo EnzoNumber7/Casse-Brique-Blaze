@@ -1,12 +1,40 @@
-﻿  Game.cpp
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(567,55): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(567,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(570,55): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(570,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(573,57): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(573,27): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(576,56): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(576,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(579,56): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\Game.cpp(579,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-  SFML Casse Brique Blaze.vcxproj -> C:\Users\Julie\Desktop\Projet Cpp\SFML\Minecraft-Brick-Breaker\x64\Debug\SFML Casse Brique Blaze.exe
+﻿  Ball.cpp
+  Border.cpp
+  Brick.cpp
+  Canon.cpp
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Canon.cpp(17,167): warning C4244: 'argument' : conversion de 'T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Canon.cpp(17,90): warning C4244: 'argument' : conversion de 'T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Canon.cpp(16,91): warning C4390: ';' : une instruction contrôlée a été trouvée vide ; est-ce ce que vous souhaitiez ?
+  Game.cpp
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(567,55): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(567,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(570,55): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(570,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(573,57): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(573,27): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(576,56): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(576,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(579,56): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Game.cpp(579,26): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+  GameObject.cpp
+  GameWindow.cpp
+  Hud.cpp
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Hud.cpp(19,28): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+  main.cpp
+  Map.cpp
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Map.cpp(60,15): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\Map.cpp(117,15): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+  math.cpp
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\math.cpp(18,11): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\math.cpp(19,16): warning C4244: '=' : conversion de 'int' en 'float', perte possible de données
+C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\math.cpp(26,12): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  Génération de code en cours...
+  SFML Casse Brique Blaze.vcxproj -> C:\Users\ephilippe\source\repos\EnzoNumber7\Casse-Brique-Blaze\x64\Debug\SFML Casse Brique Blaze.exe
